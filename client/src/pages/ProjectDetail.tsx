@@ -1,0 +1,21 @@
+import { ArrowRight, ArrowUpLeft, CalendarDays, Wrench } from "lucide-react";
+import { Link, useParams } from "wouter";
+import { trpc } from "@/lib/trpc";
+
+export default function ProjectDetail() {
+  const { slug } = useParams<{ slug: string }>();
+  const { data, isLoading } = trpc.portfolio.public.useQuery();
+  if (isLoading) return <div className="page-loading">LOADING PROJECT</div>;
+  const project = data?.projects.find((item) => item.slug === slug);
+  if (!project) return <div className="page-loading">المشروع غير موجود</div>;
+  return (
+    <div className="site-shell" dir="rtl">
+      <header className="site-header"><div className="shell header-inner"><Link className="wordmark" href="/"><span className="wordmark-mark">MB</span><span>Mohammed Bajhaw</span></Link><Link className="nav-admin" href="/">الرئيسية <ArrowRight size={13} /></Link></div></header>
+      <main className="project-detail"><div className="shell"><Link className="project-back" href="/"><ArrowRight size={16} /> العودة إلى كل المشاريع</Link>
+        <section className="project-detail-hero"><div><p className="eyebrow">{project.subtitle}</p><h1>{project.title}</h1><p className="project-detail-summary">{project.summary}</p></div><div className="project-detail-meta"><div><span>الحالة</span><strong>{project.status}</strong></div><div><span>الفترة</span><strong>{project.startDate} — {project.endDate}</strong></div><div><span>المجال</span><strong>{project.tags[0]}</strong></div></div></section>
+        <section className="project-gallery">{project.media.length ? project.media.map((media) => <img key={media.id} src={media.url} alt={media.alt ?? project.title} />) : <div className="gallery-placeholder" />}</section>
+        <section className="project-content"><aside className="detail-aside"><div className="detail-block"><h3><Wrench size={14} /> الأدوات المستخدمة</h3><ul className="plain-list">{project.tools.map((tool) => <li key={tool}>{tool}</li>)}</ul></div><div className="detail-block"><h3><CalendarDays size={14} /> النتائج الأساسية</h3><ul className="plain-list">{project.outcomes.map((outcome) => <li key={outcome}>{outcome}</li>)}</ul></div></aside><div><h2>عن المشروع</h2><p className="project-copy">{project.description}</p><div className="tag-list" style={{ marginTop: 24 }}>{project.tags.map((tag) => <span className="tag" style={{ color: "var(--teal)", borderColor: "#a9c7c1", background: "var(--teal-wash)" }} key={tag}>{tag}</span>)}</div></div></section>
+      </div></main>
+    </div>
+  );
+}
