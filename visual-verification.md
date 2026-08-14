@@ -7,4 +7,4 @@
 - The updated header now shows only the name “Mohammed Bajhaw”, and the skills introduction no longer asks the visitor to curate or remove skills.
 - The new background treatment uses fine technical drawing lines and construction geometry rather than standalone icons; entrance motion is intentionally longer and was observed while a section entered the viewport.
 - After the deployment completed, the public domain was verified with a cache-busting URL: it now shows the name-only header, the shorter skills introduction, and the new technical line-art motif.
-- The newest checkpoint is available in the development preview; the public domain still served the preceding visual release during the immediate post-save check, so it requires one follow-up verification once deployment propagation completes.
+- The public domain was rechecked after deployment propagation and now serves the photographic engineering backgrounds in the education, publications, experience, skills, and projects sections instead of the former line drawings.
