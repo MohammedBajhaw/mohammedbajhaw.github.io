@@ -48,9 +48,18 @@ describe("portfolio content procedures", () => {
     expect(mockStorage.storagePut).toHaveBeenCalledWith(expect.stringContaining("portfolio/9/section-icons/arm.svg"), expect.any(Buffer), "image/svg+xml");
   });
 
-  it("removes a section icon through the protected content route", async () => {
-    await appRouter.createCaller(context()).portfolio.remove({ type: "icons", id: 12 });
+  it("removes a section icon through the protected content route and keeps the public icon order intact", async () => {
+    const remainingIcons = [
+      { id: 4, sectionKey: "education", label: "Robot arm", sortOrder: 1 },
+      { id: 8, sectionKey: "education", label: "Microchip", sortOrder: 3 },
+    ];
+    mockDb.getPublicPortfolio.mockResolvedValue({ profile: { id: 1 }, sectionIcons: remainingIcons });
+    const caller = appRouter.createCaller(context());
+    await caller.portfolio.remove({ type: "icons", id: 12 });
     expect(mockDb.deleteContent).toHaveBeenCalledWith("icons", 12);
+    const publicPortfolio = await caller.portfolio.public();
+    expect(publicPortfolio.sectionIcons.map((icon: { id: number }) => icon.id)).toEqual([4, 8]);
+    expect(publicPortfolio.sectionIcons.some((icon: { id: number }) => icon.id === 12)).toBe(false);
   });
 
   it("removes content and stores a project image through the storage layer", async () => {

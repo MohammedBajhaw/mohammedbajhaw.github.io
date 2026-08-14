@@ -356,5 +356,11 @@ a { color: inherit; text-decoration: none; }
 .site-english .project-detail-meta div { direction: ltr; }.site-english .plain-list li { padding-left: 13px; padding-right: 0; }.site-english .plain-list li::before { left: 0; right: auto; }.site-english .project-gallery figcaption { right: auto; left: 14px; }
 .admin-page .admin-row { text-align: left; }.admin-page .field textarea { font-family: "DM Sans", sans-serif; }.admin-page .media-thumb button { left: auto; right: 7px; }
 .admin-page .editor-actions { position: relative; z-index: 3; margin-bottom: -62px; transform: translateY(-62px); }
+.delete-confirm-backdrop { position: fixed; z-index: 100; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(18, 31, 31, .34); backdrop-filter: blur(3px); }
+.delete-confirm-dialog { width: min(100%, 420px); padding: 28px; border: 1px solid #d8e1de; background: #fff; box-shadow: 0 24px 80px rgba(12, 31, 31, .22); }
+.delete-confirm-dialog .section-index { margin: 0 0 12px; }
+.delete-confirm-dialog h2 { margin: 0; font-size: 25px; letter-spacing: -.04em; }
+.delete-confirm-dialog > p:not(.section-index) { margin: 12px 0 24px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+.delete-confirm-actions { display: flex; justify-content: flex-end; gap: 10px; }
 @media (max-width: 900px) { .skills-heading-row { grid-template-columns: 1fr; gap: 15px; }.skill-category-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 650px) { .hero-signal-row { margin-top: 20px; }.skills-overview { min-width: 0; width: 100%; gap: 16px; padding: 16px; }.skills-overview > div:not(.skills-overview-line) { min-width: 0; flex: 1; }.skill-category-grid { grid-template-columns: 1fr; }.skill-category-card { min-height: unset; }.site-english .education-detail { text-align: left; }.section-symbol { width: 128px; opacity: .24; }.section-symbol--automation { width: 142px; }.symbol-education { top: 26px; right: -7px; }.symbol-publications { bottom: 20px; left: -12px; }.symbol-experience { top: 30px; right: -11px; }.symbol-skills { top: 24px; right: -8px; }.symbol-projects { right: -9px; bottom: 22px; }.icon-credit { order: 3; width: 100%; }.admin-page .editor-actions { margin-bottom: -48px; transform: translateY(-48px); } }
