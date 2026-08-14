@@ -313,17 +313,22 @@ a { color: inherit; text-decoration: none; }
 .site-english .project-body { left: 0; right: 0; }
 
 .skills-section { background: #f2f6f4; }
-.section-symbol { position: absolute; z-index: 0; display: grid; place-items: center; width: 220px; height: 220px; color: var(--teal); pointer-events: none; opacity: .22; }
-.section-symbol::before { content: ""; position: absolute; inset: 4px; border: 1px solid rgba(23,107,105,.36); border-radius: 50%; }
-.section-symbol::after { content: ""; position: absolute; width: 150px; height: 1px; background: currentColor; opacity: .42; transform: rotate(-35deg); }
-.section-symbol-frame { position: relative; z-index: 1; display: grid; place-items: center; width: 118px; height: 118px; border: 1px solid rgba(23,107,105,.45); background: rgba(247,248,246,.88); transform: rotate(-7deg); }
-.section-symbol svg { width: 69px; height: 69px; stroke-width: 1.3; }
-.section-symbol img { width: 83px; height: 83px; object-fit: contain; filter: invert(29%) sepia(20%) saturate(2007%) hue-rotate(130deg) brightness(91%) contrast(88%); }
-.symbol-education { top: 34px; right: 4%; opacity: .32; }
-.symbol-publications { bottom: 25px; left: 4%; }
-.symbol-experience { top: 44px; right: 5%; }
-.symbol-skills { top: 36px; right: 4%; }
-.symbol-projects { right: 4%; bottom: 28px; }
+.section-symbol { position: absolute; z-index: 0; width: clamp(170px, 20vw, 270px); aspect-ratio: 1; pointer-events: none; opacity: .4; }
+.section-symbol img { width: 100%; height: 100%; object-fit: contain; filter: invert(30%) sepia(35%) saturate(1444%) hue-rotate(130deg) brightness(89%) contrast(89%); }
+.section-symbol--automation { width: clamp(185px, 21vw, 286px); }
+.section-symbol--automation::before, .section-symbol--automation::after { content: ""; position: absolute; z-index: 0; height: 2px; background: var(--teal); opacity: .5; transform-origin: left center; }
+.section-symbol--automation::before { width: 62px; top: 56%; left: 31%; transform: rotate(-22deg); }
+.section-symbol--automation::after { width: 38px; top: 44%; left: 54%; transform: rotate(34deg); }
+.section-symbol--automation img { position: absolute; z-index: 1; }
+.automation-gear { width: 54% !important; height: 54% !important; bottom: 6%; left: 0; }
+.automation-chip { width: 58% !important; height: 58% !important; top: 0; right: 0; }
+.symbol-education { top: 52px; right: 4%; }
+.symbol-publications { bottom: 30px; left: 4%; transform: rotate(-8deg); }
+.symbol-experience { top: 48px; right: 5%; transform: rotate(6deg); }
+.symbol-skills { top: 38px; right: 4%; opacity: .32; }
+.symbol-projects { right: 4%; bottom: 30px; transform: rotate(-12deg); }
+.icon-credit { color: #879391; font-size: 10px; }
+.icon-credit a { text-decoration: underline; text-underline-offset: 2px; }
 .skills-section .shell { position: relative; z-index: 1; }
 .skills-heading-row { display: grid; grid-template-columns: 1.1fr .68fr; gap: 70px; align-items: end; margin-bottom: 32px; }
 .skills-heading-row .section-description { margin: 0; max-width: 470px; }
@@ -349,4 +354,4 @@ a { color: inherit; text-decoration: none; }
 .site-english .project-detail-meta div { direction: ltr; }.site-english .plain-list li { padding-left: 13px; padding-right: 0; }.site-english .plain-list li::before { left: 0; right: auto; }.site-english .project-gallery figcaption { right: auto; left: 14px; }
 .admin-page .admin-row { text-align: left; }.admin-page .field textarea { font-family: "DM Sans", sans-serif; }.admin-page .media-thumb button { left: auto; right: 7px; }
 @media (max-width: 900px) { .skills-heading-row { grid-template-columns: 1fr; gap: 15px; }.skill-category-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 650px) { .hero-signal-row { margin-top: 20px; }.skills-overview { min-width: 0; width: 100%; gap: 16px; padding: 16px; }.skills-overview > div:not(.skills-overview-line) { min-width: 0; flex: 1; }.skill-category-grid { grid-template-columns: 1fr; }.skill-category-card { min-height: unset; }.site-english .education-detail { text-align: left; } }
+@media (max-width: 650px) { .hero-signal-row { margin-top: 20px; }.skills-overview { min-width: 0; width: 100%; gap: 16px; padding: 16px; }.skills-overview > div:not(.skills-overview-line) { min-width: 0; flex: 1; }.skill-category-grid { grid-template-columns: 1fr; }.skill-category-card { min-height: unset; }.site-english .education-detail { text-align: left; }.section-symbol { width: 128px; opacity: .24; }.section-symbol--automation { width: 142px; }.symbol-education { top: 26px; right: -7px; }.symbol-publications { bottom: 20px; left: -12px; }.symbol-experience { top: 30px; right: -11px; }.symbol-skills { top: 24px; right: -8px; }.symbol-projects { right: -9px; bottom: 22px; }.icon-credit { order: 3; width: 100%; } }

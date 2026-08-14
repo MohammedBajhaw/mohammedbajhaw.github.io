@@ -7,3 +7,5 @@ The Education section displays a clear robotic-arm SVG obtained from Wikimedia C
 The page remains readable at both tested viewport widths. No previous photographic section background is present in the final symbol treatment.
 
 The immediate public-domain verification was performed before the deployment cache had refreshed and still showed the preceding photographic release. A cache-busting follow-up check subsequently confirmed the final symbol release on the public domain: the photographic background was gone, and the robotic-arm SVG was visible without overlapping the Education heading or degree content.
+
+The industrial icon layer was then refined again against the user-provided references. The former circular and square icon containers are absent. The final automation motif presents a standard gear and microchip as a single technical pairing, while the robotic arm and circuit motifs retain the same pale-teal line weight. Desktop and mobile checks confirm that the motifs remain behind the content and do not obscure headings, metadata, or cards.
