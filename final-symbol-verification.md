@@ -5,3 +5,5 @@ The final symbol treatment was reviewed in both desktop (1280 × 720) and mobile
 The Education section displays a clear robotic-arm SVG obtained from Wikimedia Commons under CC0 1.0. The remaining sections use consistent SVG symbols for a circuit board, gear, CPU, and robot. Each symbol remains positioned behind the content layer, uses a low-opacity teal treatment, and does not cover headings, body text, project cards, or action controls.
 
 The page remains readable at both tested viewport widths. No previous photographic section background is present in the final symbol treatment.
+
+The immediate public-domain verification was performed before the deployment cache had refreshed and still showed the preceding photographic release; a follow-up check is required once the latest checkpoint propagation completes.
