@@ -32,11 +32,25 @@ describe("portfolio content procedures", () => {
     expect(mockDb.getPublicPortfolio).toHaveBeenCalledTimes(1);
   });
 
-  it("saves validated skill content and rejects malformed projects", async () => {
+  it("saves validated skill and section-icon content and rejects malformed projects", async () => {
     const caller = appRouter.createCaller(context());
     await caller.portfolio.save({ type: "skills", data: { label: "ROS 2", category: "Autonomy", icon: "Radar", sortOrder: 1 } });
     expect(mockDb.saveContent).toHaveBeenCalledWith("skills", expect.objectContaining({ label: "ROS 2" }));
+    await caller.portfolio.save({ type: "icons", data: { sectionKey: "education", label: "Robot arm", url: "/manus-storage/robot.svg", storageKey: "portfolio/9/section-icons/robot.svg", alt: "Robot arm", sortOrder: 2 } });
+    expect(mockDb.saveContent).toHaveBeenCalledWith("icons", expect.objectContaining({ sectionKey: "education", sortOrder: 2 }));
     await expect(caller.portfolio.save({ type: "projects", data: { slug: "invalid slug", title: "Project", tags: [], tools: [], outcomes: [], featured: false, sortOrder: 0 } as any })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
+  it("uploads a section icon to storage for later ordering and publishing", async () => {
+    mockStorage.storagePut.mockResolvedValue({ key: "portfolio/9/section-icons/arm.svg", url: "/manus-storage/arm.svg" });
+    const result = await appRouter.createCaller(context()).portfolio.uploadSectionIcon({ filename: "arm.svg", mimeType: "image/svg+xml", base64: Buffer.from("<svg><path d='M0 0'/></svg>").toString("base64") });
+    expect(result.url).toBe("/manus-storage/arm.svg");
+    expect(mockStorage.storagePut).toHaveBeenCalledWith(expect.stringContaining("portfolio/9/section-icons/arm.svg"), expect.any(Buffer), "image/svg+xml");
+  });
+
+  it("removes a section icon through the protected content route", async () => {
+    await appRouter.createCaller(context()).portfolio.remove({ type: "icons", id: 12 });
+    expect(mockDb.deleteContent).toHaveBeenCalledWith("icons", 12);
   });
 
   it("removes content and stores a project image through the storage layer", async () => {

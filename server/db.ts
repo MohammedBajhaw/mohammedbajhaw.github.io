@@ -8,6 +8,7 @@ import {
   projectMedia,
   projects,
   publications,
+  sectionIcons,
   skills,
   users,
 } from "../drizzle/schema";
@@ -63,36 +64,40 @@ export async function ensurePortfolioSeed() {
   const db = await getDb();
   if (!db) throw new Error("Database is unavailable");
   const existing = await db.select({ id: profiles.id }).from(profiles).limit(1);
-  if (existing.length) return;
-  await db.insert(profiles).values(portfolioSeed.profile);
-  await db.insert(education).values(portfolioSeed.education);
-  await db.insert(publications).values(portfolioSeed.publications);
-  await db.insert(experiences).values(portfolioSeed.experiences);
-  await db.insert(skills).values(portfolioSeed.skills);
-  await db.insert(projects).values(portfolioSeed.projects);
-  const insertedProjects = await db.select().from(projects);
-  const projectIdBySlug = new Map(insertedProjects.map((project) => [project.slug, project.id]));
-  await db.insert(projectMedia).values(
-    portfolioSeed.media.map((item) => ({
-      projectId: projectIdBySlug.get(item.slug)!,
-      url: item.url,
-      storageKey: null,
-      alt: item.alt,
-      sortOrder: item.sortOrder,
-    })),
-  );
+  if (!existing.length) {
+    await db.insert(profiles).values(portfolioSeed.profile);
+    await db.insert(education).values(portfolioSeed.education);
+    await db.insert(publications).values(portfolioSeed.publications);
+    await db.insert(experiences).values(portfolioSeed.experiences);
+    await db.insert(skills).values(portfolioSeed.skills);
+    await db.insert(projects).values(portfolioSeed.projects);
+    const insertedProjects = await db.select().from(projects);
+    const projectIdBySlug = new Map(insertedProjects.map((project) => [project.slug, project.id]));
+    await db.insert(projectMedia).values(
+      portfolioSeed.media.map((item) => ({
+        projectId: projectIdBySlug.get(item.slug)!,
+        url: item.url,
+        storageKey: null,
+        alt: item.alt,
+        sortOrder: item.sortOrder,
+      })),
+    );
+  }
+  const existingIcons = await db.select({ id: sectionIcons.id }).from(sectionIcons).limit(1);
+  if (!existingIcons.length) await db.insert(sectionIcons).values(portfolioSeed.sectionIcons);
 }
 
 export async function getPublicPortfolio() {
   await ensurePortfolioSeed();
   const db = await getDb();
   if (!db) throw new Error("Database is unavailable");
-  const [profileRows, educationRows, publicationRows, experienceRows, skillRows, projectRows, mediaRows] = await Promise.all([
+  const [profileRows, educationRows, publicationRows, experienceRows, skillRows, sectionIconRows, projectRows, mediaRows] = await Promise.all([
     db.select().from(profiles).limit(1),
     db.select().from(education).orderBy(asc(education.sortOrder)),
     db.select().from(publications).orderBy(asc(publications.sortOrder)),
     db.select().from(experiences).orderBy(asc(experiences.sortOrder)),
     db.select().from(skills).orderBy(asc(skills.sortOrder)),
+    db.select().from(sectionIcons).orderBy(asc(sectionIcons.sortOrder)),
     db.select().from(projects).orderBy(asc(projects.sortOrder)),
     db.select().from(projectMedia).orderBy(asc(projectMedia.sortOrder)),
   ]);
@@ -102,6 +107,7 @@ export async function getPublicPortfolio() {
     publications: publicationRows,
     experiences: experienceRows,
     skills: skillRows,
+    sectionIcons: sectionIconRows,
     projects: projectRows.map((project) => ({ ...project, media: mediaRows.filter((media) => media.projectId === project.id) })),
   };
 }
@@ -116,6 +122,7 @@ export async function getContent(type: string) {
     case "publications": return db.select().from(publications).orderBy(asc(publications.sortOrder));
     case "experiences": return db.select().from(experiences).orderBy(asc(experiences.sortOrder));
     case "skills": return db.select().from(skills).orderBy(asc(skills.sortOrder));
+    case "icons": return db.select().from(sectionIcons).orderBy(asc(sectionIcons.sortOrder));
     case "projects": return db.select().from(projects).orderBy(asc(projects.sortOrder));
     case "media": return db.select().from(projectMedia).orderBy(asc(projectMedia.sortOrder));
     default: throw new Error("Unknown content type");
@@ -161,6 +168,11 @@ export async function saveContent(type: string, rawData: Record<string, unknown>
     if (id) await db.update(skills).set(values).where(eq(skills.id, id)); else await db.insert(skills).values(values);
     return;
   }
+  if (type === "icons") {
+    const values = { sectionKey: stringValue(rawData.sectionKey), label: stringValue(rawData.label), url: stringValue(rawData.url), storageKey: nullableString(rawData.storageKey), alt: nullableString(rawData.alt), sortOrder: numberValue(rawData.sortOrder) };
+    if (id) await db.update(sectionIcons).set(values).where(eq(sectionIcons.id, id)); else await db.insert(sectionIcons).values(values);
+    return;
+  }
   if (type === "projects") {
     const values = { slug: stringValue(rawData.slug), title: stringValue(rawData.title), subtitle: nullableString(rawData.subtitle), summary: nullableString(rawData.summary), description: nullableString(rawData.description), status: nullableString(rawData.status), startDate: nullableString(rawData.startDate), endDate: nullableString(rawData.endDate), tags: stringArray(rawData.tags), tools: stringArray(rawData.tools), outcomes: stringArray(rawData.outcomes), featured: boolValue(rawData.featured), sortOrder: numberValue(rawData.sortOrder) };
     if (id) await db.update(projects).set(values).where(eq(projects.id, id)); else await db.insert(projects).values(values);
@@ -181,6 +193,7 @@ export async function deleteContent(type: string, id: number) {
   if (type === "publications") return db.delete(publications).where(eq(publications.id, id));
   if (type === "experiences") return db.delete(experiences).where(eq(experiences.id, id));
   if (type === "skills") return db.delete(skills).where(eq(skills.id, id));
+  if (type === "icons") return db.delete(sectionIcons).where(eq(sectionIcons.id, id));
   if (type === "projects") return db.delete(projects).where(eq(projects.id, id));
   if (type === "media") return db.delete(projectMedia).where(eq(projectMedia.id, id));
   throw new Error("This content type cannot be deleted");

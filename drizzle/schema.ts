@@ -73,6 +73,17 @@ export const skills = mysqlTable("skills", {
   sortOrder: int("sortOrder").default(0).notNull(),
 });
 
+export const sectionIcons = mysqlTable("section_icons", {
+  id: int("id").autoincrement().primaryKey(),
+  sectionKey: varchar("sectionKey", { length: 60 }).notNull(),
+  label: varchar("label", { length: 160 }).notNull(),
+  url: varchar("url", { length: 1200 }).notNull(),
+  storageKey: varchar("storageKey", { length: 1200 }),
+  alt: varchar("alt", { length: 320 }),
+  sortOrder: int("sortOrder").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
 export const projects = mysqlTable("projects", {
   id: int("id").autoincrement().primaryKey(),
   slug: varchar("slug", { length: 240 }).notNull().unique(),
