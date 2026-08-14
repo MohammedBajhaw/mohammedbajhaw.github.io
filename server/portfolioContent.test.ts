@@ -54,4 +54,16 @@ describe("portfolio content procedures", () => {
     expect(result).toEqual({ key: "portfolio/9/profile/photo_hash.jpg", url: "/manus-storage/photo_hash.jpg" });
     expect(mockStorage.storagePut).toHaveBeenCalledWith(expect.stringContaining("portfolio/9/profile/photo.jpg"), expect.any(Buffer), "image/jpeg");
   });
+
+  it("persists an uploaded profile photo and exposes the S3 URL in the public portfolio response", async () => {
+    mockStorage.storagePut.mockResolvedValue({ key: "portfolio/9/profile/portrait_hash.jpg", url: "/manus-storage/portrait_hash.jpg" });
+    const caller = appRouter.createCaller(context());
+    const stored = await caller.portfolio.uploadProfilePhoto({ filename: "portrait.jpg", mimeType: "image/jpeg", base64: Buffer.from("portrait").toString("base64") });
+    const profile = { id: 1, name: "Mohammed Bajhaw", professionalTitle: "Mechatronics Researcher", location: "Elazığ", email: "mohammed@example.com", linkedinUrl: "", bio: "Research profile", photoUrl: stored.url, photoKey: stored.key };
+    await caller.portfolio.save({ type: "profile", data: profile });
+    expect(mockDb.saveContent).toHaveBeenCalledWith("profile", expect.objectContaining({ photoUrl: "/manus-storage/portrait_hash.jpg", photoKey: "portfolio/9/profile/portrait_hash.jpg" }));
+    mockDb.getPublicPortfolio.mockResolvedValue({ profile, education: [], publications: [], experiences: [], skills: [], projects: [] });
+    const publicData = await caller.portfolio.public();
+    expect(publicData.profile.photoUrl).toBe("/manus-storage/portrait_hash.jpg");
+  });
 });
