@@ -7,9 +7,10 @@ import Admin from "./pages/Admin";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import ProjectDetail from "./pages/ProjectDetail";
+import PublicationDetail from "./pages/PublicationDetail";
 
 function Router() {
-  return <Switch><Route path="/" component={Home} /><Route path="/projects/:slug" component={ProjectDetail} /><Route path="/admin" component={Admin} /><Route path="/404" component={NotFound} /><Route component={NotFound} /></Switch>;
+  return <Switch><Route path="/" component={Home} /><Route path="/projects/:slug" component={ProjectDetail} /><Route path="/publications/:id" component={PublicationDetail} /><Route path="/admin" component={Admin} /><Route path="/404" component={NotFound} /><Route component={NotFound} /></Switch>;
 }
 
 export default function App() {

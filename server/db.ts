@@ -147,7 +147,7 @@ export async function saveContent(type: string, rawData: Record<string, unknown>
     return;
   }
   if (type === "publications") {
-    const values = { title: stringValue(rawData.title), venue: nullableString(rawData.venue), publicationDate: nullableString(rawData.publicationDate), status: nullableString(rawData.status), authors: nullableString(rawData.authors), summary: nullableString(rawData.summary), url: nullableString(rawData.url), sortOrder: numberValue(rawData.sortOrder) };
+    const values = { title: stringValue(rawData.title), venue: nullableString(rawData.venue), publicationDate: nullableString(rawData.publicationDate), status: nullableString(rawData.status), authors: nullableString(rawData.authors), summary: nullableString(rawData.summary), details: nullableString(rawData.details), keywords: stringArray(rawData.keywords), url: nullableString(rawData.url), sortOrder: numberValue(rawData.sortOrder) };
     if (id) await db.update(publications).set(values).where(eq(publications.id, id)); else await db.insert(publications).values(values);
     return;
   }

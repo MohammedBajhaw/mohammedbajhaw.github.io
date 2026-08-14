@@ -47,4 +47,11 @@ describe("portfolio content procedures", () => {
     expect(result.url).toBe("/manus-storage/demo_hash.jpg");
     expect(mockDb.addProjectMedia).toHaveBeenCalledWith(expect.objectContaining({ projectId: 3, url: "/manus-storage/demo_hash.jpg", sortOrder: 2 }));
   });
+
+  it("stores a profile photo and returns its S3 path for immediate profile persistence", async () => {
+    mockStorage.storagePut.mockResolvedValue({ key: "portfolio/9/profile/photo_hash.jpg", url: "/manus-storage/photo_hash.jpg" });
+    const result = await appRouter.createCaller(context()).portfolio.uploadProfilePhoto({ filename: "photo.jpg", mimeType: "image/jpeg", base64: Buffer.from("profile-image").toString("base64") });
+    expect(result).toEqual({ key: "portfolio/9/profile/photo_hash.jpg", url: "/manus-storage/photo_hash.jpg" });
+    expect(mockStorage.storagePut).toHaveBeenCalledWith(expect.stringContaining("portfolio/9/profile/photo.jpg"), expect.any(Buffer), "image/jpeg");
+  });
 });

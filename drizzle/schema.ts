@@ -46,6 +46,8 @@ export const publications = mysqlTable("publications", {
   status: varchar("status", { length: 120 }),
   authors: text("authors"),
   summary: text("summary"),
+  details: text("details"),
+  keywords: json("keywords").$type<string[]>().notNull(),
   url: varchar("url", { length: 1000 }),
   sortOrder: int("sortOrder").default(0).notNull(),
 });
