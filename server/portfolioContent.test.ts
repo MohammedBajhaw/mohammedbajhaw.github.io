@@ -7,6 +7,7 @@ const mockDb = vi.hoisted(() => ({
   saveContent: vi.fn(),
   deleteContent: vi.fn(),
   addProjectMedia: vi.fn(),
+  updateProfilePhoto: vi.fn(),
 }));
 const mockStorage = vi.hoisted(() => ({ storagePut: vi.fn() }));
 
@@ -53,6 +54,7 @@ describe("portfolio content procedures", () => {
     const result = await appRouter.createCaller(context()).portfolio.uploadProfilePhoto({ filename: "photo.jpg", mimeType: "image/jpeg", base64: Buffer.from("profile-image").toString("base64") });
     expect(result).toEqual({ key: "portfolio/9/profile/photo_hash.jpg", url: "/manus-storage/photo_hash.jpg" });
     expect(mockStorage.storagePut).toHaveBeenCalledWith(expect.stringContaining("portfolio/9/profile/photo.jpg"), expect.any(Buffer), "image/jpeg");
+    expect(mockDb.updateProfilePhoto).toHaveBeenCalledWith("/manus-storage/photo_hash.jpg", "portfolio/9/profile/photo_hash.jpg");
   });
 
   it("persists an uploaded profile photo and exposes the S3 URL in the public portfolio response", async () => {

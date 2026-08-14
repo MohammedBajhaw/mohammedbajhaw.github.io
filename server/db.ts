@@ -191,3 +191,10 @@ export async function addProjectMedia(values: { projectId: number; url: string; 
   if (!db) throw new Error("Database is unavailable");
   await db.insert(projectMedia).values({ ...values, storageKey: values.storageKey ?? null, alt: values.alt ?? null, sortOrder: values.sortOrder ?? 0 });
 }
+
+export async function updateProfilePhoto(photoUrl: string, photoKey: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is unavailable");
+  await ensurePortfolioSeed();
+  await db.update(profiles).set({ photoUrl, photoKey }).where(eq(profiles.id, 1));
+}

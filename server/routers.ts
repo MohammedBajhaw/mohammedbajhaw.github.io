@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { COOKIE_NAME } from "@shared/const";
-import { addProjectMedia, deleteContent, getContent, getPublicPortfolio, saveContent } from "./db";
+import { addProjectMedia, deleteContent, getContent, getPublicPortfolio, saveContent, updateProfilePhoto } from "./db";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { adminProcedure, publicProcedure, router } from "./_core/trpc";
@@ -48,7 +48,9 @@ export const appRouter = router({
       const buffer = Buffer.from(rawBase64, "base64");
       if (buffer.byteLength > 5 * 1024 * 1024) throw new Error("Image must be 5 MB or smaller");
       const safeFilename = input.filename.replace(/[^a-zA-Z0-9._-]/g, "-");
-      return storagePut(`portfolio/${ctx.user.id}/profile/${safeFilename}`, buffer, input.mimeType);
+      const stored = await storagePut(`portfolio/${ctx.user.id}/profile/${safeFilename}`, buffer, input.mimeType);
+      await updateProfilePhoto(stored.url, stored.key);
+      return stored;
     }),
   }),
 });
