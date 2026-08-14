@@ -8,3 +8,4 @@
 - The new background treatment uses fine technical drawing lines and construction geometry rather than standalone icons; entrance motion is intentionally longer and was observed while a section entered the viewport.
 - After the deployment completed, the public domain was verified with a cache-busting URL: it now shows the name-only header, the shorter skills introduction, and the new technical line-art motif.
 - The public domain was rechecked after deployment propagation and now serves the photographic engineering backgrounds in the education, publications, experience, skills, and projects sections instead of the former line drawings.
+- The photographic section backgrounds were subsequently removed. Desktop and mobile visual checks confirm that the final engineering symbol set is visible without covering text: a CC0 robotic-arm SVG for Education, plus robot, gear, CPU, and circuit symbols for the related sections.
