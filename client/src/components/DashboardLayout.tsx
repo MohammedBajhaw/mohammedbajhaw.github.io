@@ -1,6 +1,6 @@
 import { startLogin } from "@/const";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { ExternalLink, LayoutDashboard, LogOut, PanelLeft } from "lucide-react";
+import { ExternalLink, LayoutDashboard, LogOut } from "lucide-react";
 import { useLocation } from "wouter";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -20,7 +20,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <div className="admin-page" dir="ltr">
       <header className="site-header">
         <div className="shell header-inner">
-          <button className="wordmark" onClick={() => setLocation("/")}><span className="wordmark-mark"><PanelLeft size={14} /></span><span>Mohammed Bajhaw</span></button>
+          <button className="wordmark" onClick={() => setLocation("/")}>Mohammed Bajhaw</button>
           <div className="site-nav">
             <button className="nav-admin" onClick={() => setLocation("/")}><ExternalLink size={13} /> View site</button>
             <button className="nav-admin" onClick={logout}><LogOut size={13} /> Sign out</button>
