@@ -6,4 +6,4 @@ The Education section displays a clear robotic-arm SVG obtained from Wikimedia C
 
 The page remains readable at both tested viewport widths. No previous photographic section background is present in the final symbol treatment.
 
-The immediate public-domain verification was performed before the deployment cache had refreshed and still showed the preceding photographic release; a follow-up check is required once the latest checkpoint propagation completes.
+The immediate public-domain verification was performed before the deployment cache had refreshed and still showed the preceding photographic release. A cache-busting follow-up check subsequently confirmed the final symbol release on the public domain: the photographic background was gone, and the robotic-arm SVG was visible without overlapping the Education heading or degree content.
