@@ -36,6 +36,20 @@
       "when": 1786688711944,
       "tag": "0004_silent_changeling",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1786955585468,
+      "tag": "0005_living_firebrand",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1786956069461,
+      "tag": "0006_useful_angel",
+      "breakpoints": true
     }
   ]
 }

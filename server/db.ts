@@ -9,6 +9,8 @@ import {
   projects,
   publications,
   sectionIcons,
+  serviceAreas,
+  services,
   skills,
   users,
 } from "../drizzle/schema";
@@ -85,19 +87,31 @@ export async function ensurePortfolioSeed() {
   }
   const existingIcons = await db.select({ id: sectionIcons.id }).from(sectionIcons).limit(1);
   if (!existingIcons.length) await db.insert(sectionIcons).values(portfolioSeed.sectionIcons);
+  const existingServiceAreas = await db.select({ title: serviceAreas.title }).from(serviceAreas);
+  const existingServiceAreaTitles = new Set(existingServiceAreas.map((area) => area.title));
+  const missingServiceAreas = portfolioSeed.serviceAreas.filter((area) => !existingServiceAreaTitles.has(area.title));
+  if (missingServiceAreas.length) await db.insert(serviceAreas).values(missingServiceAreas);
+  const storedServiceAreas = await db.select({ id: serviceAreas.id, title: serviceAreas.title }).from(serviceAreas);
+  const serviceAreaIdByTitle = new Map(storedServiceAreas.map((area) => [area.title, area.id]));
+  const existingServices = await db.select({ title: services.title }).from(services);
+  const existingServiceTitles = new Set(existingServices.map((service) => service.title));
+  const missingServices = portfolioSeed.services.filter((service) => !existingServiceTitles.has(service.title));
+  if (missingServices.length) await db.insert(services).values(missingServices.map((service) => ({ areaId: serviceAreaIdByTitle.get(service.areaTitle)!, title: service.title, summary: service.summary, deliverables: service.deliverables, sortOrder: service.sortOrder })));
 }
 
 export async function getPublicPortfolio() {
   await ensurePortfolioSeed();
   const db = await getDb();
   if (!db) throw new Error("Database is unavailable");
-  const [profileRows, educationRows, publicationRows, experienceRows, skillRows, sectionIconRows, projectRows, mediaRows] = await Promise.all([
+  const [profileRows, educationRows, publicationRows, experienceRows, skillRows, sectionIconRows, serviceAreaRows, serviceRows, projectRows, mediaRows] = await Promise.all([
     db.select().from(profiles).limit(1),
     db.select().from(education).orderBy(asc(education.sortOrder)),
     db.select().from(publications).orderBy(asc(publications.sortOrder)),
     db.select().from(experiences).orderBy(asc(experiences.sortOrder)),
     db.select().from(skills).orderBy(asc(skills.sortOrder)),
     db.select().from(sectionIcons).orderBy(asc(sectionIcons.sortOrder)),
+    db.select().from(serviceAreas).orderBy(asc(serviceAreas.sortOrder)),
+    db.select().from(services).orderBy(asc(services.sortOrder)),
     db.select().from(projects).orderBy(asc(projects.sortOrder)),
     db.select().from(projectMedia).orderBy(asc(projectMedia.sortOrder)),
   ]);
@@ -108,6 +122,7 @@ export async function getPublicPortfolio() {
     experiences: experienceRows,
     skills: skillRows,
     sectionIcons: sectionIconRows,
+    serviceAreas: serviceAreaRows.map((area) => ({ ...area, services: serviceRows.filter((service) => service.areaId === area.id) })),
     projects: projectRows.map((project) => ({ ...project, media: mediaRows.filter((media) => media.projectId === project.id) })),
   };
 }
@@ -123,6 +138,8 @@ export async function getContent(type: string) {
     case "experiences": return db.select().from(experiences).orderBy(asc(experiences.sortOrder));
     case "skills": return db.select().from(skills).orderBy(asc(skills.sortOrder));
     case "icons": return db.select().from(sectionIcons).orderBy(asc(sectionIcons.sortOrder));
+    case "serviceAreas": return db.select().from(serviceAreas).orderBy(asc(serviceAreas.sortOrder));
+    case "services": return db.select().from(services).orderBy(asc(services.sortOrder));
     case "projects": return db.select().from(projects).orderBy(asc(projects.sortOrder));
     case "media": return db.select().from(projectMedia).orderBy(asc(projectMedia.sortOrder));
     default: throw new Error("Unknown content type");
@@ -173,6 +190,16 @@ export async function saveContent(type: string, rawData: Record<string, unknown>
     if (id) await db.update(sectionIcons).set(values).where(eq(sectionIcons.id, id)); else await db.insert(sectionIcons).values(values);
     return;
   }
+  if (type === "serviceAreas") {
+    const values = { title: stringValue(rawData.title), description: nullableString(rawData.description), accent: stringValue(rawData.accent) || "teal", icon: stringValue(rawData.icon) || "robotics", sortOrder: numberValue(rawData.sortOrder) };
+    if (id) await db.update(serviceAreas).set(values).where(eq(serviceAreas.id, id)); else await db.insert(serviceAreas).values(values);
+    return;
+  }
+  if (type === "services") {
+    const values = { areaId: numberValue(rawData.areaId), title: stringValue(rawData.title), summary: nullableString(rawData.summary), deliverables: stringArray(rawData.deliverables), sortOrder: numberValue(rawData.sortOrder) };
+    if (id) await db.update(services).set(values).where(eq(services.id, id)); else await db.insert(services).values(values);
+    return;
+  }
   if (type === "projects") {
     const values = { slug: stringValue(rawData.slug), title: stringValue(rawData.title), subtitle: nullableString(rawData.subtitle), summary: nullableString(rawData.summary), description: nullableString(rawData.description), status: nullableString(rawData.status), startDate: nullableString(rawData.startDate), endDate: nullableString(rawData.endDate), tags: stringArray(rawData.tags), tools: stringArray(rawData.tools), outcomes: stringArray(rawData.outcomes), featured: boolValue(rawData.featured), sortOrder: numberValue(rawData.sortOrder) };
     if (id) await db.update(projects).set(values).where(eq(projects.id, id)); else await db.insert(projects).values(values);
@@ -194,6 +221,8 @@ export async function deleteContent(type: string, id: number) {
   if (type === "experiences") return db.delete(experiences).where(eq(experiences.id, id));
   if (type === "skills") return db.delete(skills).where(eq(skills.id, id));
   if (type === "icons") return db.delete(sectionIcons).where(eq(sectionIcons.id, id));
+  if (type === "serviceAreas") return db.delete(serviceAreas).where(eq(serviceAreas.id, id));
+  if (type === "services") return db.delete(services).where(eq(services.id, id));
   if (type === "projects") return db.delete(projects).where(eq(projects.id, id));
   if (type === "media") return db.delete(projectMedia).where(eq(projectMedia.id, id));
   throw new Error("This content type cannot be deleted");

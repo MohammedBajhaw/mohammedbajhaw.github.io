@@ -41,6 +41,15 @@ describe("portfolio content procedures", () => {
     await expect(caller.portfolio.save({ type: "projects", data: { slug: "invalid slug", title: "Project", tags: [], tools: [], outcomes: [], featured: false, sortOrder: 0 } as any })).rejects.toMatchObject({ code: "BAD_REQUEST" });
   });
 
+  it("validates managed service areas and services through the protected content route", async () => {
+    const caller = appRouter.createCaller(context());
+    await caller.portfolio.save({ type: "serviceAreas", data: { title: "Robotics Services", description: "Managed practice area", accent: "blue", icon: "robotics", sortOrder: 1 } });
+    await caller.portfolio.save({ type: "services", data: { areaId: 3, title: "ROS Simulation Support", summary: "Managed service item", deliverables: ["Code", "Notes", "Commands"], sortOrder: 1 } });
+    expect(mockDb.saveContent).toHaveBeenCalledWith("serviceAreas", expect.objectContaining({ title: "Robotics Services", accent: "blue" }));
+    expect(mockDb.saveContent).toHaveBeenCalledWith("services", expect.objectContaining({ areaId: 3, deliverables: ["Code", "Notes", "Commands"] }));
+    await expect(caller.portfolio.save({ type: "services", data: { areaId: 0, title: "Invalid service", summary: "", deliverables: [], sortOrder: 0 } as any })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
   it("uploads a section icon to storage for later ordering and publishing", async () => {
     mockStorage.storagePut.mockResolvedValue({ key: "portfolio/9/section-icons/arm.svg", url: "/manus-storage/arm.svg" });
     const result = await appRouter.createCaller(context()).portfolio.uploadSectionIcon({ filename: "arm.svg", mimeType: "image/svg+xml", base64: Buffer.from("<svg><path d='M0 0'/></svg>").toString("base64") });

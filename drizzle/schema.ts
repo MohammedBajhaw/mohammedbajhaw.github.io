@@ -1,4 +1,4 @@
-import { boolean, int, json, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { boolean, int, json, mysqlEnum, mysqlTable, text, timestamp, uniqueIndex, varchar } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable("users", {
   id: int("id").autoincrement().primaryKey(),
@@ -83,6 +83,28 @@ export const sectionIcons = mysqlTable("section_icons", {
   sortOrder: int("sortOrder").default(0).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
+
+export const serviceAreas = mysqlTable("service_areas", {
+  id: int("id").autoincrement().primaryKey(),
+  title: varchar("title", { length: 240 }).notNull(),
+  description: text("description"),
+  accent: varchar("accent", { length: 40 }).default("teal").notNull(),
+  icon: varchar("icon", { length: 80 }).default("robotics").notNull(),
+  sortOrder: int("sortOrder").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => [uniqueIndex("service_areas_title_unique").on(table.title)]);
+
+export const services = mysqlTable("services", {
+  id: int("id").autoincrement().primaryKey(),
+  areaId: int("areaId").notNull().references(() => serviceAreas.id, { onDelete: "cascade" }),
+  title: varchar("title", { length: 320 }).notNull(),
+  summary: text("summary"),
+  deliverables: json("deliverables").$type<string[]>().notNull(),
+  sortOrder: int("sortOrder").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => [uniqueIndex("services_area_title_unique").on(table.areaId, table.title)]);
 
 export const projects = mysqlTable("projects", {
   id: int("id").autoincrement().primaryKey(),
