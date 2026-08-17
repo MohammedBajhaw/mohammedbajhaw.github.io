@@ -1,0 +1,41 @@
+import { ArrowLeft, ArrowUpRight, Bot, BrainCircuit, Cpu, FileCheck2, Mail, Settings2, Wrench } from "lucide-react";
+import { useEffect } from "react";
+import { Link } from "wouter";
+import { serviceGroups, servicePageCopy, type ServiceGroup } from "@/data/services";
+import { trpc } from "@/lib/trpc";
+
+const iconMap = {
+  robotics: Bot,
+  embedded: Cpu,
+  mechanical: Wrench,
+  consulting: FileCheck2,
+  vision: BrainCircuit,
+  control: Settings2,
+} as const;
+
+function ServiceGroupIcon({ group }: { group: ServiceGroup }) {
+  const Icon = iconMap[group.icon];
+  return <span className={`service-group-icon ${group.accent}`}><Icon aria-hidden="true" size={22} strokeWidth={1.65} /></span>;
+}
+
+export default function Services() {
+  const { data } = trpc.portfolio.public.useQuery();
+  const name = data?.profile?.name ?? "Mohammed Bajhaw";
+  const email = data?.profile?.email ?? "";
+
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  return <div className="site-shell site-english services-page">
+    <header className="site-header"><div className="shell header-inner"><Link className="wordmark" href="/">{name}</Link><nav className="site-nav services-nav" aria-label="Service page navigation"><Link href="/">Home</Link><a href="#services">Services</a><a className="nav-admin" href={email ? `mailto:${email}` : "#contact"}>Get in touch <Mail size={13} /></a></nav></div></header>
+    <main>
+      <section className="services-hero"><div className="shell services-hero-grid"><div><p className="eyebrow">{servicePageCopy.eyebrow}</p><h1>{servicePageCopy.title}</h1><p className="services-hero-copy">{servicePageCopy.intro}</p><div className="services-process" aria-label="Service delivery process">{servicePageCopy.process.map((step, index) => <span key={step}><b>{`0${index + 1}`}</b>{step}</span>)}</div></div><aside className="services-brief-card"><span className="meta">STARTING A BRIEF</span><h2>Clear inputs create useful engineering outputs.</h2><p>Share the objective, available hardware or data, current constraints, and the result you need. Scope and deliverables are confirmed before work begins.</p><a href={email ? `mailto:${email}` : "#contact"}>Discuss a technical brief <ArrowUpRight size={15} /></a></aside></div></section>
+
+      <section className="services-index"><div className="shell"><p className="section-index">SERVICE INDEX / 06 PRACTICE AREAS</p><div className="services-index-links">{serviceGroups.map((group) => <a key={group.code} href={`#service-${group.code}`}><span>{group.code}</span>{group.title}</a>)}</div></div></section>
+
+      <section className="services-archive" id="services">{serviceGroups.map((group) => <section className="service-group" id={`service-${group.code}`} key={group.code}><div className="shell"><div className="service-group-head"><div className="service-group-title"><ServiceGroupIcon group={group} /><p className="section-index">{group.code} / PRACTICE AREA</p><h2>{group.title}</h2></div><p>{group.description}</p></div><div className="service-card-grid">{group.services.map((service, index) => <article className="service-card" key={service.title}><div className="service-card-top"><span>{group.code}.{String(index + 1).padStart(2, "0")}</span><ArrowUpRight size={18} /></div><h3>{service.title}</h3><p>{service.summary}</p><div className="service-deliverables"><strong>Typical deliverables</strong>{service.deliverables.map((item) => <span key={item}>{item}</span>)}</div></article>)}</div></div></section>)}</section>
+
+      <section className="services-contact" id="contact"><div className="shell services-contact-grid"><div><p className="eyebrow">Technical collaboration</p><h2>Have a robotics, embedded, or control-system brief?</h2></div><div><p>Start with the technical objective, the available hardware or data, and the result you need. The initial discussion is used to define a practical scope and deliverables.</p><a className="button-primary" href={email ? `mailto:${email}` : "#services"}>Start a conversation <Mail size={16} /></a><Link className="services-back" href="/"><ArrowLeft size={15} /> Back to portfolio</Link></div></div></section>
+    </main>
+    <footer className="footer"><div className="shell footer-inner"><span>© {new Date().getFullYear()} {name}</span><Link className="footer-contact" href="/">Portfolio home <ArrowUpRight size={13} /></Link></div></footer>
+  </div>;
+}
