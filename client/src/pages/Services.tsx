@@ -1,6 +1,7 @@
 import { ArrowLeft, ArrowUpRight, Bot, BrainCircuit, Cpu, FileCheck2, Mail, Settings2, Wrench } from "lucide-react";
 import { useEffect } from "react";
 import { Link } from "wouter";
+import PublicHeader from "@/components/PublicHeader";
 import { trpc } from "@/lib/trpc";
 import { hasPublishedServices } from "@/data/servicesState";
 
@@ -38,7 +39,7 @@ export default function Services() {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return <div className="site-shell site-english services-page">
-    <header className="site-header"><div className="shell header-inner"><Link className="wordmark" href="/">{name}</Link><nav className="site-nav services-nav" aria-label="Primary navigation"><a href="/#about">About</a><a href="/#projects">Projects</a><a className="nav-services" href="#services">Services</a></nav></div></header>
+    <PublicHeader name={name} />
     <main>
       <section className="services-hero"><div className="shell services-hero-grid"><div><p className="eyebrow">{servicePageCopy.eyebrow}</p><h1>{servicePageCopy.title}</h1><p className="services-hero-copy">{servicePageCopy.intro}</p><div className="services-process" aria-label="Service delivery process">{servicePageCopy.process.map((step, index) => <span key={step}><b>{`0${index + 1}`}</b>{step}</span>)}</div></div><aside className="services-brief-card"><span className="meta">STARTING A BRIEF</span><h2>Clear inputs create useful engineering outputs.</h2><p>Share the objective, available hardware or data, current constraints, and the result you need. Scope and deliverables are confirmed before work begins.</p><a href={email ? `mailto:${email}` : "#contact"}>Discuss a technical brief <ArrowUpRight size={15} /></a></aside></div></section>
 

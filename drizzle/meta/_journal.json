@@ -50,6 +50,13 @@
       "when": 1786956069461,
       "tag": "0006_useful_angel",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1787035045280,
+      "tag": "0007_sharp_the_captain",
+      "breakpoints": true
     }
   ]
 }

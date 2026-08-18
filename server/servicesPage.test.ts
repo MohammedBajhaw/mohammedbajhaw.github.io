@@ -32,7 +32,7 @@ describe("services page content", () => {
     const servicesSource = readFileSync(new URL("../client/src/pages/Services.tsx", import.meta.url), "utf8");
     expect(appSource).toContain('path="/services"');
     expect(appSource.indexOf('path="/services"')).toBeLessThan(appSource.indexOf('path="/projects/:slug"'));
-    expect(homeSource).toContain('const navItems = [["About", "#about"], ["Projects", "#projects"]]');
+    expect(homeSource).toContain("<PublicHeader name={profile.name} />");
     expect(servicesSource).toContain("data?.serviceAreas");
     expect(servicesSource).toContain("services-empty");
   });

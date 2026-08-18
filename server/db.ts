@@ -159,7 +159,7 @@ export async function saveContent(type: string, rawData: Record<string, unknown>
   if (type === "profile") {
     const values = {
       name: stringValue(rawData.name), professionalTitle: stringValue(rawData.professionalTitle), location: nullableString(rawData.location),
-      email: nullableString(rawData.email), linkedinUrl: nullableString(rawData.linkedinUrl), bio: nullableString(rawData.bio),
+      email: nullableString(rawData.email), linkedinUrl: nullableString(rawData.linkedinUrl), phone: nullableString(rawData.phone), bio: nullableString(rawData.bio),
       photoUrl: nullableString(rawData.photoUrl), photoKey: nullableString(rawData.photoKey),
     };
     await db.insert(profiles).values({ id: 1, ...values }).onDuplicateKeyUpdate({ set: values });

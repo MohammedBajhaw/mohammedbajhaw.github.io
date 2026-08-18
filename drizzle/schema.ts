@@ -19,6 +19,7 @@ export const profiles = mysqlTable("profiles", {
   location: varchar("location", { length: 220 }),
   email: varchar("email", { length: 320 }),
   linkedinUrl: varchar("linkedinUrl", { length: 500 }),
+  phone: varchar("phone", { length: 80 }),
   bio: text("bio"),
   photoUrl: varchar("photoUrl", { length: 1000 }),
   photoKey: varchar("photoKey", { length: 1000 }),
