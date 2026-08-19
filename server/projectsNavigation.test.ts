@@ -15,11 +15,11 @@ describe("projects archive and public navigation", () => {
     expect(projectsSource).toContain("projects-archive-grid");
   });
 
-  it("uses a reusable public navigation with Home, About, Projects, and Services", () => {
+  it("uses a reusable public navigation with Home, Projects, and Services", () => {
     expect(headerSource).toContain('{ label: "Home", href: "/" }');
-    expect(headerSource).toContain('{ label: "About", href: "/#about" }');
     expect(headerSource).toContain('{ label: "Projects", href: "/projects" }');
     expect(headerSource).toContain('{ label: "Services", href: "/services" }');
+    expect(headerSource).not.toContain('label: "About"');
     expect(headerSource).toContain("nav-mobile-toggle");
   });
 
