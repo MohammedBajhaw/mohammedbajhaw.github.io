@@ -2,8 +2,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/SiteHeader";
 import { createPortfolioClient, isSupabaseConfigured, publicMediaUrl } from "@/lib/supabase/server";
+import { getPortfolioSnapshot } from "@/lib/portfolio";
 
-export const dynamic = "force-dynamic";
+export async function generateStaticParams() {
+  const portfolio = await getPortfolioSnapshot();
+  return portfolio.projects.map((project) => ({ slug: project.slug }));
+}
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

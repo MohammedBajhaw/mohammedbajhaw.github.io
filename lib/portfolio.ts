@@ -1,4 +1,4 @@
-import { createPortfolioClient, isSupabaseConfigured, publicMediaUrl } from "@/lib/supabase/server";
+import { createPortfolioClient, isSupabaseConfigured, publicMediaUrl } from "./supabase/server";
 
 export type PortfolioSnapshot = {
   configured: boolean;

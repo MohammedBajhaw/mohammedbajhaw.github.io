@@ -2,8 +2,6 @@ import Link from "next/link";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getPortfolioSnapshot } from "@/lib/portfolio";
 
-export const dynamic = "force-dynamic";
-
 export default async function ProjectsPage() {
   const portfolio = await getPortfolioSnapshot();
   const name = portfolio.profile?.name ?? "Mohammed Bajhaw";

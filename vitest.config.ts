@@ -7,6 +7,8 @@ export default defineConfig({
   root: templateRoot,
   resolve: {
     alias: {
+      "@/components": path.resolve(templateRoot, "components"),
+      "@/lib": path.resolve(templateRoot, "lib"),
       "@": path.resolve(templateRoot, "client", "src"),
       "@shared": path.resolve(templateRoot, "shared"),
       "@assets": path.resolve(templateRoot, "attached_assets"),
@@ -14,6 +16,6 @@ export default defineConfig({
   },
   test: {
     environment: "node",
-    include: ["server/**/*.test.ts", "server/**/*.spec.ts"],
+    include: ["server/**/*.test.{ts,tsx}", "server/**/*.spec.{ts,tsx}"],
   },
 });

@@ -2,8 +2,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/SiteHeader";
 import { createPortfolioClient, isSupabaseConfigured, publicDocumentUrl } from "@/lib/supabase/server";
+import { getPortfolioSnapshot } from "@/lib/portfolio";
 
-export const dynamic = "force-dynamic";
+export async function generateStaticParams() {
+  const portfolio = await getPortfolioSnapshot();
+  return portfolio.publications.map((publication) => ({ id: String(publication.id) }));
+}
 
 export default async function PublicationDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
