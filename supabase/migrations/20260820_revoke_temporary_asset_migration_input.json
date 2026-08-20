@@ -1,0 +1,1 @@
+{"name":"revoke_temporary_asset_migration_upload","project_id":"ntynaiuxqylscazugcdo","query":"drop policy if exists \"temporary_migration_upload\" on storage.objects;"}
