@@ -18,3 +18,7 @@ On mobile, the group icons retain a compact but distinct 34-pixel presentation a
 ## Validation
 
 The TypeScript check passed, the Vitest suite passed with 28 tests, and the static Next.js build generated all expected project pages successfully.
+
+## Public deployment check
+
+GitHub Pages deployment run 11 completed successfully. The public page for **Autonomous Cave Exploration Drone** presents its full overview, source link, technical stack, outcomes, and the Media section with its descriptive caption at the published GitHub Pages URL.
