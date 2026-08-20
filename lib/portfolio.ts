@@ -9,6 +9,7 @@ export type PortfolioSnapshot = {
   skills: Record<string, any>[];
   projects: Record<string, any>[];
   serviceAreas: Record<string, any>[];
+  sectionIcons: Record<string, any>[];
 };
 
 const emptySnapshot: PortfolioSnapshot = {
@@ -20,12 +21,13 @@ const emptySnapshot: PortfolioSnapshot = {
   skills: [],
   projects: [],
   serviceAreas: [],
+  sectionIcons: [],
 };
 
 export async function getPortfolioSnapshot(): Promise<PortfolioSnapshot> {
   if (!isSupabaseConfigured) return emptySnapshot;
   const supabase = createPortfolioClient();
-  const [profile, education, publications, experiences, skills, projects, serviceAreas] = await Promise.all([
+  const [profile, education, publications, experiences, skills, projects, serviceAreas, sectionIcons] = await Promise.all([
     supabase.from("profiles").select("*").limit(1).maybeSingle(),
     supabase.from("education").select("*").order("sort_order"),
     supabase.from("publications").select("*").order("sort_order"),
@@ -33,6 +35,7 @@ export async function getPortfolioSnapshot(): Promise<PortfolioSnapshot> {
     supabase.from("skills").select("*").order("category").order("sort_order"),
     supabase.from("projects").select("*, project_media(*)").order("sort_order"),
     supabase.from("service_areas").select("*, services(*)").order("sort_order"),
+    supabase.from("section_icons").select("*").order("sort_order"),
   ]);
 
   return {
@@ -47,5 +50,9 @@ export async function getPortfolioSnapshot(): Promise<PortfolioSnapshot> {
       imageUrl: publicMediaUrl(project.project_media?.[0]?.storage_path),
     })),
     serviceAreas: serviceAreas.data ?? [],
+    sectionIcons: (sectionIcons.data ?? []).map((icon) => ({
+      ...icon,
+      imageUrl: publicMediaUrl(icon.storage_path),
+    })),
   };
 }
