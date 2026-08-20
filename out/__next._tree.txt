@@ -3,4 +3,4 @@
 :HL["https://ntynaiuxqylscazugcdo.supabase.co/storage/v1/object/public/portfolio-media/migration/projects/search-rescue-robot_b4ab7cbe.jpg","image"]
 :HL["https://ntynaiuxqylscazugcdo.supabase.co/storage/v1/object/public/portfolio-media/migration/projects/robotic-arm-control_7d96276c.jpg","image"]
 :HL["https://ntynaiuxqylscazugcdo.supabase.co/storage/v1/object/public/portfolio-media/migration/projects/smart-coffee-brewing.jpg","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}},"staleTime":300,"buildId":"-T45DZypsLE50P1xyXlQf"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}},"staleTime":300,"buildId":"2JKh7YFZbqy6c02kH1ih6"}
