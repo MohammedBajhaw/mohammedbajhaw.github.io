@@ -166,7 +166,7 @@ const tabs: TabDefinition[] = [
     singular: "project",
     group: "Projects and media",
     icon: FolderKanban,
-    template: { slug: "", title: "", subtitle: "", summary: "", description: "", status: "", start_date: "", end_date: "", tags: [], tools: [], outcomes: [], featured: false, sort_order: 0 },
+    template: { slug: "", title: "", subtitle: "", summary: "", description: "", status: "", start_date: "", end_date: "", repository_url: "", tags: [], tools: [], outcomes: [], featured: false, sort_order: 0 },
     fields: [
       { key: "title", label: "Project title", placeholder: "Autonomous Medical Search & Rescue Robot" },
       { key: "slug", label: "Page URL name", placeholder: "autonomous-medical-search-rescue-robot", help: "Use lowercase words separated with hyphens." },
@@ -177,6 +177,7 @@ const tabs: TabDefinition[] = [
       { key: "featured", label: "Feature on home page", kind: "toggle", help: "Featured projects are prioritised in the home-page project section." },
       { key: "summary", label: "Card summary", kind: "textarea", placeholder: "A concise description used on project cards." },
       { key: "description", label: "Full project description", kind: "textarea", placeholder: "Explain the methods, engineering work, and result." },
+      { key: "repository_url", label: "GitHub or source URL", placeholder: "https://github.com/username/project", nullable: true, help: "An optional source link shown on the project detail page." },
       { key: "tags", label: "Keywords", kind: "array", placeholder: "ROS 2, LiDAR SLAM, UAV" },
       { key: "tools", label: "Tools and technologies", kind: "array", placeholder: "Python, Jetson, Gazebo" },
       { key: "outcomes", label: "Outcomes", kind: "array", placeholder: "Prototype completed, Mapping validated" },
