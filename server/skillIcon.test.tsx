@@ -1,20 +1,20 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { SkillIcon } from "../components/SkillIcon";
+import { SkillGroupIcon } from "../components/SkillIcon";
 
-describe("SkillIcon", () => {
-  it("renders a coloured engineering icon for a recognised skill", () => {
-    const markup = renderToStaticMarkup(<SkillIcon label="NVIDIA Jetson" iconName="NVIDIA" category="Embedded & Edge AI" />);
+describe("SkillGroupIcon", () => {
+  it("renders a large coloured engineering icon for a main skill group", () => {
+    const markup = renderToStaticMarkup(<SkillGroupIcon category="Embedded & Edge AI" />);
 
-    expect(markup).toContain("skill-icon");
+    expect(markup).toContain("skill-group-icon");
     expect(markup).toContain("color:");
     expect(markup).toContain("<svg");
   });
 
-  it("uses a category-level engineering fallback for specialised skills", () => {
-    const markup = renderToStaticMarkup(<SkillIcon label="Sensor Fusion" iconName="LiDAR" category="Autonomy & Navigation" />);
+  it("uses a stable engineering fallback for an unknown group", () => {
+    const markup = renderToStaticMarkup(<SkillGroupIcon category="Unmapped Category" />);
 
-    expect(markup).toContain("skill-icon");
+    expect(markup).toContain("skill-group-icon");
     expect(markup).toContain("<svg");
   });
 });

@@ -100,3 +100,9 @@ export function SkillIcon({ label, iconName, category }: SkillIconProps) {
 
   return <span className="skill-icon" style={{ color }} aria-hidden="true"><Icon size={14} strokeWidth={1.8} /></span>;
 }
+
+export function SkillGroupIcon({ category }: Pick<SkillIconProps, "category">) {
+  const { Icon, color } = categoryIcons[category] ?? { Icon: CircuitBoard, color: "#176b69" };
+
+  return <span className="skill-group-icon" style={{ color }} aria-hidden="true"><Icon size={32} strokeWidth={1.55} /></span>;
+}

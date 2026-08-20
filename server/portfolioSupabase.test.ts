@@ -16,6 +16,8 @@ describe("Next.js portfolio data source", () => {
     expect(portfolio.projects[0]?.imageUrl).toContain("supabase.co/storage");
     expect(portfolio.projects.find((project) => project.slug === "autonomous-cave-exploration-drone")?.repository_url).toBe("https://github.com/MohammedBajhaw/drone-navigation");
     expect(portfolio.projects.find((project) => project.slug === "robotic-arm-cad-simulation-control")?.repository_url).toBe("https://github.com/MohammedBajhaw/Robotic-Arm-SolidWorks-Matlab");
+    expect(portfolio.projects.find((project) => project.slug === "autonomous-cave-exploration-drone")?.imageUrl).toContain("autonomous-cave-exploration-drone");
+    expect(portfolio.projects.find((project) => project.slug === "robotic-arm-cad-simulation-control")?.imageUrl).toContain("robotic-arm-cad-simulation-control");
   });
 
   it("resolves migrated storage paths to public Supabase URLs", () => {
