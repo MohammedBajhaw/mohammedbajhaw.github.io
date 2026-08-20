@@ -47,7 +47,11 @@ describe("Next.js admin console", () => {
     vi.clearAllMocks();
     mocks.select.mockReturnValue({ order: vi.fn().mockResolvedValue({ data: [profile], error: null }) });
     mocks.update.mockReturnValue({ eq: vi.fn().mockResolvedValue({ error: null }) });
-    mocks.insert.mockResolvedValue({ error: null });
+    mocks.insert.mockReturnValue({
+      select: vi.fn().mockReturnValue({
+        single: vi.fn().mockResolvedValue({ data: { ...profile, id: "profile-2", name: "Admin console test" }, error: null }),
+      }),
+    });
     mocks.delete.mockReturnValue({ eq: vi.fn().mockResolvedValue({ error: null }) });
   });
 
@@ -56,22 +60,26 @@ describe("Next.js admin console", () => {
 
     const profileLabel = await screen.findByText("Mohammed Bajhaw", { selector: "strong" });
     fireEvent.click(profileLabel.closest("button")!);
-    const editor = screen.getByRole("textbox");
-    expect((editor as HTMLTextAreaElement).value).toContain("Mechatronics Engineer");
+    expect((screen.getByLabelText("Professional title") as HTMLInputElement).value).toBe("Mechatronics Engineer");
+    expect(screen.queryByText("JSON editor")).toBeNull();
 
-    fireEvent.change(editor, { target: { value: JSON.stringify({ ...profile, professional_title: "Robotics Engineer" }) } });
-    fireEvent.click(screen.getByRole("button", { name: "Save record" }));
+    fireEvent.change(screen.getByLabelText("Professional title"), { target: { value: "Robotics Engineer" } });
+    fireEvent.click(screen.getByRole("button", { name: "Save changes" }));
     await waitFor(() => expect(mocks.update).toHaveBeenCalledTimes(1));
 
-    fireEvent.click(screen.getByRole("button", { name: "New record" }));
-    fireEvent.change(editor, { target: { value: JSON.stringify({ label: "admin-console-test", category: "Validation", icon: "Test", sort_order: 999999 }) } });
-    fireEvent.click(screen.getByRole("button", { name: "Save record" }));
+    fireEvent.click(screen.getByRole("button", { name: "New profile" }));
+    fireEvent.change(screen.getByLabelText("Full name"), { target: { value: "Admin console test" } });
+    fireEvent.change(screen.getByLabelText("Professional title"), { target: { value: "Validation Engineer" } });
+    fireEvent.change(screen.getByLabelText("Location"), { target: { value: "Elazığ" } });
+    fireEvent.change(screen.getByLabelText("Contact email"), { target: { value: "test@example.com" } });
+    fireEvent.change(screen.getByLabelText("Short introduction"), { target: { value: "Validation profile" } });
+    fireEvent.click(screen.getByRole("button", { name: "Save changes" }));
     await waitFor(() => expect(mocks.insert).toHaveBeenCalledTimes(1));
 
     fireEvent.click(screen.getByText("Mohammed Bajhaw", { selector: "strong" }).closest("button")!);
-    fireEvent.click(screen.getByRole("button", { name: "Delete" }));
-    await screen.findByText("Delete this record?");
     fireEvent.click(screen.getByRole("button", { name: "Delete record" }));
+    await screen.findByText(/Delete “Mohammed Bajhaw”/);
+    fireEvent.click(screen.getByRole("button", { name: "Delete permanently" }));
     await waitFor(() => expect(mocks.delete).toHaveBeenCalledTimes(1));
   });
 });
