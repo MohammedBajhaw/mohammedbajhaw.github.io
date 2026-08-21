@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { getBrowserSupabase } from "@/lib/supabase/browser";
+import { RichTextEditor } from "@/components/admin/RichTextEditor";
 
 type TabKey =
   | "profiles"
@@ -36,7 +37,7 @@ type TabKey =
   | "service_areas"
   | "services";
 type ContentRow = Record<string, unknown>;
-type FieldKind = "text" | "textarea" | "number" | "toggle" | "array" | "select";
+type FieldKind = "text" | "textarea" | "richtext" | "number" | "toggle" | "array" | "select";
 
 type FieldDefinition = {
   key: string;
@@ -167,7 +168,7 @@ const tabs: TabDefinition[] = [
     singular: "project",
     group: "Projects and media",
     icon: FolderKanban,
-    template: { slug: "", title: "", subtitle: "", summary: "", description: "", status: "", start_date: "", end_date: "", repository_url: "", publication_url: "", tags: [], tools: [], outcomes: [], featured: false, sort_order: 0 },
+    template: { slug: "", title: "", subtitle: "", summary: "", description: "", rich_content: "", status: "", start_date: "", end_date: "", repository_url: "", publication_url: "", tags: [], tools: [], outcomes: [], featured: false, sort_order: 0 },
     fields: [
       { key: "title", label: "Project title", placeholder: "Autonomous Medical Search & Rescue Robot" },
       { key: "slug", label: "Page URL name", placeholder: "autonomous-medical-search-rescue-robot", help: "Use lowercase words separated with hyphens." },
@@ -178,6 +179,7 @@ const tabs: TabDefinition[] = [
       { key: "featured", label: "Feature on home page", kind: "toggle", help: "Featured projects are prioritised in the home-page project section." },
       { key: "summary", label: "Card summary", kind: "textarea", placeholder: "A concise description used on project cards." },
       { key: "description", label: "Full project description", kind: "textarea", placeholder: "Explain the methods, engineering work, and result." },
+      { key: "rich_content", label: "Detailed project story", kind: "richtext", placeholder: "Write a structured project story with headings, paragraphs, lists, links, and images.", help: "This formatted content appears on the public project page below the overview." },
       { key: "repository_url", label: "GitHub or source URL", placeholder: "https://github.com/username/project", nullable: true, help: "An optional source link shown on the project detail page." },
       { key: "publication_url", label: "Related publication URL", placeholder: "https://doi.org/...", nullable: true, help: "An optional link to the research paper supporting this project." },
       { key: "tags", label: "Keywords", kind: "array", placeholder: "ROS 2, LiDAR SLAM, UAV" },
@@ -488,6 +490,14 @@ export function AdminConsole() {
       return;
     }
     setUploadPath(path);
+    if (active === "projects") {
+      const { data: publicUrlData } = supabase.storage.from("portfolio-media").getPublicUrl(path);
+      const url = publicUrlData.publicUrl;
+      const caption = file.name.replace(/[-_]/g, " ").replace(/\.[^.]+$/, "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character] ?? character);
+      setForm((current) => ({ ...(current ?? cloneRecord(tab.template)), rich_content: `${String(current?.rich_content ?? "")}<figure><img src="${url}" alt="${caption}" /><figcaption>${caption}</figcaption></figure><p><br></p>` }));
+      setNotice("Upload complete. The image was inserted at the end of the detailed project story; save changes to publish it.");
+      return;
+    }
     const target = uploadTargetField();
     if (target) {
       setForm((current) => ({ ...(current ?? cloneRecord(tab.template)), [target]: path }));
@@ -521,7 +531,7 @@ export function AdminConsole() {
     const kind = field.kind ?? "text";
     const value = form[field.key];
     const fieldId = `field-${field.key}`;
-    const isWide = kind === "textarea" || kind === "array";
+    const isWide = kind === "textarea" || kind === "richtext" || kind === "array";
 
     if (kind === "toggle") {
       return (
@@ -557,6 +567,16 @@ export function AdminConsole() {
         <label className="admin-field admin-field-wide" key={field.key} htmlFor={fieldId}>
           <span>{field.label}</span>
           <textarea id={fieldId} value={readInputValue(value, kind)} onChange={(event) => updateField(field.key, event.target.value)} placeholder={field.placeholder} />
+          {field.help && <small>{field.help}</small>}
+        </label>
+      );
+    }
+
+    if (kind === "richtext") {
+      return (
+        <label className="admin-field admin-field-wide" key={field.key}>
+          <span>{field.label}</span>
+          <RichTextEditor id={fieldId} value={readInputValue(value, kind)} placeholder={field.placeholder} onChange={(nextValue) => updateField(field.key, nextValue)} />
           {field.help && <small>{field.help}</small>}
         </label>
       );

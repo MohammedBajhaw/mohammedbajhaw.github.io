@@ -1,6 +1,6 @@
 /* @vitest-environment jsdom */
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { AdminConsole } from "../components/admin/AdminConsole";
 
 const mocks = vi.hoisted(() => ({
@@ -43,6 +43,8 @@ vi.mock("@/lib/supabase/browser", () => ({
 }));
 
 describe("Next.js admin console", () => {
+  afterEach(() => cleanup());
+
   beforeEach(() => {
     vi.clearAllMocks();
     mocks.select.mockReturnValue({ order: vi.fn().mockResolvedValue({ data: [profile], error: null }) });
@@ -81,5 +83,18 @@ describe("Next.js admin console", () => {
     await screen.findByText(/Delete “Mohammed Bajhaw”/);
     fireEvent.click(screen.getByRole("button", { name: "Delete permanently" }));
     await waitFor(() => expect(mocks.delete).toHaveBeenCalledTimes(1));
+  });
+
+  it("provides a formatted project-story editor when creating a project", async () => {
+    render(<AdminConsole />);
+
+    await screen.findByText("Mohammed Bajhaw", { selector: "strong" });
+    fireEvent.click(screen.getByRole("button", { name: "Projects" }));
+    fireEvent.click(screen.getAllByRole("button", { name: "New project" })[0]);
+
+    expect(screen.getByText("Detailed project story")).toBeTruthy();
+    expect(screen.getByTestId("rich-text-editor")).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Heading" })).toBeTruthy();
+    expect(screen.getByLabelText("Link or image URL")).toBeTruthy();
   });
 });

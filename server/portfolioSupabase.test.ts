@@ -9,7 +9,7 @@ describe("Next.js portfolio data source", () => {
     expect(portfolio.configured).toBe(true);
     expect(portfolio.profile?.name).toBe("Mohammed Bajhaw");
     expect(portfolio.publications).toHaveLength(2);
-    expect(portfolio.projects).toHaveLength(8);
+    expect(portfolio.projects).toHaveLength(9);
     expect(portfolio.skills).toHaveLength(61);
     expect(portfolio.serviceAreas).toHaveLength(6);
     expect(portfolio.serviceAreas.reduce((count, area) => count + (Array.isArray(area.services) ? area.services.length : 0), 0)).toBe(13);
@@ -20,8 +20,11 @@ describe("Next.js portfolio data source", () => {
     expect(portfolio.projects.find((project) => project.slug === "robotic-arm-cad-simulation-control")?.imageUrl).toContain("robotic-arm-cad-simulation-control");
     expect(portfolio.publications.find((publication) => publication.id === 1)?.doi).toBe("10.1109/ICHORA69329.2026.11537209");
     expect(portfolio.publications.find((publication) => publication.id === 1)?.authors).toContain("Mohammed Ali Mohammed S. Bajhaw");
-    expect(portfolio.projects.find((project) => project.slug === "rko-lio-indoor-3d-mapping-platform")?.publication_url).toBe("https://doi.org/10.1109/ICHORA69329.2026.11537209");
-    expect(portfolio.projects.find((project) => project.slug === "rko-lio-indoor-3d-mapping-platform")?.imageUrl).toContain("rko-paper-figure-000");
+    expect(portfolio.projects.find((project) => project.slug === "rko-lio-indoor-3d-mapping-platform")).toBeUndefined();
+    expect(portfolio.projects.find((project) => project.slug === "offline-multi-sensor-ai-payload-for-usar")?.rich_content).toContain("Measured validation");
+    expect(portfolio.projects.find((project) => project.slug === "offline-multi-sensor-ai-payload-for-usar")?.imageUrl).toContain("figure-002_42d4fde2");
+    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.rich_content).toContain("Flight-test results");
+    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.imageUrl).toContain("figure-005_82c208cf");
   });
 
   it("resolves migrated storage paths to public Supabase URLs", () => {
