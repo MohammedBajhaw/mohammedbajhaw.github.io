@@ -1,0 +1,4 @@
+{
+  "project_id": "ntynaiuxqylscazugcdo",
+  "query": "select id, title, venue, publication_date, status, authors, doi, url, array_length(keywords, 1) as keyword_count from public.publications where id = 1 limit 1;"
+}

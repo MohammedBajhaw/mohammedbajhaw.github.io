@@ -1,0 +1,4 @@
+{
+  "project_id": "ntynaiuxqylscazugcdo",
+  "query": "select id, title, venue, publication_date, status, authors, doi, url from public.publications where id = 1 limit 1; select p.id, p.slug, p.title, p.publication_url, count(pm.id) as media_count from public.projects p left join public.project_media pm on pm.project_id = p.id where p.slug = 'rko-lio-indoor-3d-mapping-platform' group by p.id, p.slug, p.title, p.publication_url limit 1;"
+}

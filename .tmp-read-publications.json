@@ -1,0 +1,4 @@
+{
+  "project_id": "ntynaiuxqylscazugcdo",
+  "query": "select id, title, venue, publication_date, status, authors, summary, details, keywords, url, sort_order from public.publications order by sort_order asc limit 10;"
+}
