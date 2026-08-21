@@ -11,7 +11,8 @@ describe("home page visual enhancements", () => {
   });
 
   it("keeps a managed profile photo as the hero priority with a temporary fallback", () => {
-    expect(homePage).toContain('const heroPortrait = profile?.photo_url ?? `${managedAssetHost}/manus-storage/temporary-hero-portrait-unsplash_b4117910.jpg`');
+    expect(homePage).toContain('const temporaryPortraitUrl = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=85"');
+    expect(homePage).toContain("const heroPortrait = profile?.photo_url ?? temporaryPortraitUrl");
     expect(homePage).toContain("const hasManagedPortrait = Boolean(profile?.photo_url)");
     expect(homePage).toContain('className="hero-portrait"');
   });
