@@ -12,3 +12,4 @@ The project archive maintains a readable six-card grid and has an image-layer in
 - The future user-uploaded profile photo remains the priority whenever `profiles.photo_url` is populated.
 - The visual changes retain a reduced-motion override and keyboard focus states for project cards and footer links.
 - The final mobile review confirms that the portrait and technical detail panel retain a compact, two-column composition near the Hero, the CV action remains visible, and the project archive continues as a single readable column above the redesigned footer.
+- GitHub Actions run 18 for the final asset-link correction completed its visible 1m 20s run duration before the public verification step.
