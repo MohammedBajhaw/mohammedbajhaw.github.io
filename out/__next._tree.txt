@@ -1,6 +1,6 @@
 :HL["/_next/static/css/b2577c385ab746c3.css","style"]
 :HL["https://ntynaiuxqylscazugcdo.supabase.co/storage/v1/object/public/portfolio-media/migration/icons/pngegg_75888db2.png","image"]
-:HL["/manus-storage/mohammed-bajhaw-hero-portrait-placeholder_d40c3786.jpg","image"]
+:HL["https://engportfolio-zhkmdjuy.manus.space/manus-storage/temporary-hero-portrait-unsplash_b4117910.jpg","image"]
 :HL["https://ntynaiuxqylscazugcdo.supabase.co/storage/v1/object/public/portfolio-media/migration/icons/microchip-board_2c4bfdd2.svg","image"]
 :HL["https://ntynaiuxqylscazugcdo.supabase.co/storage/v1/object/public/portfolio-media/migration/icons/mdi-gear-outline_87e8d0e0.svg","image"]
 :HL["https://ntynaiuxqylscazugcdo.supabase.co/storage/v1/object/public/portfolio-media/migration/icons/mdi-chip_3050709c.svg","image"]
@@ -8,4 +8,4 @@
 :HL["https://ntynaiuxqylscazugcdo.supabase.co/storage/v1/object/public/portfolio-media/migration/projects/search-rescue-robot_b4ab7cbe.jpg","image"]
 :HL["https://ntynaiuxqylscazugcdo.supabase.co/storage/v1/object/public/portfolio-media/migration/projects/robotic-arm-control_7d96276c.jpg","image"]
 :HL["https://ntynaiuxqylscazugcdo.supabase.co/storage/v1/object/public/portfolio-media/migration/projects/smart-coffee-brewing.jpg","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}},"staleTime":300,"buildId":"kZK0H0Hry7j1X92erQ_7R"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}},"staleTime":300,"buildId":"ZX89q3_dgaKltRIZKtHgu"}

@@ -8,6 +8,7 @@ The project archive maintains a readable six-card grid and has an image-layer in
 
 ## Validation notes
 
-- The temporary Hero image is supplied from a project-managed image URL and will be replaced automatically when its generation completes.
+- The original generated-image reservation returned a 404 response during visual review. It was replaced with a stable, temporary editorial portrait from a free image source; the caption explicitly identifies it as a temporary visual. Both this image and the CV use an absolute managed-asset URL so they remain valid from GitHub Pages.
 - The future user-uploaded profile photo remains the priority whenever `profiles.photo_url` is populated.
 - The visual changes retain a reduced-motion override and keyboard focus states for project cards and footer links.
+- The final mobile review confirms that the portrait and technical detail panel retain a compact, two-column composition near the Hero, the CV action remains visible, and the project archive continues as a single readable column above the redesigned footer.

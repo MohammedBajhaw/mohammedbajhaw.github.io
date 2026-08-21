@@ -6,12 +6,13 @@ const styles = readFileSync(new URL("../app/globals.css", import.meta.url), "utf
 
 describe("home page visual enhancements", () => {
   it("provides a reusable CV download route in the hero and footer", () => {
-    expect(homePage).toContain('const cvUrl = "/manus-storage/Mohammed_Bajhaw_CV_e4b21ef0.pdf"');
+    expect(homePage).toContain('const cvUrl = `${managedAssetHost}/manus-storage/Mohammed_Bajhaw_CV_e4b21ef0.pdf`');
     expect(homePage).toContain('href={cvUrl} download>Download CV');
   });
 
   it("keeps a managed profile photo as the hero priority with a temporary fallback", () => {
-    expect(homePage).toContain('const heroPortrait = profile?.photo_url ?? "/manus-storage/mohammed-bajhaw-hero-portrait-placeholder_d40c3786.jpg"');
+    expect(homePage).toContain('const heroPortrait = profile?.photo_url ?? `${managedAssetHost}/manus-storage/temporary-hero-portrait-unsplash_b4117910.jpg`');
+    expect(homePage).toContain("const hasManagedPortrait = Boolean(profile?.photo_url)");
     expect(homePage).toContain('className="hero-portrait"');
   });
 
