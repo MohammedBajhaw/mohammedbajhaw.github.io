@@ -1,0 +1,32 @@
+import { readFileSync } from "node:fs";
+import { describe, expect, it } from "vitest";
+
+const browserReader = readFileSync(new URL("../lib/portfolioBrowser.ts", import.meta.url), "utf8");
+const homeContent = readFileSync(new URL("../components/public/HomePortfolioContent.tsx", import.meta.url), "utf8");
+const projectsContent = readFileSync(new URL("../components/public/ProjectsArchiveContent.tsx", import.meta.url), "utf8");
+const servicesContent = readFileSync(new URL("../components/public/ServicesContent.tsx", import.meta.url), "utf8");
+const projectDetailContent = readFileSync(new URL("../components/public/ProjectDetailContent.tsx", import.meta.url), "utf8");
+const publicationDetailContent = readFileSync(new URL("../components/public/PublicationDetailContent.tsx", import.meta.url), "utf8");
+
+describe("live public portfolio content", () => {
+  it("reads every public portfolio collection from Supabase in the browser", () => {
+    expect(browserReader).toContain('export async function getLivePortfolioSnapshot()');
+    expect(browserReader).toContain('supabase.from("projects").select("*, project_media(*)")');
+    expect(browserReader).toContain('supabase.from("service_areas").select("*, services(*)")');
+    expect(browserReader).toContain('supabase.from("profiles").select("*")');
+  });
+
+  it("refreshes the home, projects archive, and services page after hydration", () => {
+    for (const source of [homeContent, projectsContent, servicesContent]) {
+      expect(source).toContain('getLivePortfolioSnapshot().then(setPortfolio)');
+      expect(source).toContain('useState(initialPortfolio)');
+    }
+  });
+
+  it("refreshes project and publication details with their current Supabase record", () => {
+    expect(projectDetailContent).toContain('supabase.from("projects").select("*, project_media(*)").eq("slug", slug).maybeSingle()');
+    expect(projectDetailContent).toContain("setProject(nextProject.data");
+    expect(publicationDetailContent).toContain('supabase.from("publications").select("*").eq("id", publicationId).maybeSingle()');
+    expect(publicationDetailContent).toContain("setPublication(nextPublication.data");
+  });
+});

@@ -2,8 +2,8 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 describe("published-paper presentation", () => {
-  const publicationPage = readFileSync(new URL("../app/publications/[id]/page.tsx", import.meta.url), "utf8");
-  const projectPage = readFileSync(new URL("../app/projects/[slug]/page.tsx", import.meta.url), "utf8");
+  const publicationPage = readFileSync(new URL("../components/public/PublicationDetailContent.tsx", import.meta.url), "utf8");
+  const projectPage = readFileSync(new URL("../components/public/ProjectDetailContent.tsx", import.meta.url), "utf8");
   const adminConsole = readFileSync(new URL("../components/admin/AdminConsole.tsx", import.meta.url), "utf8");
 
   it("presents PDF, DOI, conference details, and the IEEE record on publication pages", () => {
