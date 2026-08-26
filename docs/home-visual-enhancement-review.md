@@ -19,3 +19,7 @@ The project archive maintains a readable six-card grid and has an image-layer in
 ## User portrait source
 
 The user provided the portrait at `https://drive.google.com/file/d/1gchfxU8Z95s_hxdefkXtkqsRBHsuWsHZ/view`. The image is a graduation portrait and was downloaded to `/home/ubuntu/webdev-static-assets/mohammed-bajhaw-portrait.jpg` for the asset record. Google Drive's standard `view` and `download` URLs did not render in the Hero image element; the compatible direct preview is `https://lh3.googleusercontent.com/d/1gchfxU8Z95s_hxdefkXtkqsRBHsuWsHZ=w1200`, which is stored in the Supabase profile `photo_path`.
+
+The local Hero verification displays the user portrait correctly after the public page was corrected to read `profiles.photo_path`, the actual field saved by Content Studio. GitHub Pages run 24 is the pending deployment for this code correction.
+
+GitHub Pages run 24 completed successfully. The public homepage was opened with a cache-busting query and visibly displays the user portrait in the Hero card; the public wordmark also correctly reads `Mohammed Bajhaw` after reverting a temporary test suffix.
