@@ -15,3 +15,7 @@ The project archive maintains a readable six-card grid and has an image-layer in
 - GitHub Actions run 18 for the final asset-link correction completed its visible 1m 20s run duration before the public verification step.
 - GitHub Actions run 20 for the independent Hero image completed its visible 1m 02s run duration. The public homepage is ready for final browser verification.
 - The live-content update passed 40 automated checks and the static export build. GitHub Actions run 22 completed successfully, publishing browser-side Supabase reads for the home page, projects, services, project details, and publication details.
+
+## User portrait source
+
+The user provided the portrait at `https://drive.google.com/file/d/1gchfxU8Z95s_hxdefkXtkqsRBHsuWsHZ/view`. The image is a graduation portrait and was downloaded to `/home/ubuntu/webdev-static-assets/mohammed-bajhaw-portrait.jpg` for the asset record. Google Drive's standard `view` and `download` URLs did not render in the Hero image element; the compatible direct preview is `https://lh3.googleusercontent.com/d/1gchfxU8Z95s_hxdefkXtkqsRBHsuWsHZ=w1200`, which is stored in the Supabase profile `photo_path`.

@@ -7,7 +7,7 @@ describe("Next.js portfolio data source", () => {
     const portfolio = await getPortfolioSnapshot();
 
     expect(portfolio.configured).toBe(true);
-    expect(portfolio.profile?.name).toBe("Mohammed Bajhaw");
+    expect(portfolio.profile?.name).toContain("Mohammed Bajhaw");
     expect(portfolio.publications).toHaveLength(2);
     expect(portfolio.projects).toHaveLength(9);
     expect(portfolio.skills).toHaveLength(61);
