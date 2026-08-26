@@ -14,3 +14,4 @@ The project archive maintains a readable six-card grid and has an image-layer in
 - The final mobile review confirms that the portrait and technical detail panel retain a compact, two-column composition near the Hero, the CV action remains visible, and the project archive continues as a single readable column above the redesigned footer.
 - GitHub Actions run 18 for the final asset-link correction completed its visible 1m 20s run duration before the public verification step.
 - GitHub Actions run 20 for the independent Hero image completed its visible 1m 02s run duration. The public homepage is ready for final browser verification.
+- The live-content update passed 40 automated checks and the static export build. GitHub Actions run 22 completed successfully, publishing browser-side Supabase reads for the home page, projects, services, project details, and publication details.
