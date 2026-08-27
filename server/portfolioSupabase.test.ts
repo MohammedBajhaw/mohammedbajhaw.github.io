@@ -25,10 +25,49 @@ describe("Next.js portfolio data source", () => {
     expect(portfolio.projects.find((project) => project.slug === "offline-multi-sensor-ai-payload-for-usar")?.imageUrl).toContain("figure-002_42d4fde2");
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.rich_content).toContain("Flight-test results");
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.imageUrl).toContain("figure-005_82c208cf");
+
+    const enrichedProjects = [
+      {
+        slug: "high-precision-cnc-router",
+        title: "CNC Multi-Function Conversion System",
+        marker: "System architecture",
+      },
+      {
+        slug: "smart-coffee-brewing-system",
+        title: "Automated Coffee Preparation System",
+        marker: "System architecture",
+      },
+      {
+        slug: "autonomous-cave-exploration-drone",
+        title: "Autonomous UAV Navigation & Path Planning System",
+        marker: "DSP Planner (D* Lite)",
+        repository: "https://github.com/MohammedBajhaw/drone-navigation",
+      },
+      {
+        slug: "robotic-arm-cad-simulation-control",
+        title: "Robotic Arm Design & Simscape Multibody Control",
+        marker: "IntermediateMass",
+        repository: "https://github.com/MohammedBajhaw/Robotic-Arm-SolidWorks-Matlab",
+      },
+    ];
+
+    enrichedProjects.forEach(({ slug, title, marker, repository }) => {
+      const matchingRecords = portfolio.projects.filter((project) => project.slug === slug);
+      const project = matchingRecords[0];
+
+      expect(matchingRecords).toHaveLength(1);
+      expect(project?.title).toBe(title);
+      expect(project?.rich_content).toContain("System architecture");
+      expect(project?.rich_content).toContain(marker);
+      if (repository) expect(project?.repository_url).toBe(repository);
+    });
+
+    expect(portfolio.projects.find((project) => project.slug === "high-precision-cnc-router")?.imageUrl).toContain("linkedin-project-3_b8ccee20");
   });
 
   it("resolves migrated storage paths to public Supabase URLs", () => {
     expect(publicMediaUrl("migration/projects/lidar-uav-mapping_483e4614.jpg")).toContain("supabase.co/storage");
+    expect(publicMediaUrl("https://engportfolio-zhkmdjuy.manus.space/manus-storage/linkedin-project-3_b8ccee20.jpg")).toBe("https://engportfolio-zhkmdjuy.manus.space/manus-storage/linkedin-project-3_b8ccee20.jpg");
     expect(publicDocumentUrl("migration/publications/research-paper-preview_3b27fa0b.pdf")).toContain("supabase.co/storage");
     expect(publicDocumentUrl("/manus-storage/rko-lio-velodyne-pixhawk-ros2-paper_01b4facc.pdf")).toContain("engportfolio-zhkmdjuy.manus.space");
   });
