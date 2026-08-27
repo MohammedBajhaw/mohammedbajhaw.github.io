@@ -6,6 +6,10 @@ import { getBrowserSupabase } from "@/lib/supabase/browser";
 function publicMediaUrl(path?: string | null) {
   if (!path) return null;
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
+  if (path.startsWith("/manus-storage/")) {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    return supabaseUrl ? `${supabaseUrl}/functions/v1/managed-project-media?path=${encodeURIComponent(path)}` : null;
+  }
   return getBrowserSupabase().storage.from("portfolio-media").getPublicUrl(path).data.publicUrl;
 }
 
