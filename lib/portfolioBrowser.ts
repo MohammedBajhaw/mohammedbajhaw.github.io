@@ -6,6 +6,7 @@ import { getBrowserSupabase } from "@/lib/supabase/browser";
 function publicMediaUrl(path?: string | null) {
   if (!path) return null;
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
+  if (path.startsWith("/manus-storage/")) return `https://engportfolio-zhkmdjuy.manus.space${path}`;
   return getBrowserSupabase().storage.from("portfolio-media").getPublicUrl(path).data.publicUrl;
 }
 

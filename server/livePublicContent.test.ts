@@ -7,6 +7,7 @@ const projectsContent = readFileSync(new URL("../components/public/ProjectsArchi
 const servicesContent = readFileSync(new URL("../components/public/ServicesContent.tsx", import.meta.url), "utf8");
 const projectDetailContent = readFileSync(new URL("../components/public/ProjectDetailContent.tsx", import.meta.url), "utf8");
 const publicationDetailContent = readFileSync(new URL("../components/public/PublicationDetailContent.tsx", import.meta.url), "utf8");
+const publicStyles = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
 
 describe("live public portfolio content", () => {
   it("reads every public portfolio collection from Supabase in the browser", () => {
@@ -28,5 +29,16 @@ describe("live public portfolio content", () => {
     expect(projectDetailContent).toContain("setProject(nextProject.data");
     expect(publicationDetailContent).toContain('supabase.from("publications").select("*").eq("id", publicationId).maybeSingle()');
     expect(publicationDetailContent).toContain("setPublication(nextPublication.data");
+  });
+
+  it("normalizes managed media paths and renders archive cards with a stable image frame and readable content", () => {
+    expect(browserReader).toContain('if (path.startsWith("/manus-storage/")) return `https://engportfolio-zhkmdjuy.manus.space${path}`');
+    expect(projectsContent).toContain("ArchiveProjectCard");
+    expect(projectsContent).toContain("archive-card-media");
+    expect(projectsContent).toContain('onError={() => setImageUnavailable(true)}');
+    expect(projectsContent).toContain("archive-card-content");
+    expect(publicStyles).toContain(".archive-card-media { height: auto; aspect-ratio: 16 / 10;");
+    expect(publicStyles).toContain(".archive-card-media img { object-fit: contain;");
+    expect(publicStyles).toContain(".archive-grid { grid-template-columns: 1fr; gap: 18px; }");
   });
 });
