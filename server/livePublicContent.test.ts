@@ -7,6 +7,7 @@ const projectsContent = readFileSync(new URL("../components/public/ProjectsArchi
 const servicesContent = readFileSync(new URL("../components/public/ServicesContent.tsx", import.meta.url), "utf8");
 const projectDetailContent = readFileSync(new URL("../components/public/ProjectDetailContent.tsx", import.meta.url), "utf8");
 const publicationDetailContent = readFileSync(new URL("../components/public/PublicationDetailContent.tsx", import.meta.url), "utf8");
+const publicStyles = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
 
 describe("live public portfolio content", () => {
   it("reads every public portfolio collection from Supabase in the browser", () => {
@@ -26,7 +27,14 @@ describe("live public portfolio content", () => {
   it("refreshes project and publication details with their current Supabase record", () => {
     expect(projectDetailContent).toContain('supabase.from("projects").select("*, project_media(*)").eq("slug", slug).maybeSingle()');
     expect(projectDetailContent).toContain("setProject(nextProject.data");
+    expect(projectDetailContent).toContain('functions/v1/managed-project-media?path=${encodeURIComponent(path)}');
     expect(publicationDetailContent).toContain('supabase.from("publications").select("*").eq("id", publicationId).maybeSingle()');
     expect(publicationDetailContent).toContain("setPublication(nextPublication.data");
+  });
+
+  it("preserves the original proportions of rich-content and gallery images", () => {
+    expect(publicStyles).toContain(".rich-project-body figure { display: inline-block; width: fit-content");
+    expect(publicStyles).toContain(".rich-project-body figure img { display: block; width: auto; height: auto");
+    expect(publicStyles).toContain(".media-grid img { display: block; width: auto; height: auto; min-height: 0");
   });
 });
