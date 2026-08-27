@@ -11,3 +11,7 @@ The repaired desktop archive displays nine consistent project cards in a three-c
 ## Expected mobile verification
 
 At widths below 760 px, the archive switches to one card per row and each card uses a **16:9** media frame. This prevents the narrow three-column image-only layout reported in the supplied mobile screenshot. Desktop and mobile screenshots were captured after the proxy response was confirmed as `200 image/jpeg`; both show the complete card treatment for every project.
+
+## Public-path check
+
+GitHub Pages deployment `33117633072` completed successfully. The public archive now exposes its title, status, summary, tags, and case-study action for each project. The previously unavailable multi-sensor and RKO-LIO media paths were individually checked through the managed delivery endpoint and each returned `200` with `Content-Type: image/jpeg`.

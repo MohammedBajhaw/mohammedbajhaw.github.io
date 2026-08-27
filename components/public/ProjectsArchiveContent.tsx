@@ -12,7 +12,7 @@ function ArchiveProjectCard({ project }: { project: Record<string, any> }) {
 
   return <Link className="project-card archive-card" href={`/projects/${project.slug}`}>
     <div className="project-card-media archive-card-media">
-      {project.imageUrl && !imageUnavailable ? <img src={project.imageUrl} alt={mediaAlt} loading="lazy" decoding="async" onError={() => setImageUnavailable(true)} /> : <div className="archive-card-fallback" aria-label="Project documentation visual unavailable"><span>Engineering case study</span></div>}
+      {project.imageUrl && !imageUnavailable ? <img src={project.imageUrl} alt={mediaAlt} decoding="async" onError={() => setImageUnavailable(true)} /> : <div className="archive-card-fallback" aria-label="Project documentation visual unavailable"><span>Engineering case study</span></div>}
       <span className="project-card-cta">View case study <b aria-hidden="true">→</b></span>
     </div>
     <div className="archive-card-content">
