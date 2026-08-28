@@ -64,3 +64,26 @@ GitHub Actions run `33106909240` completed successfully for the checkpoint branc
 Direct GitHub Pages checks also confirmed the deployed UAV and robotic-arm URLs. The UAV page exposes its ROS 2, OctoMap, DSP Planner (D* Lite), frontier-exploration, and linked GitHub content; the robotic-arm page exposes its SolidWorks, Simscape Multibody, inverse-kinematics, PID, IntermediateMass, and linked GitHub content. All four public project URLs now present the intended detailed, editable case studies.
 
 After the initial public-page review, literal escape characters in the four overview descriptions were replaced with actual paragraph breaks. A final direct check of the Coffee page confirmed that the Overview section now renders as two normal paragraphs.
+
+## High-resolution media follow-up
+
+On 27 August 2026, the user provided an authenticated LinkedIn session specifically to replace the earlier low-resolution project thumbnails. The Projects screen exposes the CNC media labels `3d model`, `3d model print`, and `IMG-20250425-WA0016.jpg`, alongside Coffee media labels `ele` and `front`. The next update will retrieve the highest-resolution original files available from those entries, rather than enlarging thumbnails.
+
+The current LinkedIn page surface exposes the media labels and the “view all media” affordance in the project text, but not directly addressable media controls or image URLs in the extracted markup. Retrieval will therefore proceed through the project media viewer rather than by fabricating or enlarging the existing thumbnail files.
+
+The browser extract confirms that CNC exposes ten media items and Coffee exposes two. The full project-text screen is not an efficient image-download view, so the next inspection will use the project-specific media viewer or editor interface to obtain the original media URLs.
+
+The CNC LinkedIn media viewer opened successfully. The first item, `3d model`, is unavailable in the viewer; the next item, `3d model print`, loads as a visibly clearer source image of the physical printed tool or motor assemblies. This viewer-loaded original is suitable to replace the low-resolution CNC prototype thumbnail after extracting its source URL.
+
+The second usable viewer item, `IMG-20250425-WA0016.jpg`, also loads as a clear CNC engraving-operation image. It is an appropriate contextual replacement for the earlier low-resolution fabrication-stage image, while the unavailable `3d model` item will not be used.
+
+The Coffee LinkedIn media viewer loads the `ele` hardware-integration image clearly and exposes a `profile-treasury-image-shrink_1280_1280` source. The downloaded file is 600×800 and is suitable to replace the prior 160px coffee thumbnail in the implementation section.
+
+The next Coffee viewer item, `front`, loads a clear 800×600 photo of the completed front panel and control interface. The high-resolution CNC and Coffee assets uploaded to managed storage are:
+
+- `/manus-storage/cnc-3d-model-print-original_09f25375.jpg` (527×325)
+- `/manus-storage/cnc-engraving-operation-original_df74f5e2.jpg` (677×800)
+- `/manus-storage/coffee-electronics-original_57c3893d.jpg` (600×800)
+- `/manus-storage/coffee-front-panel-original_f36eb82c.jpg` (800×600)
+
+Each replaces a previous LinkedIn 160px thumbnail with the highest image rendition supplied by the authenticated LinkedIn media viewer. The original `3d model` CNC item is unavailable in that viewer and remains excluded.
