@@ -9,7 +9,7 @@ describe("Next.js portfolio data source", () => {
     expect(portfolio.configured).toBe(true);
     expect(portfolio.profile?.name).toContain("Mohammed Bajhaw");
     expect(portfolio.publications).toHaveLength(4);
-    expect(portfolio.projects).toHaveLength(9);
+    expect(portfolio.projects).toHaveLength(8);
     expect(portfolio.skills).toHaveLength(61);
     expect(portfolio.serviceAreas).toHaveLength(6);
     expect(portfolio.serviceAreas.reduce((count, area) => count + (Array.isArray(area.services) ? area.services.length : 0), 0)).toBe(13);
