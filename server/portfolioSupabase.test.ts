@@ -8,7 +8,7 @@ describe("Next.js portfolio data source", () => {
 
     expect(portfolio.configured).toBe(true);
     expect(portfolio.profile?.name).toContain("Mohammed Bajhaw");
-    expect(portfolio.publications).toHaveLength(3);
+    expect(portfolio.publications).toHaveLength(4);
     expect(portfolio.projects).toHaveLength(9);
     expect(portfolio.skills).toHaveLength(61);
     expect(portfolio.serviceAreas).toHaveLength(6);
