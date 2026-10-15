@@ -8,7 +8,7 @@ describe("Next.js portfolio data source", () => {
 
     expect(portfolio.configured).toBe(true);
     expect(portfolio.profile?.name).toContain("Mohammed Bajhaw");
-    expect(portfolio.publications).toHaveLength(2);
+    expect(portfolio.publications).toHaveLength(3);
     expect(portfolio.projects).toHaveLength(9);
     expect(portfolio.skills).toHaveLength(61);
     expect(portfolio.serviceAreas).toHaveLength(6);
@@ -26,7 +26,8 @@ describe("Next.js portfolio data source", () => {
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.rich_content).toContain("Flying and mapping");
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.imageUrl).toContain("figure-005_82c208cf");
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.project_media.length).toBeGreaterThanOrEqual(5);
-    expect(portfolio.publications.find((publication) => publication.id === 2)?.details).toContain("Table III");
+    expect(portfolio.publications.find((publication) => publication.doi === "10.3390/app16189083")?.url).toContain("pv-stam");
+    expect(portfolio.publications.find((publication) => publication.id === 2)?.details).toContain("Key findings");
 
     const enrichedProjects = [
       {
