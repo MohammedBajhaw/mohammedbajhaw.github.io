@@ -72,7 +72,7 @@ export function HomeGallery({ projects, publications }: { projects: Record<strin
             <strong>{active.title}</strong>
           </div>
           <div className="gallery-controls">
-            <Link className="gallery-link" href={active.href}>{active.kind === "Project" ? "View project" : "Read paper"} <span aria-hidden="true">→</span></Link>
+            <Link className="gallery-link" href={active.href}>{active.kind === "Research" ? "Read paper" : "View project"} <span aria-hidden="true">→</span></Link>
             <span className="gallery-count">{String(index + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}</span>
             {!reduceMotion && <button type="button" className="gallery-toggle" onClick={() => setPaused((value) => !value)} aria-label={paused ? "Play slideshow" : "Pause slideshow"}>{paused ? <Play size={16} aria-hidden="true" /> : <Pause size={16} aria-hidden="true" />}</button>}
           </div>
