@@ -231,3 +231,7 @@ h2 { font-size: clamp(32px, 4vw, 52px); line-height: 1.02; letter-spacing: -.055
 .gallery-dots button.is-active { width: 28px; background: var(--teal); }
 @media (max-width: 760px) { .gallery-stage { aspect-ratio: 4 / 3; } .gallery-arrow { width: 38px; height: 38px; } .gallery-arrow-prev { left: 8px; } .gallery-arrow-next { right: 8px; } .gallery-footer { flex-direction: column; align-items: flex-start; gap: 12px; } .gallery-footer strong { font-size: 16px; } }
 @media (prefers-reduced-motion: reduce) { .gallery-slide { transition: none; } }
+
+/* Organisation logos in education and experience */
+.org-line { display: flex; align-items: center; gap: 12px; }
+.org-logo { flex: none; width: 56px; height: 56px; object-fit: contain; border-radius: 50%; background: #fff; }
