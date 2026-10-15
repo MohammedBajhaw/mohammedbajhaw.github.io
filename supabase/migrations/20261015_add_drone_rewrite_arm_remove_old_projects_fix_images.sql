@@ -72,3 +72,7 @@ update public.projects set sort_order = 6 where slug = 'high-precision-cnc-route
 update public.projects set rich_content = replace(rich_content, 'https://engportfolio-zhkmdjuy.manus.space/manus-storage/', 'https://ntynaiuxqylscazugcdo.supabase.co/storage/v1/object/public/portfolio-media/projects/legacy/') where slug = 'smart-coffee-brewing-system';
 update public.projects set rich_content = replace(rich_content, 'https://engportfolio-zhkmdjuy.manus.space/manus-storage/', 'https://ntynaiuxqylscazugcdo.supabase.co/storage/v1/object/public/portfolio-media/projects/legacy/') where slug = 'high-precision-cnc-router';
 update public.projects set rich_content = replace(rich_content, 'https://engportfolio-zhkmdjuy.manus.space/manus-storage/', 'https://ntynaiuxqylscazugcdo.supabase.co/storage/v1/object/public/portfolio-media/projects/legacy/') where slug = 'rko-lio-dji-uav-gps-denied-mapping';
+
+-- Wider (16:9) hero render of the arm so the project card does not crop it.
+update public.projects set rich_content = replace(rich_content, 'robotic-arm/assembly-front.png', 'robotic-arm/assembly-wide.png') where slug = 'robotic-arm-cad-simulation-control';
+update public.project_media set storage_path = 'projects/robotic-arm/assembly-wide.png' where storage_path = 'projects/robotic-arm/assembly-front.png';

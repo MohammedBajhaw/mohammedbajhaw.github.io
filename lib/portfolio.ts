@@ -12,6 +12,11 @@ export type PortfolioSnapshot = {
   sectionIcons: Record<string, any>[];
 };
 
+function firstMediaPath(project: Record<string, any>): string | undefined {
+  const media = [...(project.project_media ?? [])].sort((a, b) => a.sort_order - b.sort_order);
+  return media[0]?.storage_path;
+}
+
 const emptySnapshot: PortfolioSnapshot = {
   configured: false,
   profile: null,
@@ -47,7 +52,7 @@ export async function getPortfolioSnapshot(): Promise<PortfolioSnapshot> {
     skills: skills.data ?? [],
     projects: (projects.data ?? []).map((project) => ({
       ...project,
-      imageUrl: publicMediaUrl(project.project_media?.[0]?.storage_path),
+      imageUrl: publicMediaUrl(firstMediaPath(project)),
     })),
     serviceAreas: serviceAreas.data ?? [],
     sectionIcons: (sectionIcons.data ?? []).map((icon) => ({

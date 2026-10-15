@@ -13,6 +13,11 @@ function publicMediaUrl(path?: string | null) {
   return getBrowserSupabase().storage.from("portfolio-media").getPublicUrl(path).data.publicUrl;
 }
 
+function firstMediaPath(project: Record<string, any>): string | undefined {
+  const media = [...(project.project_media ?? [])].sort((a, b) => a.sort_order - b.sort_order);
+  return media[0]?.storage_path;
+}
+
 export async function getLivePortfolioSnapshot(): Promise<PortfolioSnapshot> {
   const supabase = getBrowserSupabase();
   const [profile, education, publications, experiences, skills, projects, serviceAreas, sectionIcons] = await Promise.all([
@@ -38,7 +43,7 @@ export async function getLivePortfolioSnapshot(): Promise<PortfolioSnapshot> {
     skills: skills.data ?? [],
     projects: projectRows.map((project) => ({
       ...project,
-      imageUrl: publicMediaUrl(project.project_media?.[0]?.storage_path),
+      imageUrl: publicMediaUrl(firstMediaPath(project)),
     })),
     serviceAreas: serviceAreas.data ?? [],
     sectionIcons: iconRows.map((icon) => ({
