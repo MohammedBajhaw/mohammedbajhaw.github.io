@@ -10,11 +10,10 @@ describe("home page visual enhancements", () => {
     expect(homeContent).toContain('href={cvUrl} download>Download CV');
   });
 
-  it("keeps a managed profile photo as the hero priority with a temporary fallback", () => {
-    expect(homeContent).toContain('const temporaryPortraitUrl = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=85"');
-    expect(homeContent).toContain("const heroPortrait = profile?.photo_path ?? temporaryPortraitUrl");
-    expect(homeContent).toContain("const hasManagedPortrait = Boolean(profile?.photo_path)");
-    expect(homeContent).toContain('className="hero-portrait"');
+  it("uses the conference talk photo as the hero backdrop and the graduation portrait in education", () => {
+    expect(homeContent).toContain('className="hero hero-photo"');
+    expect(styles).toContain("/photos/talk-hero.jpg");
+    expect(homeContent).toContain('src="/photos/graduation.jpg"');
   });
 
   it("exposes an accessible case-study cue and an enhanced footer", () => {
