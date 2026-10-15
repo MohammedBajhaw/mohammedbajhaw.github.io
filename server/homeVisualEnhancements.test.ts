@@ -13,7 +13,7 @@ describe("home page visual enhancements", () => {
   it("uses the conference talk photo as the hero backdrop and the graduation portrait in education", () => {
     expect(homeContent).toContain('className="hero hero-photo"');
     expect(styles).toContain("/photos/talk-hero.jpg");
-    expect(homeContent).toContain('src="/photos/headshot.jpg"');
+    expect(homeContent).toContain("/photos/headshot.jpg");
   });
 
   it("exposes an accessible case-study cue and an enhanced footer", () => {
