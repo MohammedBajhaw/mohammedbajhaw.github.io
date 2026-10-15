@@ -21,7 +21,7 @@ describe("Next.js portfolio data source", () => {
     expect(portfolio.publications.find((publication) => publication.id === 1)?.doi).toBe("10.1109/ICHORA69329.2026.11537209");
     expect(portfolio.publications.find((publication) => publication.id === 1)?.authors).toContain("Mohammed Ali Mohammed S. Bajhaw");
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-indoor-3d-mapping-platform")).toBeUndefined();
-    expect(portfolio.projects.find((project) => project.slug === "offline-multi-sensor-ai-payload-for-usar")?.rich_content).toContain("Measured validation");
+    expect(portfolio.projects.find((project) => project.slug === "offline-multi-sensor-ai-payload-for-usar")?.rich_content).toContain("Staying connected");
     expect(portfolio.projects.find((project) => project.slug === "offline-multi-sensor-ai-payload-for-usar")?.imageUrl).toContain("figure-002_42d4fde2");
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.rich_content).toContain("Flying and mapping");
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.imageUrl).toContain("figure-005_82c208cf");
@@ -65,13 +65,14 @@ describe("Next.js portfolio data source", () => {
       if (repository) expect(project?.repository_url).toBe(repository);
     });
 
-    expect(portfolio.projects.find((project) => project.slug === "high-precision-cnc-router")?.imageUrl).toContain("linkedin-project-3_b8ccee20");
+    expect(portfolio.projects.find((project) => project.slug === "high-precision-cnc-router")?.imageUrl).toContain("cnc-3d-model-print-original_09f25375");
   });
 
   it("resolves migrated storage paths to public Supabase URLs", () => {
     expect(publicMediaUrl("migration/projects/lidar-uav-mapping_483e4614.jpg")).toContain("supabase.co/storage");
     expect(publicMediaUrl("https://engportfolio-zhkmdjuy.manus.space/manus-storage/linkedin-project-3_b8ccee20.jpg")).toBe("https://engportfolio-zhkmdjuy.manus.space/manus-storage/linkedin-project-3_b8ccee20.jpg");
     expect(publicDocumentUrl("migration/publications/research-paper-preview_3b27fa0b.pdf")).toContain("supabase.co/storage");
-    expect(publicDocumentUrl("/manus-storage/rko-lio-velodyne-pixhawk-ros2-paper_01b4facc.pdf")).toContain("engportfolio-zhkmdjuy.manus.space");
+    expect(publicDocumentUrl("/manus-storage/rko-lio-velodyne-pixhawk-ros2-paper_01b4facc.pdf")).toContain("/functions/v1/managed-project-media?path=");
+    expect(publicMediaUrl("/manus-storage/cnc-3d-model-print-original_09f25375.jpg")).toContain("/functions/v1/managed-project-media?path=");
   });
 });

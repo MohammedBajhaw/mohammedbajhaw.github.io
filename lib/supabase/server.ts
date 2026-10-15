@@ -18,13 +18,13 @@ export function createPortfolioClient() {
 export function publicMediaUrl(path?: string | null) {
   if (!path || !supabaseUrl || !supabaseKey) return null;
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
-  if (path.startsWith("/manus-storage/")) return `https://engportfolio-zhkmdjuy.manus.space${path}`;
+  if (path.startsWith("/manus-storage/")) return `${supabaseUrl}/functions/v1/managed-project-media?path=${encodeURIComponent(path)}`;
   return createPortfolioClient().storage.from("portfolio-media").getPublicUrl(path).data.publicUrl;
 }
 
 export function publicDocumentUrl(path?: string | null) {
   if (!path) return null;
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
-  if (path.startsWith("/manus-storage/")) return `https://engportfolio-zhkmdjuy.manus.space${path}`;
+  if (path.startsWith("/manus-storage/")) return `${supabaseUrl}/functions/v1/managed-project-media?path=${encodeURIComponent(path)}`;
   return publicMediaUrl(path);
 }
