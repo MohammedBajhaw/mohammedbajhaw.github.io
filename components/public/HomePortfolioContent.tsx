@@ -69,10 +69,9 @@ export function HomePortfolioContent({ initialPortfolio }: { initialPortfolio: P
   const profile = portfolio.profile;
   const name = profile?.name ?? "Mohammed Bajhaw";
   const hasManagedPortrait = Boolean(profile?.photo_path);
-  const managedAssetHost = "https://engportfolio-zhkmdjuy.manus.space";
   const temporaryPortraitUrl = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=85";
   const heroPortrait = profile?.photo_path ?? temporaryPortraitUrl;
-  const cvUrl = `${managedAssetHost}/manus-storage/Mohammed_Bajhaw_CV_e4b21ef0.pdf`;
+  const cvUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/managed-project-media?path=${encodeURIComponent("/manus-storage/Mohammed_Bajhaw_CV_e4b21ef0.pdf")}`;
   const skillGroups = portfolio.skills.reduce<Record<string, Record<string, any>[]>>((groups, skill) => {
     const category = skill.category || "Technical practice";
     groups[category] = [...(groups[category] ?? []), skill];

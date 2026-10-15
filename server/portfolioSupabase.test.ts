@@ -9,15 +9,18 @@ describe("Next.js portfolio data source", () => {
     expect(portfolio.configured).toBe(true);
     expect(portfolio.profile?.name).toContain("Mohammed Bajhaw");
     expect(portfolio.publications).toHaveLength(4);
-    expect(portfolio.projects).toHaveLength(8);
+    expect(portfolio.projects).toHaveLength(6);
+    expect(portfolio.projects.map((project) => project.slug).slice(0, 4)).toEqual(["offline-multi-sensor-ai-payload-for-usar", "rko-lio-dji-uav-gps-denied-mapping", "autonomous-cave-exploration-drone", "robotic-arm-cad-simulation-control"]);
+    expect(portfolio.projects.find((project) => project.slug === "advanced-robotics-research")).toBeUndefined();
+    expect(portfolio.projects.find((project) => project.slug === "three-axis-robotic-arm")).toBeUndefined();
     expect(portfolio.skills).toHaveLength(61);
     expect(portfolio.serviceAreas).toHaveLength(6);
     expect(portfolio.serviceAreas.reduce((count, area) => count + (Array.isArray(area.services) ? area.services.length : 0), 0)).toBe(13);
     expect(portfolio.projects[0]?.imageUrl).toMatch(/supabase\.co\/storage|manus-storage/);
     expect(portfolio.projects.find((project) => project.slug === "autonomous-cave-exploration-drone")?.repository_url).toBe("https://github.com/MohammedBajhaw/drone-navigation");
     expect(portfolio.projects.find((project) => project.slug === "robotic-arm-cad-simulation-control")?.repository_url).toBe("https://github.com/MohammedBajhaw/Robotic-Arm-SolidWorks-Matlab");
-    expect(portfolio.projects.find((project) => project.slug === "autonomous-cave-exploration-drone")?.imageUrl).toContain("autonomous-cave-exploration-drone");
-    expect(portfolio.projects.find((project) => project.slug === "robotic-arm-cad-simulation-control")?.imageUrl).toContain("robotic-arm-cad-simulation-control");
+    expect(portfolio.projects.find((project) => project.slug === "autonomous-cave-exploration-drone")?.imageUrl).toContain("tunnel-octomap");
+    expect(portfolio.projects.find((project) => project.slug === "robotic-arm-cad-simulation-control")?.imageUrl).toContain("assembly-front");
     expect(portfolio.publications.find((publication) => publication.id === 1)?.doi).toBe("10.1109/ICHORA69329.2026.11537209");
     expect(portfolio.publications.find((publication) => publication.id === 1)?.authors).toContain("Mohammed Ali Mohammed S. Bajhaw");
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-indoor-3d-mapping-platform")).toBeUndefined();
@@ -42,13 +45,13 @@ describe("Next.js portfolio data source", () => {
       },
       {
         slug: "autonomous-cave-exploration-drone",
-        title: "Autonomous UAV Navigation & Path Planning System",
-        marker: "DSP Planner (D* Lite)",
+        title: "Autonomous Cave Exploration & Obstacle-Avoidance Drone",
+        marker: "How it works",
         repository: "https://github.com/MohammedBajhaw/drone-navigation",
       },
       {
         slug: "robotic-arm-cad-simulation-control",
-        title: "Robotic Arm Design & Simscape Multibody Control",
+        title: "Robotic Arm: SolidWorks Design to Simscape Control",
         marker: "IntermediateMass",
         repository: "https://github.com/MohammedBajhaw/Robotic-Arm-SolidWorks-Matlab",
       },
@@ -60,7 +63,6 @@ describe("Next.js portfolio data source", () => {
 
       expect(matchingRecords).toHaveLength(1);
       expect(project?.title).toBe(title);
-      expect(project?.rich_content).toContain("System architecture");
       expect(project?.rich_content).toContain(marker);
       if (repository) expect(project?.repository_url).toBe(repository);
     });
