@@ -59,6 +59,10 @@ function imageKey(src: string) {
   return (legacy ? `legacy/${legacy[1]}` : value).toLowerCase();
 }
 
+// Diagrams, charts and plots belong on the project and paper pages, not in the photo gallery.
+const DIAGRAM_FILE = /architecture|workflow|flow|chart|pipeline|framework|geometry|cascade|trajector|outcomes|validation|simulation-maps|automated-coffee-system|cnc-multi-function-system/i;
+const DIAGRAM_ALT = /diagram|flowchart|architecture|chart|workflow|pipeline/i;
+
 // Tiny originals that look blurry when enlarged.
 const LOW_RESOLUTION = ["linkedin-project-3"];
 
@@ -88,8 +92,9 @@ const TALK_SLIDES: GallerySlide[] = [
 
 export function buildGallerySlides(projects: Row[], publications: Row[]): GallerySlide[] {
   const seen = new Set<string>();
-  const take = (src: string | null) => {
+  const take = (src: string | null, alt = "") => {
     if (!src) return false;
+    if (DIAGRAM_FILE.test(imageKey(src)) || DIAGRAM_ALT.test(alt)) return false;
     const key = imageKey(src);
     if (seen.has(key) || LOW_RESOLUTION.some((name) => key.includes(name))) return false;
     seen.add(key);
@@ -103,14 +108,14 @@ export function buildGallerySlides(projects: Row[], publications: Row[]): Galler
       ...htmlImages(String(project.rich_content ?? "")).map((figure) => ({ src: mediaUrl(figure.src), alt: figure.alt || project.title })),
     ];
     return candidates.flatMap(({ src, alt }): GallerySlide[] => {
-      if (!take(src)) return [];
+      if (!take(src, alt)) return [];
       return [{ src: src as string, alt, kind: "Project", title: project.title, href: `/projects/${project.slug}`, groupKey: `project-${project.id}` }];
     });
   });
 
   const researchGroups = publications.map((publication) =>
     publicationFigures(publication).flatMap((figure): GallerySlide[] => {
-      if (!take(figure.src)) return [];
+      if (!take(figure.src, figure.alt)) return [];
       return [{ src: figure.src, alt: figure.alt || publication.title, kind: "Research", title: publication.title, href: `/publications/${publication.id}`, groupKey: `publication-${publication.id}` }];
     }),
   );

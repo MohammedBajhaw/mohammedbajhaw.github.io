@@ -267,12 +267,8 @@ h2 { font-size: clamp(32px, 4vw, 52px); line-height: 1.02; letter-spacing: -.055
   .hero-caption { position: absolute; right: 16px; left: 16px; bottom: 14px; max-width: none; }
 }
 
-/* Education: timeline beside a graduation portrait */
-.education-layout { display: grid; grid-template-columns: minmax(0, 1fr) 240px; align-items: start; gap: 48px; }
-.graduation-photo { position: relative; margin: 0; overflow: hidden; border: 1px solid #b8cec8; box-shadow: 14px 14px 0 #d7e8e3; }
-.graduation-photo img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 25%; }
-.graduation-photo figcaption { padding: 10px 14px; background: #fff; color: #4d6360; font: 500 11px "IBM Plex Mono", monospace; letter-spacing: .04em; }
-@media (max-width: 880px) { .education-layout { grid-template-columns: 1fr; } .graduation-photo { max-width: 300px; margin: 8px 14px 14px 0; } }
-.hero-photo h1 { max-width: 760px; font-size: clamp(40px, 5.4vw, 74px); }
-.hero-photo .hero-grid > div { max-width: 760px; }
-.hero-caption { padding: 8px 14px; background: rgba(6,24,24,.68); backdrop-filter: blur(6px); }
+/* Education: timeline with a small headshot */
+.education-layout { display: grid; grid-template-columns: minmax(0, 1fr) 120px; align-items: start; gap: 40px; padding-top: 28px; }
+.education-layout .timeline { margin-top: 0; }
+.education-avatar { width: 120px; height: 120px; border: 3px solid #fff; border-radius: 50%; object-fit: cover; object-position: 50% 30%; box-shadow: 0 0 0 1px #b8cec8, 8px 8px 0 #d7e8e3; }
+@media (max-width: 880px) { .education-layout { grid-template-columns: 1fr; gap: 20px; } .education-avatar { order: -1; width: 88px; height: 88px; } }

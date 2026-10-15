@@ -25,3 +25,16 @@ describe("home gallery ordering", () => {
     for (let i = 1; i < slides.length; i += 1) expect(slides[i].groupKey).not.toBe(slides[i - 1].groupKey);
   });
 });
+
+describe("gallery excludes diagrams", () => {
+  it("skips architecture diagrams, charts and plots", () => {
+    const projects = [{ id: 1, slug: "p", title: "P", project_media: [], rich_content: '<img src="https://x.test/projects/p/architecture.png" alt="Diagram of the system" /><img src="https://x.test/projects/p/power-chart.png" alt="Average power" /><img src="https://x.test/projects/p/photo.jpg" alt="The robot" />' }];
+    const publications = [{ id: 2, title: "Paper", details: '<img src="https://x.test/a/kitti-trajectories.png" alt="Trajectories" /><img src="https://x.test/a/platform.png" alt="The robot platform" />' }];
+    const names = buildGallerySlides(projects, publications).map((slide) => slide.src.split("/").pop());
+    expect(names).toContain("photo.jpg");
+    expect(names).toContain("platform.png");
+    expect(names).not.toContain("architecture.png");
+    expect(names).not.toContain("power-chart.png");
+    expect(names).not.toContain("kitti-trajectories.png");
+  });
+});
