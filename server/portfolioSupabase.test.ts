@@ -23,8 +23,10 @@ describe("Next.js portfolio data source", () => {
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-indoor-3d-mapping-platform")).toBeUndefined();
     expect(portfolio.projects.find((project) => project.slug === "offline-multi-sensor-ai-payload-for-usar")?.rich_content).toContain("Measured validation");
     expect(portfolio.projects.find((project) => project.slug === "offline-multi-sensor-ai-payload-for-usar")?.imageUrl).toContain("figure-002_42d4fde2");
-    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.rich_content).toContain("Flight-test results");
+    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.rich_content).toContain("Flying and mapping");
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.imageUrl).toContain("figure-005_82c208cf");
+    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.project_media.length).toBeGreaterThanOrEqual(5);
+    expect(portfolio.publications.find((publication) => publication.id === 2)?.details).toContain("Table III");
 
     const enrichedProjects = [
       {
