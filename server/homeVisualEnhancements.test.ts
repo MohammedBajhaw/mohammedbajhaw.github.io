@@ -6,7 +6,7 @@ const styles = readFileSync(new URL("../app/globals.css", import.meta.url), "utf
 
 describe("home page visual enhancements", () => {
   it("provides a reusable CV download route in the hero and footer", () => {
-    expect(homeContent).toContain('/functions/v1/managed-project-media?path=${encodeURIComponent("/manus-storage/Mohammed_Bajhaw_CV_e4b21ef0.pdf")}');
+    expect(homeContent).toContain('const cvUrl = "/cv/CV_Mohammed_Bajhaw_English.pdf"');
     expect(homeContent).toContain('href={cvUrl} download>Download CV');
   });
 

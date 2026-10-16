@@ -82,7 +82,7 @@ export function HomePortfolioContent({ initialPortfolio }: { initialPortfolio: P
 
   const profile = portfolio.profile;
   const name = profile?.name ?? "Mohammed Bajhaw";
-  const cvUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/managed-project-media?path=${encodeURIComponent("/manus-storage/Mohammed_Bajhaw_CV_e4b21ef0.pdf")}`;
+  const cvUrl = "/cv/CV_Mohammed_Bajhaw_English.pdf";
   const skillGroups = portfolio.skills.reduce<Record<string, Record<string, any>[]>>((groups, skill) => {
     const category = skill.category || "Technical practice";
     groups[category] = [...(groups[category] ?? []), skill];
