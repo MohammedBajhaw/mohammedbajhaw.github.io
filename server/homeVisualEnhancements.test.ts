@@ -6,8 +6,9 @@ const styles = readFileSync(new URL("../app/globals.css", import.meta.url), "utf
 
 describe("home page visual enhancements", () => {
   it("provides a reusable CV download route in the hero and footer", () => {
-    expect(homeContent).toContain('const cvUrl = "/cv/CV_Mohammed_Bajhaw_English.pdf"');
-    expect(homeContent).toContain('href={cvUrl} download>Download CV');
+    expect(homeContent).toContain('/cv/CV_Mohammed_Bajhaw_English.pdf');
+    expect(homeContent).toContain('/cv/CV_Mohammed_Bajhaw_Turkish.pdf');
+    expect(homeContent).toContain('<CvMenu />');
   });
 
   it("uses the conference talk photo as the hero backdrop", () => {
