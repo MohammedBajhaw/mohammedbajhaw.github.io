@@ -10,6 +10,7 @@ export const SITE_KEYWORDS = [
   "Mohammed Bajhaw", "robotics engineer", "mechatronics engineer", "autonomous systems", "LiDAR SLAM", "RKO-LIO", "UAV mapping",
   "GPS-denied navigation", "ROS 2", "embedded systems", "edge AI", "search and rescue robots", "Fırat University",
 ];
+export const GITHUB_URL = "https://github.com/MohammedBajhaw";
 export const SOCIAL_IMAGE = "/og-image.jpg";
 
 export function absoluteUrl(path = "/") {

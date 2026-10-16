@@ -3,7 +3,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { HomePortfolioContent } from "@/components/public/HomePortfolioContent";
 import { getPortfolioSnapshot } from "@/lib/portfolio";
 import { pageMetadata } from "@/lib/seo";
-import { SITE_DESCRIPTION, SITE_KEYWORDS, SITE_NAME, SITE_TITLE, SITE_URL, SOCIAL_IMAGE, absoluteUrl } from "@/lib/site";
+import { GITHUB_URL, SITE_DESCRIPTION, SITE_KEYWORDS, SITE_NAME, SITE_TITLE, SITE_URL, SOCIAL_IMAGE, absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({ title: SITE_TITLE, description: SITE_DESCRIPTION, path: "/", absoluteTitle: true });
 
@@ -20,7 +20,7 @@ export default async function HomePage() {
     jobTitle: profile?.professional_title ?? "Robotics Engineer",
     description: profile?.bio ?? SITE_DESCRIPTION,
     ...(profile?.email ? { email: `mailto:${profile.email}` } : {}),
-    ...(profile?.linkedin_url ? { sameAs: [profile.linkedin_url] } : {}),
+    sameAs: [...(profile?.linkedin_url ? [profile.linkedin_url] : []), GITHUB_URL],
     alumniOf: portfolio.education.map((item) => ({ "@type": "CollegeOrUniversity", name: item.institution })),
     ...(lab ? { worksFor: { "@type": "Organization", name: lab.organization } } : {}),
     knowsAbout: SITE_KEYWORDS.slice(1),
