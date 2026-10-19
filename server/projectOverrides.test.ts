@@ -2,27 +2,22 @@ import { describe, expect, it } from "vitest";
 import { applyPublicProjectOverrides } from "@/lib/projectOverrides";
 
 describe("public project overrides", () => {
-  it("replaces the DJI UAV project's details with an under-review notice", () => {
+  it("strips the hidden publication link and generalizes the DJI UAV project's technical detail", () => {
     const project = {
       slug: "rko-lio-dji-uav-gps-denied-mapping",
-      title: "DJI UAV mapping",
+      title: "Demonstrating the Efficiency of RKO-LIO on a DJI UAV Platform Utilizing Drone Built-in IMU for GPS-Denied Mapping",
       publication_url: "/publications/2",
       outcomes: ["Checked against real building measurements, with about 1.6% average error"],
-      rich_content: "<h2>Checking the map</h2><p>measured on site</p>",
-      project_media: [{ storage_path: "figure.jpg", sort_order: 0 }],
-      imageUrl: "https://example.com/figure.jpg",
+      rich_content: "<h2>What the project is about</h2><p>...</p><h2>Checking the map</h2><p>measured on site</p>",
     };
 
     const result = applyPublicProjectOverrides(project);
 
     expect(result.title).toBe(project.title);
     expect(result.publication_url).toBeNull();
-    expect(result.status).toBe("Research paper under review");
-    expect(result.description).toContain("under review");
-    expect(result.description).toContain("will be published here once the paper is published");
-    expect(result.rich_content).toBe("");
-    expect(result.project_media).toEqual([]);
-    expect(result.imageUrl).toBeNull();
+    expect(result.rich_content).not.toContain("Checking the map");
+    expect(result.rich_content).toContain("Paper under review");
+    expect(result.status).toBe("Research prototype · paper under review");
     expect(result.outcomes.join(" ")).not.toContain("1.6%");
   });
 

@@ -26,11 +26,11 @@ describe("Next.js portfolio data source", () => {
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-indoor-3d-mapping-platform")).toBeUndefined();
     expect(portfolio.projects.find((project) => project.slug === "offline-multi-sensor-ai-payload-for-usar")?.rich_content).toContain("Staying connected");
     expect(portfolio.projects.find((project) => project.slug === "offline-multi-sensor-ai-payload-for-usar")?.imageUrl).toContain("figure-002_42d4fde2");
-    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.rich_content).toBe("");
-    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.status).toBe("Research paper under review");
+    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.rich_content).toContain("Flying and mapping");
+    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.rich_content).not.toContain("Checking the map");
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.outcomes.join(" ")).not.toContain("1.6%");
-    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.imageUrl).toBeNull();
-    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.project_media).toEqual([]);
+    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.imageUrl).toContain("figure-005_82c208cf");
+    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.project_media.length).toBeGreaterThanOrEqual(5);
     expect(portfolio.publications.find((publication) => publication.doi === "10.3390/app16189083")?.url).toContain("pv-stam");
     expect(portfolio.publications.find((publication) => publication.id === 2)).toBeUndefined();
     expect(portfolio.publications.find((publication) => publication.id === 4)).toBeUndefined();
