@@ -27,7 +27,7 @@ describe("live public portfolio content", () => {
 
   it("refreshes project and publication details with their current Supabase record", () => {
     expect(projectDetailContent).toContain('supabase.from("projects").select("*, project_media(*)").eq("slug", slug).maybeSingle()');
-    expect(projectDetailContent).toContain("setProject(nextProject.data");
+    expect(projectDetailContent).toContain("setProject(applyPublicProjectOverrides(nextProject.data");
     expect(projectDetailContent).toContain('functions/v1/managed-project-media?path=${encodeURIComponent(path)}');
     expect(publicationDetailContent).toContain('supabase.from("publications").select("*").eq("id", publicationId).maybeSingle()');
     expect(publicationDetailContent).toContain("setPublication(nextPublication.data");

@@ -1,4 +1,6 @@
 import { createPortfolioClient, isSupabaseConfigured, publicMediaUrl } from "./supabase/server";
+import { isHiddenPublication } from "./hiddenPublications";
+import { applyPublicProjectOverrides } from "./projectOverrides";
 
 export type PortfolioSnapshot = {
   configured: boolean;
@@ -47,10 +49,10 @@ export async function getPortfolioSnapshot(): Promise<PortfolioSnapshot> {
     configured: true,
     profile: profile.data,
     education: education.data ?? [],
-    publications: publications.data ?? [],
+    publications: (publications.data ?? []).filter((publication) => !isHiddenPublication(publication.id)),
     experiences: experiences.data ?? [],
     skills: skills.data ?? [],
-    projects: (projects.data ?? []).map((project) => ({
+    projects: (projects.data ?? []).map((project) => applyPublicProjectOverrides({
       ...project,
       imageUrl: publicMediaUrl(firstMediaPath(project)),
     })),

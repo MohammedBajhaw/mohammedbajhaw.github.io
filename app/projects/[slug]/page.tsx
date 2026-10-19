@@ -4,6 +4,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { ProjectDetailContent } from "@/components/public/ProjectDetailContent";
 import { createPortfolioClient, isSupabaseConfigured, publicMediaUrl } from "@/lib/supabase/server";
 import { getPortfolioSnapshot } from "@/lib/portfolio";
+import { applyPublicProjectOverrides } from "@/lib/projectOverrides";
 import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 import { SITE_NAME, SITE_URL, absoluteUrl, truncate } from "@/lib/site";
 
@@ -19,7 +20,7 @@ async function loadProject(slug: string) {
     supabase.from("projects").select("*, project_media(*)").eq("slug", slug).maybeSingle(),
     supabase.from("profiles").select("name").limit(1).maybeSingle(),
   ]);
-  return { project, profile };
+  return { project: project ? applyPublicProjectOverrides(project) : project, profile };
 }
 
 function heroImage(project: Record<string, any>) {

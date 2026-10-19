@@ -2,6 +2,8 @@
 
 import type { PortfolioSnapshot } from "@/lib/portfolio";
 import { getBrowserSupabase } from "@/lib/supabase/browser";
+import { isHiddenPublication } from "@/lib/hiddenPublications";
+import { applyPublicProjectOverrides } from "@/lib/projectOverrides";
 
 function publicMediaUrl(path?: string | null) {
   if (!path) return null;
@@ -38,10 +40,10 @@ export async function getLivePortfolioSnapshot(): Promise<PortfolioSnapshot> {
     configured: true,
     profile: profile.data,
     education: education.data ?? [],
-    publications: publications.data ?? [],
+    publications: ((publications.data ?? []) as Record<string, any>[]).filter((publication) => !isHiddenPublication(publication.id)),
     experiences: experiences.data ?? [],
     skills: skills.data ?? [],
-    projects: projectRows.map((project) => ({
+    projects: projectRows.map((project) => applyPublicProjectOverrides({
       ...project,
       imageUrl: publicMediaUrl(firstMediaPath(project)),
     })),

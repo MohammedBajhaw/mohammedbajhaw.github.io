@@ -5,6 +5,7 @@ import Link from "next/link";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getBrowserSupabase } from "@/lib/supabase/browser";
 import { sanitizeProjectRichContent } from "@/lib/richText";
+import { applyPublicProjectOverrides } from "@/lib/projectOverrides";
 
 function mediaUrl(path?: string | null) {
   if (!path) return null;
@@ -23,7 +24,7 @@ export function ProjectDetailContent({ initialProject, initialProfile, slug }: {
   useEffect(() => {
     const supabase = getBrowserSupabase();
     Promise.all([supabase.from("projects").select("*, project_media(*)").eq("slug", slug).maybeSingle(), supabase.from("profiles").select("name").limit(1).maybeSingle()]).then(([nextProject, nextProfile]) => {
-      if (nextProject.data) setProject(nextProject.data as Record<string, any>);
+      if (nextProject.data) setProject(applyPublicProjectOverrides(nextProject.data as Record<string, any>));
       if (nextProfile.data) setProfile(nextProfile.data as Record<string, any>);
     }).catch(() => undefined);
   }, [slug]);
