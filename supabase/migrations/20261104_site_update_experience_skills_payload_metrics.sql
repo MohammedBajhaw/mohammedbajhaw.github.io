@@ -1,3 +1,4 @@
+-- Applied on 2026-11-04 through the signed-in admin panel, with the same resulting values as the statements below.
 -- Site update of 2026-11-04: experience, skills, MSR-SLAM publication, payload project figures from the final paper,
 -- project dates and titles. The previous rows are not recorded here; the paper-withheld DJI project text is untouched.
 begin;
