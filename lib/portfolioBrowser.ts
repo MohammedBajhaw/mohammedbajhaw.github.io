@@ -27,7 +27,7 @@ export async function getLivePortfolioSnapshot(): Promise<PortfolioSnapshot> {
     supabase.from("education").select("*").order("sort_order"),
     supabase.from("publications").select("*").order("sort_order"),
     supabase.from("experiences").select("*").order("sort_order"),
-    supabase.from("skills").select("*").order("category").order("sort_order"),
+    supabase.from("skills").select("*").order("sort_order"),
     supabase.from("projects").select("*, project_media(*)").order("sort_order"),
     supabase.from("service_areas").select("*, services(*)").order("sort_order"),
     supabase.from("section_icons").select("*").order("sort_order"),

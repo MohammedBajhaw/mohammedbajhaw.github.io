@@ -4,6 +4,7 @@
  */
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://bajhaw.com").replace(/\/+$/, "");
 export const SITE_NAME = "Mohammed Bajhaw";
+export const LANGUAGES = ["Arabic – Native", "Turkish – C1 (Professional)", "English – B2 (Professional)"];
 export const SITE_TITLE = "Mohammed Bajhaw | Robotics & Autonomous Systems Engineer";
 export const SITE_DESCRIPTION = "Portfolio of Mohammed Bajhaw, a mechatronics engineer working on autonomous robots, LiDAR-inertial SLAM, UAV mapping, embedded systems and edge AI. Projects, publications and engineering services.";
 export const SITE_KEYWORDS = [

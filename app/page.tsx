@@ -10,7 +10,7 @@ export const metadata: Metadata = pageMetadata({ title: SITE_TITLE, description:
 export default async function HomePage() {
   const portfolio = await getPortfolioSnapshot();
   const profile = portfolio.profile;
-  const lab = portfolio.experiences.find((item) => /rai\b|laboratory/i.test(String(item.organization)));
+  const lab = portfolio.experiences.find((item) => item.is_current && /rai\b|laboratory/i.test(String(item.organization)));
   const person = {
     "@type": "Person",
     "@id": `${SITE_URL}/#person`,

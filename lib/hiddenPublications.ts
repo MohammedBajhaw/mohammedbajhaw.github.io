@@ -1,6 +1,6 @@
 // Publications pulled from public view until officially published (accepted/in-press papers
 // the author doesn't want visible yet). Remove an id here to bring it back online.
-export const HIDDEN_PUBLICATION_IDS: number[] = [2, 4];
+export const HIDDEN_PUBLICATION_IDS: number[] = [2];
 
 export function isHiddenPublication(id: unknown): boolean {
   return HIDDEN_PUBLICATION_IDS.includes(Number(id));

@@ -19,5 +19,5 @@ const SANITIZED_RICH_CONTENT = `${PAPER_UNDER_REVIEW_NOTE}<h2>What the project i
 export function applyPublicProjectOverrides<T extends Record<string, any>>(project: T): T {
   const withPublicationUrl = { ...project, publication_url: stripHiddenPublicationUrl(project.publication_url) };
   if (project.slug !== SANITIZED_PROJECT_SLUG) return withPublicationUrl;
-  return { ...withPublicationUrl, status: "Research prototype · paper under review", outcomes: SANITIZED_OUTCOMES, rich_content: SANITIZED_RICH_CONTENT };
+  return { ...withPublicationUrl, status: "Research prototype – paper under review", outcomes: SANITIZED_OUTCOMES, rich_content: SANITIZED_RICH_CONTENT };
 }

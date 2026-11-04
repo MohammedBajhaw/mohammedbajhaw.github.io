@@ -16,7 +16,7 @@ function ArchiveProjectCard({ project }: { project: Record<string, any> }) {
       <span className="project-card-cta">View case study <b aria-hidden="true">→</b></span>
     </div>
     <div className="archive-card-content">
-      <span>{project.status}</span>
+      <div className="archive-card-meta"><span>{project.status}</span>{project.end_date && <span className="archive-card-date">{project.end_date}</span>}</div>
       <h3>{project.title}</h3>
       <p>{project.summary}</p>
       <div className="tag-row">{(project.tags ?? []).slice(0, 4).map((tag: string) => <em key={tag}>{tag}</em>)}</div>

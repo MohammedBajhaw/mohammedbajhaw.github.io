@@ -8,12 +8,16 @@ describe("Next.js portfolio data source", () => {
 
     expect(portfolio.configured).toBe(true);
     expect(portfolio.profile?.name).toContain("Mohammed Bajhaw");
-    expect(portfolio.publications).toHaveLength(2);
+    expect(portfolio.publications).toHaveLength(3);
+    expect(portfolio.publications.map((publication) => publication.id)).toEqual([4, 3, 1]);
     expect(portfolio.projects).toHaveLength(6);
     expect(portfolio.projects.map((project) => project.slug).slice(0, 4)).toEqual(["offline-multi-sensor-ai-payload-for-usar", "rko-lio-dji-uav-gps-denied-mapping", "autonomous-cave-exploration-drone", "robotic-arm-cad-simulation-control"]);
     expect(portfolio.projects.find((project) => project.slug === "advanced-robotics-research")).toBeUndefined();
     expect(portfolio.projects.find((project) => project.slug === "three-axis-robotic-arm")).toBeUndefined();
-    expect(portfolio.skills).toHaveLength(61);
+    expect(portfolio.skills).toHaveLength(48);
+    expect([...new Set(portfolio.skills.map((skill) => skill.category))]).toEqual(["Robotics & Autonomy", "Embedded Systems & Electronics", "Robots & Platforms", "Sensors", "AI & Computer Vision", "Mechanical Design & Prototyping", "Programming & Tools"]);
+    expect(portfolio.experiences.map((item) => item.organization)).toEqual(Array(2).fill("RAI Lab – Robotics & Artificial Intelligence Laboratory, Fırat University"));
+    expect(JSON.stringify(portfolio)).not.toMatch(/Volunteer Researcher|Research Intern|Creativity & Innovation|D\* Lite|whisper\.cpp/);
     expect(portfolio.serviceAreas).toHaveLength(6);
     expect(portfolio.serviceAreas.reduce((count, area) => count + (Array.isArray(area.services) ? area.services.length : 0), 0)).toBe(13);
     expect(portfolio.projects[0]?.imageUrl).toMatch(/supabase\.co\/storage|manus-storage/);
@@ -33,7 +37,7 @@ describe("Next.js portfolio data source", () => {
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.project_media.length).toBeGreaterThanOrEqual(5);
     expect(portfolio.publications.find((publication) => publication.doi === "10.3390/app16189083")?.url).toContain("pv-stam");
     expect(portfolio.publications.find((publication) => publication.id === 2)).toBeUndefined();
-    expect(portfolio.publications.find((publication) => publication.id === 4)).toBeUndefined();
+    expect(portfolio.publications.find((publication) => publication.id === 4)?.status).toContain("Published");
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.publication_url).toBeNull();
 
     const enrichedProjects = [
@@ -55,7 +59,7 @@ describe("Next.js portfolio data source", () => {
       },
       {
         slug: "robotic-arm-cad-simulation-control",
-        title: "Robotic Arm: SolidWorks Design to Simscape Control",
+        title: "5-Axis Robotic Arm: SolidWorks Design to Simscape Control",
         marker: "IntermediateMass",
         repository: "https://github.com/MohammedBajhaw/Robotic-Arm-SolidWorks-Matlab",
       },

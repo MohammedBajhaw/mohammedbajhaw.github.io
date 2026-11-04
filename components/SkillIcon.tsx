@@ -49,15 +49,13 @@ type IconDefinition = {
 };
 
 const categoryIcons: Record<string, IconDefinition> = {
-  "Autonomy & Navigation": { Icon: Navigation, color: "#237987" },
-  "Control & Simulation": { Icon: Gauge, color: "#9a5a2e" },
-  "Electronics & PCB": { Icon: CircuitBoard, color: "#9e3d65" },
-  "Embedded & Edge AI": { Icon: BrainCircuit, color: "#467d45" },
-  "Fabrication & Testing": { Icon: Wrench, color: "#9b6b25" },
-  "Mechanical Design & CAD": { Icon: Spline, color: "#5c57a6" },
-  "Perception & AI": { Icon: ScanLine, color: "#b54838" },
-  "Robotics Middleware": { Icon: Bot, color: "#147a70" },
-  "Software & Data": { Icon: Braces, color: "#3b68a3" },
+  "Robotics & Autonomy": { Icon: Bot, color: "#147a70" },
+  "Embedded Systems & Electronics": { Icon: CircuitBoard, color: "#9e3d65" },
+  "Robots & Platforms": { Icon: Navigation, color: "#237987" },
+  Sensors: { Icon: Radar, color: "#9a5a2e" },
+  "AI & Computer Vision": { Icon: BrainCircuit, color: "#467d45" },
+  "Mechanical Design & Prototyping": { Icon: Spline, color: "#5c57a6" },
+  "Programming & Tools": { Icon: Braces, color: "#3b68a3" },
 };
 
 function directIcon(label: string): IconDefinition | null {

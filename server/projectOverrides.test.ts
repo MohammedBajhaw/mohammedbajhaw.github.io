@@ -17,7 +17,7 @@ describe("public project overrides", () => {
     expect(result.publication_url).toBeNull();
     expect(result.rich_content).not.toContain("Checking the map");
     expect(result.rich_content).toContain("Paper under review");
-    expect(result.status).toBe("Research prototype · paper under review");
+    expect(result.status).toBe("Research prototype – paper under review");
     expect(result.outcomes.join(" ")).not.toContain("1.6%");
   });
 

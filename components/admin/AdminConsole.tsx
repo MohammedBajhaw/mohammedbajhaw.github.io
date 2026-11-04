@@ -37,7 +37,7 @@ type TabKey =
   | "service_areas"
   | "services";
 type ContentRow = Record<string, unknown>;
-type FieldKind = "text" | "textarea" | "richtext" | "number" | "toggle" | "array" | "select";
+type FieldKind = "text" | "textarea" | "richtext" | "number" | "toggle" | "array" | "lines" | "select";
 
 type FieldDefinition = {
   key: string;
@@ -133,14 +133,14 @@ const tabs: TabDefinition[] = [
     icon: Wrench,
     template: { role: "", organization: "", location: "", start_date: "", end_date: "", is_current: false, summary: "", highlights: [], sort_order: 0 },
     fields: [
-      { key: "role", label: "Role", placeholder: "Robotics Research Intern" },
+      { key: "role", label: "Role", placeholder: "Robotics R&D Engineer" },
       { key: "organization", label: "Organisation", placeholder: "RAI Laboratory" },
       { key: "location", label: "Location", placeholder: "Elazığ, Türkiye" },
       { key: "start_date", label: "Start date", placeholder: "Jul 2025" },
       { key: "end_date", label: "End date", placeholder: "Sep 2025", nullable: true },
       { key: "is_current", label: "Current role", kind: "toggle", help: "Turn this on for an ongoing position." },
       { key: "summary", label: "Summary", kind: "textarea", placeholder: "Describe the role and your contribution." },
-      { key: "highlights", label: "Highlights", kind: "array", placeholder: "Hardware integration, Sensor validation" },
+      { key: "highlights", label: "Highlights", kind: "lines", placeholder: "One achievement per line", help: "Write one bullet point per line." },
       { key: "sort_order", label: "Display order", kind: "number" },
     ],
     order: "sort_order",
@@ -273,6 +273,7 @@ function rowMeta(row: ContentRow) {
 
 function readInputValue(value: unknown, kind: FieldKind) {
   if (kind === "array") return Array.isArray(value) ? value.join(", ") : "";
+  if (kind === "lines") return Array.isArray(value) ? value.join("\n") : String(value ?? "");
   if (value === null || value === undefined) return "";
   return String(value);
 }
@@ -293,6 +294,9 @@ function savePayload(tab: TabDefinition, form: ContentRow) {
         .split(",")
         .map((entry) => entry.trim())
         .filter(Boolean);
+    } else if (kind === "lines") {
+      const lines = Array.isArray(value) ? value : String(value ?? "").split("\n");
+      next[field.key] = lines.map((entry) => String(entry).trim()).filter(Boolean);
     } else if (kind === "number") {
       next[field.key] = value === "" || value === null || value === undefined ? 0 : Number(value);
     } else if (kind === "toggle") {
@@ -531,7 +535,7 @@ export function AdminConsole() {
     const kind = field.kind ?? "text";
     const value = form[field.key];
     const fieldId = `field-${field.key}`;
-    const isWide = kind === "textarea" || kind === "richtext" || kind === "array";
+    const isWide = kind === "textarea" || kind === "richtext" || kind === "array" || kind === "lines";
 
     if (kind === "toggle") {
       return (
@@ -562,7 +566,7 @@ export function AdminConsole() {
       );
     }
 
-    if (kind === "textarea") {
+    if (kind === "textarea" || kind === "lines") {
       return (
         <label className="admin-field admin-field-wide" key={field.key} htmlFor={fieldId}>
           <span>{field.label}</span>

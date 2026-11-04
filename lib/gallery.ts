@@ -81,12 +81,12 @@ function publicationFigures(publication: Row) {
   return htmlImages(String(publication.details ?? ""));
 }
 
-const TALK_TITLE = "Presenting the rescue-robot payload at the Creativity & Innovation Conference";
+const TALK_TITLE = "Presenting the rescue-robot payload";
 const TALK_HREF = "/projects/offline-multi-sensor-ai-payload-for-usar";
 
 /** Photos that are not part of any project's media: the conference talk. */
 const TALK_SLIDES: GallerySlide[] = [
-  { src: "/photos/talk-closeup.jpg", alt: "Mohammed presenting the problems facing rescue robots on stage at the Creativity and Innovation Conference", kind: "Talk", title: TALK_TITLE, href: TALK_HREF, groupKey: "talk-closeup" },
+  { src: "/photos/talk-closeup.jpg", alt: "Mohammed presenting the problems facing rescue robots on stage", kind: "Talk", title: TALK_TITLE, href: TALK_HREF, groupKey: "talk-closeup" },
   { src: "/photos/talk-profile.jpg", alt: "Mohammed speaking in front of the conference slides", kind: "Talk", title: TALK_TITLE, href: TALK_HREF, groupKey: "talk-profile" },
 ];
 

@@ -7,7 +7,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SectionArt } from "@/components/SectionArt";
 import { SkillGroupIcon } from "@/components/SkillIcon";
 import { HomeGallery } from "@/components/public/HomeGallery";
-import { GITHUB_URL } from "@/lib/site";
+import { GITHUB_URL, LANGUAGES } from "@/lib/site";
 import type { PortfolioSnapshot } from "@/lib/portfolio";
 import { getLivePortfolioSnapshot } from "@/lib/portfolioBrowser";
 
@@ -32,10 +32,10 @@ function formatPhone(phone: string) {
 }
 
 function useCountUp(target: number, start: boolean) {
-  const [value, setValue] = useState(0);
+  // Starts at the real number so the static HTML, crawlers and no-JS readers never see 0.
+  const [value, setValue] = useState(target);
   useEffect(() => {
-    if (!start) return;
-    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (!start || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setValue(target);
       return;
     }
@@ -51,6 +51,26 @@ function useCountUp(target: number, start: boolean) {
     return () => cancelAnimationFrame(frame);
   }, [start, target]);
   return value;
+}
+
+/** "07/2025" to a sortable number; other formats sort as unknown and keep their database order. */
+function monthValue(date?: string | null) {
+  const match = /^(\d{2})\/(\d{4})$/.exec(String(date ?? ""));
+  return match ? Number(match[2]) * 12 + Number(match[1]) : null;
+}
+
+/** Positions held at one organization are shown together, under the organization's overall dates. */
+function experienceGroups(experiences: Record<string, any>[]) {
+  const groups = new Map<string, Record<string, any>[]>();
+  experiences.forEach((item) => groups.set(item.organization, [...(groups.get(item.organization) ?? []), item]));
+  return [...groups.entries()].map(([organization, positions]) => {
+    const pick = (key: string, direction: 1 | -1) => [...positions].sort((a, b) => direction * ((monthValue(a[key]) ?? 0) - (monthValue(b[key]) ?? 0)))[0]?.[key];
+    return { organization, location: positions[0].location, positions, dates: `${pick("start_date", 1)} – ${pick("end_date", -1)}` };
+  });
+}
+
+function positionLink(role: string) {
+  return /2209-A/.test(role) ? "/projects/offline-multi-sensor-ai-payload-for-usar" : null;
 }
 
 function HeroStat({ label, target, start }: { label: string; target: number; start: boolean }) {
@@ -116,12 +136,13 @@ export function HomePortfolioContent({ initialPortfolio }: { initialPortfolio: P
   if (!portfolio.configured) return <main className="migration-shell"><p className="eyebrow">Next.js + Supabase migration</p><h1>Connecting the new portfolio architecture.</h1><p>Supabase environment variables are the final configuration required before the public content can load.</p></main>;
 
   return <><SiteHeader name={name} /><main>
-    <section className="hero hero-photo"><div className="hero-bg" aria-hidden="true" /><div className="shell hero-grid"><div><p className="eyebrow">Academic &amp; Professional Portfolio</p><h1>I build <span>autonomous robots</span> and the embedded systems behind them.</h1><p className="hero-copy">{profile?.bio ?? "A portfolio for robotics, embedded systems, and autonomous engineering."}</p><div className="actions"><Link className="button primary" href="/projects">Explore projects</Link><Link className="button" href="/services">View engineering services</Link><CvMenu />{profile?.email && <a className="button" href={`mailto:${profile.email}`}>Contact me</a>}</div><div className="contact-links">{profile?.linkedin_url && <a href={profile.linkedin_url} target="_blank" rel="noreferrer"><Linkedin size={18} aria-hidden="true" />LinkedIn</a>}<a href={GITHUB_URL} target="_blank" rel="noreferrer"><Github size={18} aria-hidden="true" />GitHub</a>{profile?.phone && <a href={`tel:${profile.phone.replace(/\s/g, "")}`}><Phone size={18} aria-hidden="true" />{formatPhone(profile.phone)}</a>}{profile?.email && <a href={`mailto:${profile.email}`}><Mail size={18} aria-hidden="true" />{profile.email}</a>}</div><HeroStats stats={[{ label: "Projects", value: portfolio.projects.length }, { label: "Publications", value: portfolio.publications.length }, { label: "Skills", value: portfolio.skills.length }]} /></div></div><p className="hero-caption"><span>Presenting</span>Rescue-robot payload · Creativity &amp; Innovation Conference, Oct 2026</p></section>
+    <section className="hero hero-photo"><div className="hero-bg" aria-hidden="true" /><div className="shell hero-grid"><div><p className="eyebrow">Academic &amp; Professional Portfolio</p><h1>I build <span>autonomous robots</span> and the embedded systems behind them.</h1><p className="hero-copy">{profile?.bio ?? "A portfolio for robotics, embedded systems, and autonomous engineering."}</p><div className="actions"><Link className="button primary" href="/projects">Explore projects</Link><Link className="button" href="/services">View engineering services</Link><CvMenu />{profile?.email && <a className="button" href={`mailto:${profile.email}`}>Contact me</a>}</div><div className="contact-links">{profile?.linkedin_url && <a href={profile.linkedin_url} target="_blank" rel="noreferrer"><Linkedin size={18} aria-hidden="true" />LinkedIn</a>}<a href={GITHUB_URL} target="_blank" rel="noreferrer"><Github size={18} aria-hidden="true" />GitHub</a>{profile?.phone && <a href={`tel:${profile.phone.replace(/\s/g, "")}`}><Phone size={18} aria-hidden="true" />{formatPhone(profile.phone)}</a>}{profile?.email && <a href={`mailto:${profile.email}`}><Mail size={18} aria-hidden="true" />{profile.email}</a>}</div><HeroStats stats={[{ label: "Projects", value: portfolio.projects.length }, { label: "Publications", value: portfolio.publications.length }, { label: "Skills", value: portfolio.skills.length }]} /></div></div><Link className="hero-caption" href="/projects/offline-multi-sensor-ai-payload-for-usar"><strong>🏆 3rd Place – Innovation Competition, 4th Invention and Innovation Conference (2026)</strong>Awarded for the Offline Multi-System AI Payload for Search &amp; Rescue Robots.</Link></section>
     <HomeGallery projects={portfolio.projects} publications={portfolio.publications} />
     <section className="section"><div className="shell"><p className="index">01 / EDUCATION</p><h2>Academic foundation</h2><div className="timeline">{portfolio.education.map((item) => <article key={item.id}><span className="timeline-node" aria-hidden="true" /><span>{item.start_year} — {item.end_year}</span><h3>{item.degree}{item.field ? ` in ${item.field}` : ""}</h3><OrgLine name={item.institution} suffix={item.location ? ` · ${item.location}` : ""} /></article>)}</div></div></section>
     <section className="section muted section-with-motif"><SectionMotif sectionKey="publications" /><div className="shell"><p className="index">02 / PUBLICATIONS</p><h2>Research &amp; publications</h2><div className="card-grid">{portfolio.publications.map((item) => <article className="card" key={item.id}><span>{item.venue}</span><h3>{item.title}</h3><p>{item.summary}</p><Link href={`/publications/${item.id}`}>Read publication</Link></article>)}</div></div></section>
-    <section className="section section-with-motif"><SectionMotif sectionKey="experiences" /><div className="shell"><p className="index">03 / EXPERIENCE</p><h2>Work experience</h2><div className="timeline">{portfolio.experiences.map((item) => <article key={item.id}><span className="timeline-node" aria-hidden="true" /><span>{item.start_date} — {item.end_date}</span><h3>{item.role}</h3><OrgLine name={item.organization} /><p>{item.summary}</p></article>)}</div></div></section>
+    <section className="section section-with-motif"><SectionMotif sectionKey="experiences" /><div className="shell"><p className="index">03 / EXPERIENCE</p><h2>Work experience</h2><div className="timeline">{experienceGroups(portfolio.experiences).map((group) => <article key={group.organization}><span className="timeline-node" aria-hidden="true" /><span>{group.dates}</span><div><OrgLine name={group.organization} suffix={group.location ? ` · ${group.location}` : ""} /><div className="position-list">{group.positions.map((item) => { const link = positionLink(item.role); return <section className="position" key={item.id}><h3>{link ? <Link href={link}>{item.role}</Link> : item.role}</h3><span className="position-dates">{item.start_date} – {item.end_date}</span>{item.summary && <p>{item.summary}</p>}{item.highlights?.length > 0 && <ul>{item.highlights.map((highlight: string) => <li key={highlight}>{highlight}</li>)}</ul>}</section>; })}</div></div></article>)}</div></div></section>
     <section className="section muted section-with-motif skill-section"><SectionMotif sectionKey="skills" /><div className="shell"><div className="skills-heading"><div><p className="index">04 / TECHNICAL CAPABILITIES</p><h2>Skills, organised by system layer.</h2></div><p>{portfolio.skills.length} tools and methods across {Object.keys(skillGroups).length} engineering disciplines.</p></div><div className="skill-groups">{Object.entries(skillGroups).map(([category, skills], index) => <article className="skill-group" key={category}><div className="skill-group-heading"><SkillGroupIcon category={category} /><div><span className="skill-group-index">0{index + 1}</span><h3>{category}</h3></div><em>{skills.length} skills</em></div><div className="skill-tags">{skills.map((item) => <span className="skill-tag" key={item.id}>{item.label}</span>)}</div></article>)}</div></div></section>
-    <section className="section section-with-motif"><SectionMotif sectionKey="projects" /><div className="shell"><div className="section-title-row"><div><p className="index">05 / PROJECT ARCHIVE</p><h2>Selected work, fully documented.</h2></div><Link className="button" href="/projects">View all projects</Link></div><div className="project-grid">{portfolio.projects.slice(0, 6).map((project) => <Link className="project-card" href={`/projects/${project.slug}`} key={project.id}><div className="project-card-media">{project.imageUrl && <img src={project.imageUrl} alt={project.project_media?.[0]?.alt ?? project.title} />}<span className="project-card-cta">View case study <b aria-hidden="true">→</b></span></div><div><span>{project.status}</span><h3>{project.title}</h3><p>{project.summary}</p>{project.outcomes?.[0] && <p className="project-outcome">{project.outcomes[0]}</p>}</div></Link>)}</div></div></section>
+    <section className="section"><div className="shell"><p className="index">05 / LANGUAGES</p><h2>Languages</h2><ul className="language-list">{LANGUAGES.map((language) => <li key={language}>{language}</li>)}</ul></div></section>
+    <section className="section section-with-motif"><SectionMotif sectionKey="projects" /><div className="shell"><div className="section-title-row"><div><p className="index">06 / PROJECT ARCHIVE</p><h2>Selected work, fully documented.</h2></div><Link className="button" href="/projects">View all projects</Link></div><div className="project-grid">{portfolio.projects.slice(0, 6).map((project) => <Link className="project-card" href={`/projects/${project.slug}`} key={project.id}><div className="project-card-media">{project.imageUrl && <img src={project.imageUrl} alt={project.project_media?.[0]?.alt ?? project.title} />}<span className="project-card-cta">View case study <b aria-hidden="true">→</b></span></div><div><span>{project.status}</span><h3>{project.title}</h3><p>{project.summary}</p>{project.outcomes?.[0] && <p className="project-outcome">{project.outcomes[0]}</p>}</div></Link>)}</div></div></section>
   </main><footer className="site-footer"><div className="shell footer-grid"><div><p className="eyebrow">LET&apos;S CONNECT</p><h2>Building dependable systems starts with a clear engineering conversation.</h2><p className="footer-copy">Open to research collaboration, technical consulting, and carefully scoped autonomous-systems projects.</p></div><div className="footer-links"><a className="button primary" href={profile?.email ? `mailto:${profile.email}` : "mailto:mohammedbajhaw2020@gmail.com"}>Contact me <span aria-hidden="true">↗</span></a>{CV_FILES.map((cv) => <a className="footer-link" key={cv.file} href={cv.file} download>Download CV · {cv.label} <span aria-hidden="true">↓</span></a>)}{profile?.linkedin_url && <a className="footer-link" href={profile.linkedin_url} target="_blank" rel="noreferrer"><span className="footer-link-label"><Linkedin size={17} aria-hidden="true" />LinkedIn</span><span aria-hidden="true">↗</span></a>}<a className="footer-link" href={GITHUB_URL} target="_blank" rel="noreferrer"><span className="footer-link-label"><Github size={17} aria-hidden="true" />GitHub</span><span aria-hidden="true">↗</span></a>{profile?.phone && <a className="footer-link" href={`tel:${profile.phone.replace(/\s/g, "")}`}><span className="footer-link-label"><Phone size={17} aria-hidden="true" />{formatPhone(profile.phone)}</span></a>}{profile?.email && <a className="footer-link" href={`mailto:${profile.email}`}><span className="footer-link-label"><Mail size={17} aria-hidden="true" />{profile.email}</span></a>}</div><p className="footer-meta">© {new Date().getFullYear()} {name}<span>·</span>Mechatronics Engineering</p></div></footer></>;
 }
