@@ -97,10 +97,10 @@ h2 { font-size: clamp(32px, 4vw, 52px); line-height: 1.02; letter-spacing: -.055
 .outcomes-label { margin-top: 42px; }
 .keywords-label { margin-top: 42px; }
 .publication-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }.publication-meta span { padding: 7px 9px; border: 1px solid #c1d0cc; color: #41605b; font: 11px "IBM Plex Mono", monospace; }
-.media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); align-items: start; gap: 16px; }
-.media-grid figure { width: fit-content; max-width: 100%; justify-self: start; margin: 0; overflow: hidden; background: white; border: 1px solid var(--line); }
-.media-grid img { display: block; width: auto; height: auto; min-height: 0; max-width: 100%; max-height: min(72vh, 520px); object-fit: contain; background: #f4f7f6; }
-.media-grid figcaption { padding: 11px 14px; color: #62716f; font-size: 12px; }
+.media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 16px; }
+.media-grid figure { display: flex; flex-direction: column; min-width: 0; margin: 0; overflow: hidden; background: white; border: 1px solid var(--line); }
+.media-grid img { display: block; flex: none; width: 100%; height: auto; aspect-ratio: 4 / 3; padding: 8px; object-fit: contain; background: #f4f7f6; border-bottom: 1px solid var(--line); }
+.media-grid figcaption { box-sizing: border-box; min-height: calc(2lh + 22px); padding: 11px 14px; color: #62716f; font-size: 12px; }
 .services-intro { background: radial-gradient(circle at 79% 43%, #d9e5fb 0, transparent 29%); }
 .service-list { display: grid; gap: 82px; }
 .service-area { display: grid; grid-template-columns: minmax(240px, .66fr) minmax(0, 1.34fr); gap: 70px; }
