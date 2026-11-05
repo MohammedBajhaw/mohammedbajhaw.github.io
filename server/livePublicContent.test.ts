@@ -50,6 +50,7 @@ describe("live public portfolio content", () => {
   it("preserves the original proportions of rich-content and gallery images", () => {
     expect(publicStyles).toContain(".rich-project-body figure { display: inline-block; width: fit-content");
     expect(publicStyles).toContain(".rich-project-body figure img { display: block; width: auto; height: auto");
-    expect(publicStyles).toContain(".media-grid img { display: block; width: auto; height: auto; min-height: 0");
+    expect(publicStyles).toMatch(/\.media-grid img \{[^}]*aspect-ratio: 4 \/ 3;[^}]*object-fit: contain;/);
+    expect(publicStyles).toMatch(/\.lightbox-stage img \{[^}]*object-fit: contain;/);
   });
 });
