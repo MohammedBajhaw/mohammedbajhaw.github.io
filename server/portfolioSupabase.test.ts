@@ -8,8 +8,8 @@ describe("Next.js portfolio data source", () => {
 
     expect(portfolio.configured).toBe(true);
     expect(portfolio.profile?.name).toContain("Mohammed Bajhaw");
-    expect(portfolio.publications).toHaveLength(3);
-    expect(portfolio.publications.map((publication) => publication.id)).toEqual([4, 3, 1]);
+    expect(portfolio.publications).toHaveLength(4);
+    expect(portfolio.publications.map((publication) => publication.id)).toEqual([4, 3, 1, 2]);
     expect(portfolio.projects).toHaveLength(6);
     expect(portfolio.projects.map((project) => project.slug).slice(0, 4)).toEqual(["offline-multi-sensor-ai-payload-for-usar", "rko-lio-dji-uav-gps-denied-mapping", "autonomous-cave-exploration-drone", "robotic-arm-cad-simulation-control"]);
     expect(portfolio.projects.find((project) => project.slug === "advanced-robotics-research")).toBeUndefined();
@@ -31,14 +31,16 @@ describe("Next.js portfolio data source", () => {
     expect(portfolio.projects.find((project) => project.slug === "offline-multi-sensor-ai-payload-for-usar")?.rich_content).toContain("Staying connected");
     expect(portfolio.projects.find((project) => project.slug === "offline-multi-sensor-ai-payload-for-usar")?.imageUrl).toContain("figure-002_42d4fde2");
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.rich_content).toContain("Flying and mapping");
-    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.rich_content).not.toContain("Checking the map");
-    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.outcomes.join(" ")).not.toContain("1.6%");
+    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.rich_content).toContain("Checking the map");
+    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.outcomes.join(" ")).toContain("1.6%");
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.imageUrl).toContain("figure-005_82c208cf");
     expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.project_media.length).toBeGreaterThanOrEqual(5);
     expect(portfolio.publications.find((publication) => publication.doi === "10.3390/app16189083")?.url).toContain("pv-stam");
-    expect(portfolio.publications.find((publication) => publication.id === 2)).toBeUndefined();
+    expect(portfolio.publications.find((publication) => publication.id === 2)?.status).toContain("Published");
+    expect(portfolio.publications.find((publication) => publication.id === 2)?.venue).toContain("ATEEC 2026");
+    expect(portfolio.publications.find((publication) => publication.id === 2)?.authors).toMatch(/^Mohammed Ali Mohammed S\. Bajhaw;/);
     expect(portfolio.publications.find((publication) => publication.id === 4)?.status).toContain("Published");
-    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.publication_url).toBeNull();
+    expect(portfolio.projects.find((project) => project.slug === "rko-lio-dji-uav-gps-denied-mapping")?.publication_url).toBe("/publications/2");
 
     const enrichedProjects = [
       {

@@ -14,6 +14,7 @@ const PROJECT_INFO: Record<string, ProjectInfoRow[]> = {
   ],
   "rko-lio-dji-uav-gps-denied-mapping": [
     { label: "Lab", value: "RAI Laboratory, Fırat University – TÜBİTAK 1001 project (UAV work package)" },
+    { label: "Paper", value: "Published at ATEEC 2026 – first author" },
   ],
 };
 
