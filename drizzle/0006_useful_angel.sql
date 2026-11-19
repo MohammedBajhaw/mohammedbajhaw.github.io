@@ -1,2 +1,0 @@
-ALTER TABLE `service_areas` ADD CONSTRAINT `service_areas_title_unique` UNIQUE(`title`);--> statement-breakpoint
-ALTER TABLE `services` ADD CONSTRAINT `services_area_title_unique` UNIQUE(`areaId`,`title`);

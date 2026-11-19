@@ -1,0 +1,201 @@
+@import "tailwindcss";
+
+/* Fonts come from next/font (see app/[lang]/layout.tsx); "inline" keeps the variables resolved at the element. */
+@theme inline {
+  --font-sans: var(--font-arabic-body), var(--font-lexend), Arial, sans-serif;
+  --font-mono: var(--font-arabic-body), var(--font-plex-mono), monospace;
+}
+
+@theme {
+  --color-paper: #ffffff;
+  --color-ink: #182526;
+  --color-teal: #176b69;
+  --color-teal-deep: #0c4545;
+  --color-line: #d8dedb;
+  --color-soft: #eef3f1;
+
+
+  --ease-out-expo: cubic-bezier(0.23, 1, 0.32, 1);
+
+  --animate-gallery-progress: gallery-progress linear forwards;
+  --animate-shimmer: shimmer 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  --animate-float: float 4.6s ease-in-out infinite;
+  --animate-blink: blink 1.8s ease-in-out infinite;
+
+  @keyframes gallery-progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.25;
+    }
+  }
+  @keyframes shimmer {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    overscroll-behavior-y: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased m-0;
+  }
+}
+
+@utility shell {
+  @apply w-full max-w-[1200px] mx-auto px-5 sm:px-8;
+}
+
+@utility section-bleed {
+  @apply relative isolate w-full overflow-hidden;
+}
+
+@utility mono-eyebrow {
+  @apply text-teal font-sans font-bold text-[12px] rtl:text-[16.5px] tracking-[0.06em] uppercase;
+}
+
+/* Formatted HTML blocks inside project/publication rich content */
+@layer components {
+  .rich-content {
+    @apply mt-8 text-[#304743] text-[16px] leading-[1.85];
+  }
+  .rich-content h2 {
+    @apply text-ink font-bold leading-[1.12] mt-10 mb-3.5 text-[clamp(26px,3vw,36px)] tracking-[-0.04em];
+  }
+  .rich-content h3 {
+    @apply text-ink font-bold leading-[1.12] mt-10 mb-3.5 text-[21px] tracking-[-0.03em];
+  }
+  .rich-content p {
+    @apply m-0 mb-4.5;
+  }
+  .rich-content ul,
+  .rich-content ol {
+    @apply ps-5.5 m-0 mb-5.5 space-y-2 list-disc;
+  }
+  .rich-content ol {
+    @apply list-decimal;
+  }
+  .rich-content blockquote {
+    @apply my-7 py-4.5 px-5.5 rounded-[22px] border-0 bg-[#f4f8f7] text-[#27534f] font-semibold;
+  }
+  .rich-content figure {
+    @apply inline-block w-fit max-w-full my-7.5 overflow-hidden align-top rounded-[22px] border-0 bg-[#f4f8f7];
+  }
+  .rich-content figure img {
+    @apply block w-auto h-auto max-w-full max-h-[min(72vh,560px)] object-contain bg-[#f4f8f7];
+  }
+  .rich-content figcaption {
+    @apply py-2.5 px-3.5 text-[#647976] text-[12px];
+  }
+  .rich-content a {
+    @apply text-teal font-extrabold underline underline-offset-3;
+  }
+  .rich-content table {
+    @apply block w-max max-w-full my-6 overflow-x-auto border-collapse text-[14px] leading-[1.5];
+  }
+  .rich-content th,
+  .rich-content td {
+    @apply py-2 px-3.5 border border-line text-start whitespace-nowrap;
+  }
+  .rich-content th {
+    @apply text-teal-deep bg-[#f4f8f7] font-sans font-bold text-[11px] tracking-[0.06em] uppercase;
+  }
+  .rich-content pre {
+    @apply overflow-x-auto p-4 bg-[#172625] text-[#ebf7f4] text-[13px];
+  }
+}
+
+/*
+ * Arabic: unlayered on purpose so these win over Tailwind utilities.
+ * Negative letter-spacing breaks the joined letterforms, and tight display line-heights clip diacritics.
+ */
+html[lang="ar"] * {
+  letter-spacing: normal;
+}
+html[lang="ar"] :is(h1, h2, h3, h4, [data-display]) {
+  font-family: var(--font-arabic-heading), var(--font-lexend), Arial, sans-serif;
+  line-height: 1.3;
+}
+
+/* Never fake a weight: the Arabic fonts ship one weight each, so the browser must use it as designed
+   instead of smearing the outlines to imitate bold (it distorts the letter shapes). */
+html {
+  font-synthesis: none;
+}
+
+/* Phone menu: a full-screen drawer that slides in from the end side (right in LTR, left in RTL). */
+@keyframes drawer-in {
+  from { transform: translateX(var(--drawer-from, 100%)); }
+  to { transform: none; }
+}
+@keyframes drawer-out {
+  from { transform: none; }
+  to { transform: translateX(var(--drawer-from, 100%)); }
+}
+.drawer {
+  animation: drawer-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.drawer[data-leaving="true"] {
+  animation: drawer-out 240ms cubic-bezier(0.7, 0, 0.84, 0) both;
+}
+html[dir="rtl"] .drawer {
+  --drawer-from: -100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .drawer, .drawer[data-leaving="true"] { animation: none; }
+}
+html:has(#mobile-menu) {
+  overflow: hidden;
+}
+
+/* Arabic rich content (project and paper bodies): the Naskh face needs a larger size to read like the Latin text. */
+html[lang="ar"] .rich-content :is(p, li, blockquote) {
+  font-size: 18.5px;
+  line-height: 1.85;
+}
+html[lang="ar"] .rich-content h3 {
+  font-size: 24px;
+}
+html[lang="ar"] .rich-content figcaption {
+  font-size: 15px;
+}
+html[lang="ar"] .rich-content table {
+  font-size: 16px;
+}
+html[lang="ar"] .rich-content th {
+  font-size: 14px;
+}
