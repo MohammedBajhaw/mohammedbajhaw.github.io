@@ -10,6 +10,7 @@
  */
 export { FormField, describedBy, type FieldMeta } from "./FormField";
 export { Input, type InputProps } from "./Input";
+export { DatePicker, type DatePickerProps } from "./DatePicker";
 export { Textarea, type TextareaProps } from "./Textarea";
 export { Select, type SelectOption, type SelectProps } from "./Select";
 export { TagInput } from "./TagInput";

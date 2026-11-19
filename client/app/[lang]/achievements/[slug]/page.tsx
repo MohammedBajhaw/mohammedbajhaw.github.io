@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AchievementDetailView } from "@/components/views/AchievementDetailView";
-import { LOCALES } from "@/lib/i18n/config";
 import { getI18n } from "@/lib/i18n/server";
-import { getAchievementBySlug, getAchievementSlugs, getProfile } from "@/lib/services";
+import { getAchievementBySlug, getProfile } from "@/lib/services";
 import { pageMetadata } from "@/lib/seo";
 import { truncate } from "@/lib/site";
 
-export async function generateStaticParams() {
-  const slugs = await getAchievementSlugs();
-  return LOCALES.flatMap((lang) => slugs.map((slug) => ({ lang, slug })));
-}
+// The record is read from the API on every request: an unknown slug is a 404, and edits in the studio show up at once.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,

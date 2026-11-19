@@ -25,7 +25,8 @@ export function Navbar({ name = SITE_NAME }: NavbarProps) {
     isHome ||
     ["/projects", "/services", "/contact"].includes(barePath) ||
     barePath.startsWith("/projects/") ||
-    barePath.startsWith("/publications/");
+    barePath.startsWith("/publications/") ||
+    barePath.startsWith("/achievements/");
 
   // The bar hides while scrolling down; storing the path it was hidden on makes it reappear on any navigation.
   const [hiddenOn, setHiddenOn] = useState<string | null>(null);

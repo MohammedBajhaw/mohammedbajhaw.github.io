@@ -2,7 +2,7 @@
 
 import { LANGS, type FieldDefinition, type FormState, type Lang, type TranslationLang } from "@/lib/admin/resources";
 import { uploadApi } from "@/lib/admin/api";
-import { FormField, Input, MediaField, TagInput, Textarea, Toggle } from "@/components/forms";
+import { DatePicker, FormField, Input, MediaField, TagInput, Textarea, Toggle } from "@/components/forms";
 import { RichTextEditor } from "./RichTextEditor";
 
 type FieldRendererProps = {
@@ -53,6 +53,10 @@ export function FieldRenderer({ field, form, lang, idPrefix, onValue, onTranslat
 
   if (kind === "file") {
     return <MediaField id={id} label={label} help={field.help} error={error} wide value={text} kind={field.accept ?? "image"} upload={uploadApi.upload} onChange={setText} maxSizeMB={50} />;
+  }
+
+  if (kind === "date") {
+    return <DatePicker id={id} label={label} help={field.help} error={error} wide={wide} dir={dir} value={text} allowPresent={field.allowPresent} onChange={setText} placeholder={hint} />;
   }
 
   if (kind === "array") {

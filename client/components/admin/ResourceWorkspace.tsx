@@ -143,11 +143,11 @@ export function ResourceWorkspace({ def }: { def: ResourceDefinition }) {
     for (const field of def.fields) {
       if (!field.translatable) continue;
       const value = form.values[field.key];
-      note(`f.${field.key}`, typeof value === "string" ? value : "", { ar: form.translations.ar[field.key] ?? "", tr: form.translations.tr[field.key] ?? "" });
+      note(`f__${field.key}`, typeof value === "string" ? value : "", { ar: form.translations.ar[field.key] ?? "", tr: form.translations.tr[field.key] ?? "" });
     }
-    form.media.forEach((item, index) => note(`m.${index}`, item.alt, { ar: item.translations.ar.alt, tr: item.translations.tr.alt }));
+    form.media.forEach((item, index) => note(`m__${index}`, item.alt, { ar: item.translations.ar.alt, tr: item.translations.tr.alt }));
     form.services.forEach((item, index) => {
-      for (const part of ["title", "summary", "deliverables"] as const) note(`s.${index}.${part}`, item[part], { ar: item.translations.ar[part], tr: item.translations.tr[part] });
+      for (const part of ["title", "summary", "deliverables"] as const) note(`s__${index}__${part}`, item[part], { ar: item.translations.ar[part], tr: item.translations.tr[part] });
     });
 
     const { result, count } = await translateTexts(source, existing, langs, overwrite);
@@ -161,7 +161,7 @@ export function ResourceWorkspace({ def }: { def: ResourceDefinition }) {
       };
       for (const code of langs) {
         for (const [key, text] of Object.entries(result[code])) {
-          const [kind, a, b] = key.split(".");
+          const [kind, a, b] = key.split("__");
           if (kind === "f" && a) next.translations[code][a] = text;
           else if (kind === "m" && next.media[Number(a)]) next.media[Number(a)]!.translations[code].alt = text;
           else if (kind === "s" && next.services[Number(a)] && (b === "title" || b === "summary" || b === "deliverables")) next.services[Number(a)]!.translations[code][b] = text;

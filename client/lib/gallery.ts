@@ -108,18 +108,8 @@ function publicationFigures(publication: Publication) {
   return htmlImages(String(publication.details ?? ""));
 }
 
-const TALK_TITLE = "Presenting the rescue-robot payload";
-const TALK_HREF = "/projects/autonomous-medical-search-rescue-robot";
-
-/** Photos that are not part of any project's media: the conference talk. */
-const TALK_SLIDES: GallerySlide[] = [
-  { src: "/photos/talk-closeup.jpg", alt: "", altKey: "talkCloseupAlt", kind: "Talk", badgeKey: "Tubitak2209", badge: "TÜBİTAK 2209-A", titleKey: "talkTitle", title: TALK_TITLE, href: TALK_HREF, groupKey: "talk-closeup" },
-  { src: "/photos/talk-profile.jpg", alt: "", altKey: "talkProfileAlt", kind: "Talk", badgeKey: "InnovationConference", badge: "Innovation Conference 2026", titleKey: "talkTitle", title: TALK_TITLE, href: TALK_HREF, groupKey: "talk-profile" },
-];
-
 export function buildGallerySlides(projects: Project[], publications: Publication[]): GallerySlide[] {
   const seen = new Set<string>();
-  TALK_SLIDES.forEach((slide) => seen.add(imageKey(slide.src)));
   const take = (src: string | null, alt = "") => {
     if (!src) return false;
     if (DIAGRAM_FILE.test(imageKey(src)) || DIAGRAM_ALT.test(alt)) return false;
@@ -149,7 +139,7 @@ export function buildGallerySlides(projects: Project[], publications: Publicatio
     }),
   );
 
-  const projectSlides = interleaveGroups([...projectGroups, ...TALK_SLIDES.map((slide) => [slide])]);
+  const projectSlides = interleaveGroups(projectGroups);
   const researchSlides = interleaveGroups(researchGroups);
 
   // Research figures are mixed in after every third project image.

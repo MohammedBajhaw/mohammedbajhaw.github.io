@@ -2,17 +2,14 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { PublicationDetailView } from "@/components/views/PublicationDetailView";
-import { LOCALES } from "@/lib/i18n/config";
 import { getI18n } from "@/lib/i18n/server";
-import { getProfile, getPublicationById, getPublicationIds } from "@/lib/services";
+import { getProfile, getPublicationById } from "@/lib/services";
 import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 import { absoluteUrl, truncate } from "@/lib/site";
 import type { Publication } from "@/lib/types";
 
-export async function generateStaticParams() {
-  const ids = await getPublicationIds();
-  return LOCALES.flatMap((lang) => ids.map((id) => ({ lang, id: String(id) })));
-}
+// The record is read from the API on every request: an unknown slug is a 404, and edits in the studio show up at once.
+export const dynamic = "force-dynamic";
 
 const authorsOf = (publication: Publication) =>
   String(publication.authors ?? "")

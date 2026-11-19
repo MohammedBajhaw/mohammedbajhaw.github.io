@@ -12,7 +12,6 @@ const pad = (n: number) => String(n).padStart(2, "0");
 
 export async function ServicesView({ data }: { data: ServicesPageData }) {
   const { t, href } = await getI18n();
-  const email = data.profile.email;
   const areas = data.serviceAreas;
   const serviceCount = areas.reduce((sum, area) => sum + (area.services?.length ?? 0), 0);
 
@@ -42,12 +41,10 @@ export async function ServicesView({ data }: { data: ServicesPageData }) {
                 {t("services.body")}
               </p>
               <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-4">
-                {email && (
-                  <Button href={href("/contact")} className="h-[46px] px-7 text-[13px] rtl:text-[16px]">
-                    <span>{t("services.discuss")}</span>
-                    <ArrowUpRight size={15} className="text-[#c5efe8] rtl:-rotate-90" aria-hidden="true" />
-                  </Button>
-                )}
+                <Button href={href("/projects")} className="h-[46px] px-7 text-[13px] rtl:text-[16px]">
+                  <span>{t("services.discuss")}</span>
+                  <ArrowUpRight size={15} className="text-[#c5efe8] rtl:-rotate-90" aria-hidden="true" />
+                </Button>
                 <p className="m-0 font-sans text-[12px] font-bold tracking-[0.08em] uppercase text-[#929d9c] rtl:text-[14.5px]">
                   {t("services.counts", { areas: pad(areas.length), services: pad(serviceCount) })}
                 </p>

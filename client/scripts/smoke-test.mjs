@@ -67,6 +67,7 @@ const text = (html) => strip(html).replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&
 
   // internal links must resolve (200) and carry a locale prefix
   for (const l of links) {
+    if (/^\/uploads\//.test(l)) continue; // files served by the API rewrite, not pages
     if (!/^\/(en|ar|tr)(\/|$)/.test(l)) { note("LINK", l, "internal link without locale prefix"); continue; }
     const r = await fetch(base + l, { redirect: "manual" });
     if (r.status !== 200) { note("LINK", l, `HTTP ${r.status}`); }

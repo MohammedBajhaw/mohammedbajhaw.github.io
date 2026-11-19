@@ -13,7 +13,7 @@ export type HeroProps = {
   backgroundImage?: string;
 };
 
-export function Hero({ profile, backgroundImage = "/photos/hero-closeup-bg.jpg" }: HeroProps) {
+export function Hero({ profile, backgroundImage }: HeroProps) {
   const { t, href } = useI18n();
   const [cvOpen, setCvOpen] = useState(false);
   const cvRef = useRef<HTMLDivElement>(null);
@@ -57,14 +57,17 @@ export function Hero({ profile, backgroundImage = "/photos/hero-closeup-bg.jpg" 
           aria-hidden="true"
         >
           {/* 1. Base Background Image */}
-          <Image
-            src={backgroundImage}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-[35%_22%]"
-          />
+          <div className="absolute inset-0 bg-[#0c2624]" />
+          {backgroundImage && (
+            <Image
+              src={backgroundImage}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-[35%_22%]"
+            />
+          )}
 
           {/* 2. Soft diagonal dark gradient reversed: from top-right towards bottom-left */}
           <div className="absolute inset-0 bg-linear-to-bl rtl:bg-linear-to-br from-[#071918]/80 via-[#0c2624]/56 to-[#102927]/28" />

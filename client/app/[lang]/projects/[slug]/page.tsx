@@ -2,17 +2,14 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { ProjectDetailView } from "@/components/views/ProjectDetailView";
-import { LOCALES } from "@/lib/i18n/config";
 import { getI18n } from "@/lib/i18n/server";
-import { getProfile, getProjectBySlug, getProjectSlugs } from "@/lib/services";
+import { getProfile, getProjectBySlug } from "@/lib/services";
 import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 import { SITE_URL, absoluteUrl, truncate } from "@/lib/site";
 import type { Project } from "@/lib/types";
 
-export async function generateStaticParams() {
-  const slugs = await getProjectSlugs();
-  return LOCALES.flatMap((lang) => slugs.map((slug) => ({ lang, slug })));
-}
+// The record is read from the API on every request: an unknown slug is a 404, and edits in the studio show up at once.
+export const dynamic = "force-dynamic";
 
 function heroImage(project: Project) {
   const media = [...project.project_media].sort((a, b) => a.sort_order - b.sort_order);

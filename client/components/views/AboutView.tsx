@@ -99,20 +99,22 @@ export async function AboutView({ data }: { data: AboutData }) {
                   </div>
 
                   {/* Right: Circular Gradient-Framed Portrait */}
-                  <Reveal immediate delay={100} className="order-first lg:order-none lg:col-span-5 flex justify-center">
-                    <div className="w-full max-w-[220px] sm:max-w-[340px] rounded-full p-[2px] bg-linear-45 from-white via-[#cde5df] to-[#176b69] shadow-[0_24px_60px_rgba(12,45,44,0.12)]">
-                      <div className="relative aspect-square w-full rounded-full overflow-hidden bg-[#0b1f1d]">
-                        <Image
-                          src="/photos/talk-profile.jpg"
-                          alt={t("about.portraitAlt", { name })}
-                          fill
-                          priority
-                          sizes="340px"
-                          className="object-cover object-[40%_30%]"
-                        />
+                  {profile?.photo_path && (
+                    <Reveal immediate delay={100} className="order-first lg:order-none lg:col-span-5 flex justify-center">
+                      <div className="w-full max-w-[220px] sm:max-w-[340px] rounded-full p-[2px] bg-linear-45 from-white via-[#cde5df] to-[#176b69] shadow-[0_24px_60px_rgba(12,45,44,0.12)]">
+                        <div className="relative aspect-square w-full rounded-full overflow-hidden bg-[#0b1f1d]">
+                          <Image
+                            src={profile.photo_path}
+                            alt={profile.photo_alt || t("about.portraitAlt", { name })}
+                            fill
+                            priority
+                            sizes="340px"
+                            className="object-cover object-[40%_30%]"
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </Reveal>
+                    </Reveal>
+                  )}
                 </div>
             </div>
           </div>

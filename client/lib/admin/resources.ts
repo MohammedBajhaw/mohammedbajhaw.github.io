@@ -16,7 +16,7 @@ export const LANGS: { code: Lang; label: string; dir: "ltr" | "rtl" }[] = [
 ];
 export const TRANSLATION_LANGS: TranslationLang[] = ["ar", "tr"];
 
-export type FieldKind = "text" | "textarea" | "richtext" | "number" | "toggle" | "array" | "lines" | "file";
+export type FieldKind = "text" | "textarea" | "richtext" | "number" | "toggle" | "array" | "lines" | "file" | "date";
 
 export type FieldDefinition = {
   key: string;
@@ -24,6 +24,8 @@ export type FieldDefinition = {
   kind?: FieldKind;
   placeholder?: string;
   help?: string;
+  /** Shows an optional "Present" shortcut in date pickers (for ongoing end dates). */
+  allowPresent?: boolean;
   /** The field has an Arabic and a Turkish version, stored under `translations`. */
   translatable?: boolean;
   /** An empty value is saved as `null` (needed for URL fields, which the server validates strictly). */
@@ -97,8 +99,8 @@ export const RESOURCES: ResourceDefinition[] = [
       { key: "degree", label: "Degree", placeholder: "Bachelor’s Degree", translatable: true, required: true, half: true },
       { key: "field", label: "Field of study", placeholder: "Mechatronics Engineering", translatable: true, half: true },
       { key: "location", label: "Location", placeholder: "Elazığ, Türkiye", translatable: true },
-      { key: "start_year", label: "Start year", placeholder: "2021", required: true, half: true },
-      { key: "end_year", label: "End year", placeholder: "2026", required: true, half: true },
+      { key: "start_year", label: "Start year", kind: "date", placeholder: "Select start date", required: true, half: true },
+      { key: "end_year", label: "End year", kind: "date", allowPresent: true, placeholder: "Select end date", required: true, half: true },
       { key: "description", label: "Description", kind: "textarea", placeholder: "Optional context about the programme.", translatable: true },
       { key: "sort_order", label: "Display order", kind: "number", help: "Lower numbers appear first.", half: true },
     ],
@@ -118,8 +120,8 @@ export const RESOURCES: ResourceDefinition[] = [
       { key: "role", label: "Role", placeholder: "Research Assistant", translatable: true, required: true, half: true },
       { key: "organization", label: "Organization", placeholder: "RAI Lab, Fırat University", translatable: true, required: true, half: true },
       { key: "location", label: "Location", placeholder: "Elazığ, Türkiye", translatable: true },
-      { key: "start_date", label: "Start", placeholder: "Sep 2025", translatable: true, required: true, half: true },
-      { key: "end_date", label: "End", placeholder: "Present", translatable: true, required: true, half: true },
+      { key: "start_date", label: "Start", kind: "date", placeholder: "Select start date", translatable: true, required: true, half: true },
+      { key: "end_date", label: "End", kind: "date", allowPresent: true, placeholder: "Select end date", translatable: true, required: true, half: true },
       { key: "is_current", label: "Current position", kind: "toggle", help: "Marks the role as ongoing." },
       { key: "summary", label: "Summary", kind: "textarea", translatable: true },
       { key: "highlights", label: "Highlights", kind: "lines", placeholder: "One highlight per line", translatable: true, help: "One per line, so commas inside a sentence are safe." },
@@ -159,7 +161,7 @@ export const RESOURCES: ResourceDefinition[] = [
       { key: "title", label: "Achievement title", placeholder: "3rd Place – Innovation Competition", translatable: true, required: true, half: true },
       { key: "slug", label: "URL slug", placeholder: "innovation-award-2026", required: true, half: true, help: "Used for /achievements/<slug>." },
       { key: "badge", label: "Badge / Eyebrow", placeholder: "2026 Innovation Award", translatable: true, half: true },
-      { key: "date", label: "Date / Year", placeholder: "2026", half: true },
+      { key: "date", label: "Date / Year", kind: "date", placeholder: "Select date", half: true },
       { key: "organization", label: "Organization", placeholder: "4th Invention and Innovation Conference", translatable: true, half: true },
       { key: "location", label: "Location", placeholder: "Türkiye", translatable: true, half: true },
       { key: "summary", label: "Short summary", kind: "textarea", placeholder: "One-line summary shown on the award card.", translatable: true, required: true },
@@ -190,8 +192,8 @@ export const RESOURCES: ResourceDefinition[] = [
       { key: "summary", label: "Short summary", kind: "textarea", placeholder: "Shown on cards.", translatable: true, required: true },
       { key: "description", label: "Overview", kind: "textarea", placeholder: "Shown at the top of the project page.", translatable: true, required: true },
       { key: "rich_content", label: "Article", kind: "richtext", placeholder: "Write the project article here.", translatable: true },
-      { key: "start_date", label: "Start", placeholder: "Sep 2025", half: true },
-      { key: "end_date", label: "End", placeholder: "Present", translatable: true, half: true },
+      { key: "start_date", label: "Start", kind: "date", placeholder: "Select start date", half: true },
+      { key: "end_date", label: "End", kind: "date", allowPresent: true, placeholder: "Select end date", translatable: true, half: true },
       { key: "tags", label: "Tags", kind: "array", placeholder: "ROS 2, LiDAR SLAM, UAVs", translatable: true, help: "Separate tags with commas." },
       { key: "tools", label: "Tools", kind: "lines", placeholder: "One tool per line", translatable: true },
       { key: "outcomes", label: "Outcomes", kind: "lines", placeholder: "One outcome per line", translatable: true, help: "One per line, so commas inside a sentence are safe." },
@@ -215,7 +217,7 @@ export const RESOURCES: ResourceDefinition[] = [
     fields: [
       { key: "title", label: "Publication title", kind: "textarea", placeholder: "Full research-paper title", translatable: true, required: true },
       { key: "venue", label: "Conference or journal", placeholder: "IEEE Conference", translatable: true, required: true, half: true },
-      { key: "publication_date", label: "Publication date", placeholder: "May 2026", translatable: true, half: true },
+      { key: "publication_date", label: "Publication date", kind: "date", placeholder: "Select publication date", translatable: true, half: true },
       { key: "status", label: "Type", placeholder: "Journal Article", translatable: true, required: true, half: true },
       { key: "authors", label: "Authors", placeholder: "Author One; Author Two", translatable: true, half: true },
       { key: "doi", label: "DOI", placeholder: "10.1109/example.2026.1234567", half: true, help: "The permanent identifier shown on the paper page." },
