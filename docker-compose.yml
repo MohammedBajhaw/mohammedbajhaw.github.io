@@ -1,0 +1,70 @@
+# The whole platform on one server: Caddy (HTTPS) -> website + API -> MongoDB, with files on a volume.
+#   cp .env.docker.example .env      (set the domain and the secrets)
+#   docker compose up -d --build
+# Only Caddy is published (ports 80 and 443). MongoDB, the API and the website stay on the private network.
+name: bajhaw
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - web
+      - server
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-localhost}
+    ports:
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+  mongo:
+    image: mongo:8
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  server:
+    build: ./server
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      MONGODB_URI: mongodb://mongo:27017/mohammedbajhaw
+      CORS_ORIGIN: ${PUBLIC_URL:?Set PUBLIC_URL in .env, for example https://example.com}
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env (32+ characters)}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:?Set ADMIN_EMAIL in .env}
+      ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      LLM_API_BASE_URL: ${LLM_API_BASE_URL:-}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-}
+    volumes:
+      - uploads:/app/uploads
+
+  web:
+    build:
+      context: ./client
+      args:
+        API_ORIGIN: http://server:4000
+    restart: unless-stopped
+    depends_on:
+      - server
+
+volumes:
+  mongo-data:
+  uploads:
+  caddy-data:
+  caddy-config:

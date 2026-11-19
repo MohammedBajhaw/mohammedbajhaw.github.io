@@ -114,3 +114,6 @@ temp/
 *.db
 *.sqlite
 *.sqlite3
+
+# Local deployment guide (never push to GitHub)
+DEPLOY_UBUNTU.md
