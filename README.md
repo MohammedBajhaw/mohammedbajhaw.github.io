@@ -28,7 +28,10 @@ mohammedbajhaw/
 │   │   ├── translation/  # خدمة الترجمة التلقائية عبر LLM خارجي مع فحص الاتصال
 │   │   └── uploads/      # رفع الصور والفيديوهات والمستندات مع فحص التوقيع الثنائي (Magic Bytes)
 │   └── test/        # اختبارات الوحدة (Unit) والتكامل (Integration)
-└── AGENTS.md        # دليل المعمارية والمهارات للوكلاء والمطورين
+├── AGENTS.md        # دليل المعمارية والمهارات للوكلاء والمطورين
+├── DEPLOY.md        # النشر على سيرفر VPS واحد بـ Docker (Caddy + Next.js + NestJS + MongoDB)
+├── docker-compose.yml
+└── deploy/Caddyfile
 ```
 
 ---
