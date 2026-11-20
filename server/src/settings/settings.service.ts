@@ -10,6 +10,7 @@ import type {
   UpdatePlatformSettingsDto,
 } from './dto/update-platform-settings.dto';
 import {
+  HERO_DEFAULT_INTERVAL_SECONDS,
   PlatformSettings,
   PlatformSettingsDocument,
 } from './platform-settings.schema';
@@ -30,6 +31,11 @@ export interface MaintenanceStatusView {
     ar?: { title?: string; message?: string };
     tr?: { title?: string; message?: string };
   };
+}
+
+export interface HeroView {
+  images: string[];
+  intervalSeconds: number;
 }
 
 function assignNestedFields(
@@ -65,6 +71,15 @@ export class SettingsService {
 
   async getSettings(): Promise<PlatformSettings> {
     return this.getOrCreateDoc();
+  }
+
+  /** What the public home page needs: the hero pictures in order and how often they change. */
+  async getHero(): Promise<HeroView> {
+    const doc = await this.getOrCreateDoc();
+    return {
+      images: doc.hero?.images ?? [],
+      intervalSeconds: doc.hero?.intervalSeconds ?? HERO_DEFAULT_INTERVAL_SECONDS,
+    };
   }
 
   async getMaintenanceStatus(): Promise<MaintenanceStatusView> {
@@ -129,6 +144,7 @@ export class SettingsService {
     assignNestedFields(setPayload, 'seo', dto.seo);
     assignNestedFields(setPayload, 'features', dto.features);
     assignNestedFields(setPayload, 'maintenance', dto.maintenance);
+    assignNestedFields(setPayload, 'hero', dto.hero);
     assignNestedFields(setPayload, 'translations.ar', dto.translations?.ar);
     assignNestedFields(setPayload, 'translations.tr', dto.translations?.tr);
 

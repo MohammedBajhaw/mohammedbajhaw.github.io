@@ -88,8 +88,8 @@ const text = (html) => strip(html).replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&
   const h = async (p, accept) => (await fetch(base + p, { headers: accept ? { accept } : {} })).headers;
   const page = await h("/en/about");
   console.log("\nHEADERS /en/about:", ["cache-control", "x-content-type-options", "referrer-policy", "x-frame-options", "permissions-policy", "strict-transport-security", "x-powered-by"].map((k) => `${k}=${page.get(k) ?? "-"}`).join(" | "));
-  const photo = await h("/photos/hero-stage.jpg");
-  console.log("HEADERS /photos/hero-stage.jpg: cache-control=" + photo.get("cache-control"));
+  const figure = await h("/figures/robot-404.svg");
+  console.log("HEADERS /figures/robot-404.svg: cache-control=" + figure.get("cache-control"));
   const img = [...assets].find((a) => a.startsWith("/_next/image"));
   if (img) { const ih = await h(img, "image/avif,image/webp"); console.log("HEADERS optimized image: cache-control=" + ih.get("cache-control") + " | content-type=" + ih.get("content-type") + " | length=" + ih.get("content-length")); }
 

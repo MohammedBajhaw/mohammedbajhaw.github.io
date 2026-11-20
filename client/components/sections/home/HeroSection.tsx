@@ -1,19 +1,21 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { HeroSlideshow } from "./HeroSlideshow";
 import { Reveal } from "@/components/ui/Reveal";
 import { useI18n } from "@/lib/i18n/client";
 import type { Profile } from "@/lib/types";
 
 export type HeroProps = {
   profile: Profile | null;
-  backgroundImage?: string;
+  /** Background pictures from the API (uploaded in the studio). With none, the hero shows its dark gradient. */
+  images?: string[];
+  intervalSeconds?: number;
 };
 
-export function Hero({ profile, backgroundImage }: HeroProps) {
+export function Hero({ profile, images = [], intervalSeconds = 6 }: HeroProps) {
   const { t, href } = useI18n();
   const [cvOpen, setCvOpen] = useState(false);
   const cvRef = useRef<HTMLDivElement>(null);
@@ -58,16 +60,7 @@ export function Hero({ profile, backgroundImage }: HeroProps) {
         >
           {/* 1. Base Background Image */}
           <div className="absolute inset-0 bg-[#0c2624]" />
-          {backgroundImage && (
-            <Image
-              src={backgroundImage}
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover object-[35%_22%]"
-            />
-          )}
+          <HeroSlideshow images={images} intervalSeconds={intervalSeconds} />
 
           {/* 2. Soft diagonal dark gradient reversed: from top-right towards bottom-left */}
           <div className="absolute inset-0 bg-linear-to-bl rtl:bg-linear-to-br from-[#071918]/80 via-[#0c2624]/56 to-[#102927]/28" />

@@ -135,6 +135,7 @@ export type PlatformSettings = {
   seo: { defaultTitle: string; defaultDescription: string; ogImageUrl?: string };
   features: { contactFormEnabled: boolean; projectsEnabled: boolean; publicationsEnabled: boolean; servicesEnabled: boolean };
   maintenance: { enabled: boolean; title: string; message: string; estimatedReturnAt?: string; allowAdminBypass: boolean };
+  hero?: { images: string[]; intervalSeconds: number };
   translations?: { ar?: SettingsTranslation; tr?: SettingsTranslation };
 };
 

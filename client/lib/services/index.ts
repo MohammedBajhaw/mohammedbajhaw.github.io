@@ -3,6 +3,7 @@ export { getProfile, getAchievements, getAchievementBySlug, getAchievementSlugs 
 export { getProjects, getProjectBySlug, getProjectSlugs } from "./projects.service";
 export { getPublications, getPublicationById, getPublicationIds } from "./publications.service";
 export { getSkills } from "./skills.service";
+export { getHero, type HeroData } from "./hero.service";
 export { getServiceAreas } from "./serviceAreas.service";
 export { getHomeData, getAboutData, getProjectsPageData, getServicesPageData, getContactData } from "./pages.service";
 export type { HomeData, AboutData, ProjectsPageData, ServicesPageData, ContactData } from "./types";

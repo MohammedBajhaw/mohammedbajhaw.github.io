@@ -106,7 +106,6 @@ const ar: DeepPartial<Messages> = {
     viewProject: "عرض المشروع",
     kindProject: "مشروع",
     kindResearch: "بحث",
-    kindTalk: "محاضرة",
     badgeTubitak2209: "توبيتاك 2209-A",
     badgeTubitak1001: "توبيتاك 1001",
     badgeTeknofest: "تكنوفيست",
@@ -115,10 +114,6 @@ const ar: DeepPartial<Messages> = {
     badgeEmbeddedIot: "الأنظمة المدمجة وإنترنت الأشياء",
     badgeEngineeringProject: "مشروع هندسي",
     badgeResearchPaper: "ورقة بحثية",
-    badgeInnovationConference: "مؤتمر الابتكار 2026",
-    talkTitle: "عرض حمولة روبوت الإنقاذ",
-    talkCloseupAlt: "محمد يعرض على المنصة التحديات التي تواجه روبوتات الإنقاذ",
-    talkProfileAlt: "محمد يتحدث أمام شرائح المؤتمر",
   },
   publicationsSection: {
     eyebrow: "02 / الأبحاث والمنشورات",

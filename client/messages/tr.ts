@@ -106,7 +106,6 @@ const tr: DeepPartial<Messages> = {
     viewProject: "Projeyi gör",
     kindProject: "Proje",
     kindResearch: "Araştırma",
-    kindTalk: "Konuşma",
     badgeTubitak2209: "TÜBİTAK 2209-A",
     badgeTubitak1001: "TÜBİTAK 1001",
     badgeTeknofest: "TEKNOFEST",
@@ -115,10 +114,6 @@ const tr: DeepPartial<Messages> = {
     badgeEmbeddedIot: "Gömülü Sistemler ve IoT",
     badgeEngineeringProject: "Mühendislik Projesi",
     badgeResearchPaper: "Araştırma Makalesi",
-    badgeInnovationConference: "İnovasyon Konferansı 2026",
-    talkTitle: "Kurtarma robotu yükünün sunumu",
-    talkCloseupAlt: "Mohammed sahnede kurtarma robotlarının karşılaştığı sorunları anlatıyor",
-    talkProfileAlt: "Mohammed konferans slaytlarının önünde konuşuyor",
   },
   publicationsSection: {
     eyebrow: "02 / ARAŞTIRMA VE YAYINLAR",

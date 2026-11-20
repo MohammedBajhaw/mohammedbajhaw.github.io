@@ -19,8 +19,6 @@ const nextConfig: NextConfig = {
     // Only the site's own folders can be optimized, and only at one quality: the optimizer is not an open proxy.
     // Backend-hosted images: add their host to `remotePatterns` when the real data source goes live.
     localPatterns: [
-      { pathname: "/photos/**" },
-      { pathname: "/logos/**" },
       { pathname: "/figures/**" },
       { pathname: "/uploads/**" },
     ],
@@ -40,7 +38,7 @@ const nextConfig: NextConfig = {
       { source: "/:path*", headers: SECURITY_HEADERS },
       {
         // Unhashed public files: revalidate daily, serve stale for a week while refreshing in the background.
-        source: "/:folder(photos|logos|figures|cv)/:path*",
+        source: "/:folder(figures|cv)/:path*",
         headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }],
       },
     ];
