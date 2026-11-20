@@ -99,6 +99,22 @@ export class SeoSettings {
 
 export const SeoSettingsSchema = SchemaFactory.createForClass(SeoSettings);
 
+/** Largest number of pictures the home page hero can rotate through. */
+export const HERO_MAX_IMAGES = 20;
+export const HERO_DEFAULT_INTERVAL_SECONDS = 6;
+
+@Schema({ _id: false, versionKey: false })
+export class HeroSettings {
+  /** Uploaded image paths (`/uploads/images/...`), in display order. One picture is shown still; several rotate. */
+  @Prop({ type: [String], default: [] })
+  images!: string[];
+
+  @Prop({ default: HERO_DEFAULT_INTERVAL_SECONDS })
+  intervalSeconds!: number;
+}
+
+export const HeroSettingsSchema = SchemaFactory.createForClass(HeroSettings);
+
 @Schema({ ...BASE_SCHEMA_OPTIONS, collection: 'platform_settings' })
 export class PlatformSettings {
   @Prop({ required: true, unique: true, default: 'default' })
@@ -130,6 +146,9 @@ export class PlatformSettings {
 
   @Prop({ type: MaintenanceSettingsSchema, default: () => ({}) })
   maintenance!: MaintenanceSettings;
+
+  @Prop({ type: HeroSettingsSchema, default: () => ({}) })
+  hero!: HeroSettings;
 
   @Prop({ type: PlatformSettingsTranslationsSchema })
   translations?: PlatformSettingsTranslations;

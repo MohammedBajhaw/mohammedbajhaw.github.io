@@ -1,13 +1,20 @@
 import { Type } from 'class-transformer';
 import {
+  ArrayMaxSize,
+  IsArray,
   IsBoolean,
   IsIn,
+  IsInt,
   IsOptional,
   IsString,
+  Matches,
+  Max,
   MaxLength,
+  Min,
   MinLength,
   ValidateNested,
 } from 'class-validator';
+import { HERO_MAX_IMAGES } from '../platform-settings.schema';
 
 export class UpdateMaintenanceSettingsDto {
   @IsOptional()
@@ -74,6 +81,26 @@ export class UpdateFeatureFlagsDto {
   @IsOptional()
   @IsBoolean()
   servicesEnabled?: boolean;
+}
+
+export class UpdateHeroSettingsDto {
+  /** Only pictures uploaded through the API are accepted, so the hero never points at an outside address. */
+  @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(HERO_MAX_IMAGES)
+  @IsString({ each: true })
+  @MaxLength(300, { each: true })
+  @Matches(/^\/uploads\/images\/[A-Za-z0-9._-]+$/, {
+    each: true,
+    message: 'each hero image must be an uploaded image path (/uploads/images/...)',
+  })
+  images?: string[];
+
+  @IsOptional()
+  @IsInt()
+  @Min(3)
+  @Max(60)
+  intervalSeconds?: number;
 }
 
 export class UpdateSeoSettingsDto {
@@ -179,6 +206,11 @@ export class UpdatePlatformSettingsDto {
   @ValidateNested()
   @Type(() => UpdateMaintenanceSettingsDto)
   maintenance?: UpdateMaintenanceSettingsDto;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => UpdateHeroSettingsDto)
+  hero?: UpdateHeroSettingsDto;
 
   @IsOptional()
   @ValidateNested()

@@ -128,7 +128,6 @@ const en = {
     viewProject: "View project",
     kindProject: "Project",
     kindResearch: "Research",
-    kindTalk: "Talk",
     badgeTubitak2209: "TÜBİTAK 2209-A",
     badgeTubitak1001: "TÜBİTAK 1001",
     badgeTeknofest: "TEKNOFEST",
@@ -137,10 +136,6 @@ const en = {
     badgeEmbeddedIot: "Embedded & IoT",
     badgeEngineeringProject: "Engineering Project",
     badgeResearchPaper: "Research Paper",
-    badgeInnovationConference: "Innovation Conference 2026",
-    talkTitle: "Presenting the rescue-robot payload",
-    talkCloseupAlt: "Mohammed presenting the problems facing rescue robots on stage",
-    talkProfileAlt: "Mohammed speaking in front of the conference slides",
   },
 
   publicationsSection: {

@@ -9,6 +9,7 @@ export type HomeData = {
   skills: Skill[];
   featuredAchievement: Achievement | null;
   gallerySlides: GallerySlide[];
+  hero: { images: string[]; intervalSeconds: number };
   counts: { projects: number; publications: number; skills: number };
 };
 

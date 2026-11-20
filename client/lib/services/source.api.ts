@@ -8,6 +8,11 @@ interface ApiEnvelope<T> {
   data: T;
 }
 
+export interface HeroSettings {
+  images: string[];
+  intervalSeconds: number;
+}
+
 export interface MaintenanceStatus {
   enabled: boolean;
   title: string;
@@ -66,6 +71,10 @@ function normalizeProject(raw: Project): Project {
     project_media: media,
     imageUrl: raw.imageUrl || firstMediaPath,
   };
+}
+
+export async function fetchHero(): Promise<HeroSettings | null> {
+  return fetchApi<HeroSettings>("/settings/hero");
 }
 
 export async function fetchMaintenanceStatus(): Promise<MaintenanceStatus | null> {

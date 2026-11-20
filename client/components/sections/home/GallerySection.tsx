@@ -97,7 +97,7 @@ export function HomeGallery({ slides }: { slides: GallerySlide[] }) {
                       fill
                       sizes="(min-width: 1280px) 1200px, 100vw"
                       src={slide.src}
-                      alt={slide.altKey ? t(`gallery.${slide.altKey}`) : slide.alt}
+                      alt={slide.alt}
                       loading={i === 0 ? "eager" : "lazy"}
                     />
                   )}
@@ -126,7 +126,7 @@ export function HomeGallery({ slides }: { slides: GallerySlide[] }) {
                   {t(`gallery.kind${active.kind}`)}
                 </span>
                 <strong className="block font-sans font-bold text-[17px] sm:text-[22px] leading-[1.28] tracking-[-0.02em] text-white rtl:text-[20.5px]">
-                  {active.titleKey ? t(`gallery.${active.titleKey}`) : active.title}
+                  {active.title}
                 </strong>
               </div>
 

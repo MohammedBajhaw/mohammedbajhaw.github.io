@@ -7,6 +7,7 @@ import { LANGS, type TranslationLang } from "@/lib/admin/resources";
 import { translateTexts, type TranslationMap } from "@/lib/admin/translate";
 import { FormButton, FormMessage, Input, MediaField, SegmentedControl, Select, Textarea, Toggle } from "@/components/forms";
 import { AutoTranslateBar } from "./AutoTranslateBar";
+import { HeroImagesEditor } from "./HeroImagesEditor";
 import { Card, ConfirmDialog, Eyebrow, Spinner, StatusToast } from "./ui";
 
 const FLAGS = [
@@ -34,6 +35,8 @@ type Form = {
   mMessage: string;
   mEta: string;
   mBypass: boolean;
+  heroImages: string[];
+  heroInterval: string;
   translations: Record<TranslationLang, Texts>;
 };
 
@@ -55,6 +58,8 @@ function toForm(s: Settings): Form {
     mMessage: s.maintenance?.message ?? "",
     mEta: s.maintenance?.estimatedReturnAt ?? "",
     mBypass: s.maintenance?.allowAdminBypass ?? true,
+    heroImages: s.hero?.images ?? [],
+    heroInterval: String(s.hero?.intervalSeconds ?? 6),
     translations: { ar: texts(s.translations?.ar), tr: texts(s.translations?.tr) },
   };
 }
@@ -142,6 +147,8 @@ export function PlatformSettings() {
     if (!form.seoDescription.trim()) problems.seoDescription = "Search description is required.";
     if (!form.mTitle.trim()) problems.mTitle = "Maintenance title is required.";
     if (!form.mMessage.trim()) problems.mMessage = "Maintenance message is required.";
+    const seconds = Number(form.heroInterval);
+    if (form.heroImages.length > 1 && (!Number.isInteger(seconds) || seconds < 3 || seconds > 60)) problems.heroInterval = "Use a whole number from 3 to 60.";
     if (Object.keys(problems).length) {
       setLang("en");
       setErrors(problems);
@@ -163,6 +170,7 @@ export function PlatformSettings() {
         faviconUrl: form.faviconUrl,
         seo: { defaultTitle: form.seoTitle, defaultDescription: form.seoDescription, ogImageUrl: form.ogImageUrl },
         features: form.features,
+        hero: { images: form.heroImages, intervalSeconds: Number.isInteger(seconds) && seconds >= 3 && seconds <= 60 ? seconds : 6 },
         maintenance: { title: form.mTitle, message: form.mMessage, estimatedReturnAt: form.mEta, allowAdminBypass: form.mBypass },
         translations: { ar: form.translations.ar, tr: form.translations.tr },
       });
@@ -262,6 +270,18 @@ export function PlatformSettings() {
                 <Toggle tone="white" checked={form.mBypass} onChange={(value) => patch({ mBypass: value })} label="Let the signed-in admin through" help="You keep seeing the real site while visitors see the maintenance screen." />
               </div>
             </div>
+          </Card>
+
+          <Card className="grid gap-5">
+            <Eyebrow>Home page hero</Eyebrow>
+            <HeroImagesEditor
+              images={form.heroImages}
+              interval={form.heroInterval}
+              intervalError={errors.heroInterval}
+              onImages={(heroImages) => patch({ heroImages })}
+              onInterval={(heroInterval) => patch({ heroInterval }, "heroInterval")}
+              onError={setError}
+            />
           </Card>
 
           <Card className="grid gap-5">

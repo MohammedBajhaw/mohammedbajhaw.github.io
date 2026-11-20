@@ -3,6 +3,7 @@ import { buildGallerySlides } from "@/lib/gallery";
 import type { Locale } from "@/lib/i18n/config";
 import { localize, localizeAll } from "@/lib/i18n/localize";
 import { getAchievements, getProfile } from "./profile.service";
+import { getHero } from "./hero.service";
 import { getProjects } from "./projects.service";
 import { getPublications } from "./publications.service";
 import { getServiceAreas } from "./serviceAreas.service";
@@ -17,12 +18,13 @@ const bySortOrder = (a: { sort_order: number }, b: { sort_order: number }) => a.
  * page data needs live in one place and the views stay free of fetching logic.
  */
 export const getHomeData = cache(async (locale: Locale): Promise<HomeData> => {
-  const [profile, projects, publications, skills, achievements] = await Promise.all([
+  const [profile, projects, publications, skills, achievements, hero] = await Promise.all([
     getProfile(locale),
     getProjects(locale),
     getPublications(locale),
     getSkills(locale),
     getAchievements(locale),
+    getHero(),
   ]);
   const featuredAchievement = achievements.find((item) => item.featured) ?? achievements[0] ?? null;
   return {
@@ -32,6 +34,7 @@ export const getHomeData = cache(async (locale: Locale): Promise<HomeData> => {
     skills,
     featuredAchievement,
     gallerySlides: buildGallerySlides(projects, publications),
+    hero,
     counts: { projects: projects.length, publications: publications.length, skills: skills.length },
   };
 });

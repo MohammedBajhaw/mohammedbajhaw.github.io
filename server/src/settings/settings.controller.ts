@@ -28,6 +28,11 @@ export class SettingsController {
     return this.settingsService.getSettings();
   }
 
+  @Get('hero')
+  getHero() {
+    return this.settingsService.getHero();
+  }
+
   @Get('maintenance')
   getMaintenanceStatus() {
     return this.settingsService.getMaintenanceStatus();

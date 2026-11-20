@@ -83,15 +83,13 @@ client/
 │   ├── types.ts                        # أنواع السجلات (Profile, Project, Publication...) مع translations الاختيارية
 │   ├── services/                       # طبقة جلب البيانات الوحيدة (انظر القسم 4)
 │   ├── mock/                           # بيانات وهمية تستهلكها services/source.mock.ts فقط
-│   ├── site.ts                         # ثوابت الهوية، NAV_LINKS، LOCALE_OPTIONS، CV_FILES، LANGUAGES، formatPhone، orgLogo
+│   ├── site.ts                         # ثوابت الهوية، NAV_LINKS، LOCALE_OPTIONS، LANGUAGES، formatPhone
 │   ├── gallery.ts                      # ترتيب شرائح المعرض ووسوم المشاريع
 │   ├── projectInfo.ts                  # استخراج جدول معلومات المشروع
 │   ├── richText.ts                     # تنظيف المحتوى النصي المنسق (sanitize-html)
 │   └── seo.ts                          # pageMetadata (مستقلة لكل صفحة) و breadcrumbJsonLd
 └── public/                             # الأصول الثابتة (موجودة فعلاً فقط)
     ├── cv/                             # ملفات السيرة الذاتية (PDF)
-    ├── logos/                          # شعارات الجامعة والمختبر
-    └── photos/                         # الصور الفوتوغرافية (hero-*, talk-*)
 ```
 
 > **لا تشِر إلى ملفات غير موجودة في `public/`:** لا توجد حالياً مجلدات `icons/` أو `images/` أو `figures/`، ولا صورة مشاركة (OG) ولا أيقونة موقع. المشروع الذي بلا صورة يعرض بديلاً هندسياً بدل صورة مكسورة (`imageUrl: null` و `project_media: []`).
@@ -138,7 +136,7 @@ client/
 - **الأوامر:** `pnpm.cmd run verify` (أنواع + ESLint + بناء). ESLint (`eslint.config.mjs`، قواعد `core-web-vitals` + TypeScript) يجب أن يعطي صفراً من الأخطاء. بعد `pnpm build && pnpm start` شغّل `pnpm smoke`: يزحف على كل روابط الـsitemap ويفحص الحالة والروابط الداخلية والصور ومفاتيح الترجمة الظاهرة وJSON-LD و`lang/dir` والكاش والترويسات، ويفشل عند أي خلل.
 - **الصور:** كل صورة مرئية عبر `next/image` (`fill` + `sizes` داخل حاوية بنسبة ثابتة، و`priority` للصورة الأولى فقط). الصور المسموحة محلية فقط (`images.localPatterns` في `next.config.ts`)، ولا `remotePatterns` حتى يُضاف مضيف الباك صراحةً. الاستثناء الوحيد `<img>` داخل `MediaLightbox` (حسابات التكبير تحتاج الحجم الأصلي) وصور `rich_content` (HTML من الباك).
 - **التحميل الكسول:** لا يمكن لمكوّن خادم تقسيم مكوّن عميل، لذا التقسيم داخل مكوّن عميل: `LazyHomeSections.tsx` (المعرض والمهارات في الرئيسية) و`MediaGallery` الذي يحمّل `MediaLightbox` عند أول نقرة (ويسخّنه عند المرور أو التركيز). أي مكوّن عميل ثقيل أسفل الشاشة أو يُفتح بنقرة يُحمَّل بهذا النمط.
-- **الكاش:** الصفحات ثابتة مع `revalidate = 3600` في `app/[lang]/layout.tsx` (ISR: `s-maxage=3600, stale-while-revalidate`). ملفات `public/` غير المجزّأة (photos, logos, figures, cv) بـ `max-age=86400, stale-while-revalidate=604800`، والصور المحسّنة 31 يوماً، وكل شيء تحت `/_next/static` `immutable` تلقائياً. ترويسات الأمان (nosniff، X-Frame-Options، Referrer-Policy، Permissions-Policy، HSTS) في `next.config.ts`. تكرار الجلب داخل الطلب الواحد تمنعه `cache()` في `lib/services`.
+- **الكاش:** الصفحات ثابتة مع `revalidate = 3600` في `app/[lang]/layout.tsx` (ISR: `s-maxage=3600, stale-while-revalidate`). ملفات `public/` غير المجزّأة (figures, cv) بـ `max-age=86400, stale-while-revalidate=604800`، والصور المحسّنة 31 يوماً، وكل شيء تحت `/_next/static` `immutable` تلقائياً. ترويسات الأمان (nosniff، X-Frame-Options، Referrer-Policy، Permissions-Policy، HSTS) في `next.config.ts`. تكرار الجلب داخل الطلب الواحد تمنعه `cache()` في `lib/services`.
 - **الخطوط** عبر `next/font` (استضافة ذاتية عند البناء، بلا طلب إلى Google) في `app/[lang]/layout.tsx` ومتغيراتها في `@theme inline`.
 - **ممنوع** `setState` متزامناً داخل `useEffect`: استخدم `lib/hooks/useBrowserState.ts` (`usePrefersReducedMotion`, `useScrolledPast` عبر `useSyncExternalStore`) أو اشتقّ القيمة. ممنوع `any`: الأنواع في `lib/types.ts`.
 

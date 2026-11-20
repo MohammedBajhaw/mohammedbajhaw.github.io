@@ -9,19 +9,15 @@ export type BadgeKey =
   | "RoboticsControl"
   | "EmbeddedIot"
   | "EngineeringProject"
-  | "ResearchPaper"
-  | "InnovationConference";
+  | "ResearchPaper";
 
 export type GallerySlide = {
   src: string;
   alt: string;
-  /** Set for slides whose text lives in the dictionary (the conference talk). */
-  altKey?: "talkCloseupAlt" | "talkProfileAlt";
-  kind: "Project" | "Research" | "Talk";
+  kind: "Project" | "Research";
   /** Translated label when set, otherwise `badge` is shown as written. */
   badgeKey?: BadgeKey;
   badge: string;
-  titleKey?: "talkTitle";
   title: string;
   /** Locale-less path; the component localizes it. */
   href: string;

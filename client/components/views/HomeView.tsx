@@ -14,7 +14,7 @@ export function HomeView({ data }: { data: HomeData }) {
         {/* Stationary unified Hero + Highlights white stage: scrolls naturally until Highlights is fully visible, then locks in place while Gallery glides over it */}
         <div className="md:sticky md:bottom-0 z-0 w-full bg-[#f2f6f5] px-3 sm:px-5 md:px-7 pb-8 sm:pb-10">
           <div className="w-full bg-white rounded-b-[56px] sm:rounded-b-[88px] md:rounded-b-[110px] shadow-[0_4px_24px_rgba(16,41,39,0.04)]">
-            <Hero profile={data.profile} />
+            <Hero profile={data.profile} images={data.hero.images} intervalSeconds={data.hero.intervalSeconds} />
             <HomeHighlightsSection profile={data.profile} featuredAchievement={data.featuredAchievement} counts={data.counts} />
           </div>
         </div>

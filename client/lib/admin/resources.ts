@@ -256,7 +256,6 @@ export const RESOURCES: ResourceDefinition[] = [
   },
 ];
 
-export const RESOURCE_GROUPS = Array.from(new Set(RESOURCES.map((resource) => resource.group)));
 export const resourceByKey = (key: ResourceKey) => RESOURCES.find((resource) => resource.key === key)!;
 
 /* ------------------------------------------------------------------------------------------------ form state */
