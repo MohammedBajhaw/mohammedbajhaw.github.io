@@ -94,3 +94,5 @@ pnpm test                  # تشغيل كافة الاختبارات
 يتضمن المستودع إعدادات جاهزة لتشغيل المنصة كاملة (`Caddy` + `Next.js` + `NestJS` + `MongoDB`) عبر `docker-compose.yml` وملف البيئة `.env.docker.example`:
 
 - راجع دليل النشر والنسخ الاحتياطي الكامل في [DEPLOY.md](DEPLOY.md).
+- للتشغيل السريع: `cp .env.docker.example .env` ثم عدّل القيم ثم `docker compose up -d --build`.
+- لا تستخدم `docker compose down -v` لأنه يحذف قاعدة البيانات والملفات المرفوعة.
