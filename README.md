@@ -87,3 +87,10 @@ pnpm test                  # تشغيل كافة الاختبارات
 2. استخدام `ADMIN_PASSWORD_HASH` (تجزئة `bcrypt`) بدلاً من كلمة المرور النصية، وتوليد `JWT_SECRET` عشوائي لا يقل عن 32 حرفاً.
 3. ضبط `CORS_ORIGIN` على الدومين الرسمي للموقع (يُمنع `*` مع الكوكيز في الإنتاج).
 4. عدم رفع ملفات `.env` أو `server/uploads/` أو مخرجات البناء (`.next`, `dist`, `dist-test`)؛ فهي مستبعدة بالفعل في `.gitignore`.
+
+---
+
+## 5. النشر عبر Docker (VPS)
+يتضمن المستودع إعدادات جاهزة لتشغيل المنصة كاملة (`Caddy` + `Next.js` + `NestJS` + `MongoDB`) عبر `docker-compose.yml` وملف البيئة `.env.docker.example`:
+
+- راجع دليل النشر والنسخ الاحتياطي الكامل في [DEPLOY.md](DEPLOY.md).
