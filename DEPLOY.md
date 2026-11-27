@@ -42,6 +42,12 @@ docker run --rm -v bajhaw_uploads:/data -v "$PWD":/out alpine tar czf /out/uploa
 ## تجربة محلية بدون نطاق
 في `.env`: `SITE_ADDRESS=http://localhost` و`PUBLIC_URL=http://localhost:8088` و`HTTP_PORT=8088` ثم شغّل الأمر نفسه وافتح `http://localhost:8088`.
 
+## سيرفر بدون عنوان IP عام (Cloudflare Tunnel)
+إن كان السيرفر خلف NAT أو شبكة منزلية فلا يمكن لـ Caddy إصدار شهادة HTTPS مباشرة. استخدم نفقاً صادراً من Cloudflare بدل فتح المنافذ:
+1. في `.env`: `SITE_ADDRESS=http://نطاقك` و`PUBLIC_URL=https://نطاقك` (Cloudflare تنهي HTTPS عند حافتها).
+2. أنشئ نفقاً في Cloudflare Zero Trust وأضف Public Hostname بنوع `HTTP` وعنوان `caddy:80`.
+3. شغّل موصّل `cloudflared` على شبكة Docker نفسها بالتوكن (ضعه في `.env` ولا ترفعه إلى Git).
+
 ## ملاحظات
 - قاعدة البيانات تبدأ فارغة: أنشئ المحتوى من لوحة التحكم.
 - الموقع العام يقرأ بياناته من الخادم عند كل طلب، فتظهر تعديلات اللوحة فوراً.
